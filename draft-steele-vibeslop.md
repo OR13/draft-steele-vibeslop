@@ -104,6 +104,13 @@ Large Language Model (LLM):
   LLM is treated as the underlying inference component that an Agent uses
   to reason and produce output.
 
+Token:
+: The unit of text an LLM processes.  Text is divided into Tokens, roughly
+  word fragments, and an LLM reads and generates text one Token at a time.
+  The size of a Context window, the throughput of an LLM, and the price of
+  a remote model service are all measured in Tokens, which makes the Token
+  the natural unit for accounting for the cost of agentic work.
+
 Prompt:
 : The input provided to an LLM to elicit a response.  A Prompt may include
   instructions, context, examples, and prior conversation, and may be
@@ -391,6 +398,14 @@ Shape Up:
   cited here as one concrete, well-documented methodology for scoping and
   committing to product work.
 
+Iteration (Sprint):
+: A fixed-length cycle of product delivery work, also commonly called a
+  sprint, at the end of which progress is reviewed and the next cycle is
+  planned.  An Iteration gives the organization a regular cadence for
+  planning, delivering, and measuring work, and in this document it is the
+  natural interval over which the cost of agentic delivery, including Token
+  consumption, is aggregated.
+
 Psychometric Profile:
 : A structured description of a person's disposition, communication style,
   and preferences derived from a standardized instrument.  Examples in
@@ -427,8 +442,7 @@ concepts defined in this document -- Specs, Agent Teams, Context Farming,
 and the rest -- apply most directly.
 
 AI Agents are also reshaping other organizational functions, including
-executive decision-making, operations, sales, and marketing.  These
-functions differ
+executive decision-making, sales, and marketing.  These functions differ
 from product delivery in their objectives, their sources of ground truth,
 and their tolerance for error, and addressing them here would dilute the
 focus of this document without doing them justice.  They are therefore
@@ -533,6 +547,32 @@ specialized member of an Agent Team a consistent model and vocabulary to
 work within and defining how terms are translated where contexts meet, so
 that each member can wield a focused set of Tools more effectively than a
 generalist could.
+
+## Operations Manager
+
+The Operations Manager keeps the machinery of agentic delivery running and
+accountable.  Where the other roles direct and review Agents, the
+Operations Manager measures and sustains them.  This begins with visibility
+into usage: which humans are using which Agents and which models, so that
+adoption, cost, and risk can be attributed to real activity rather than
+estimated in aggregate.
+
+A central responsibility is metering Token consumption.  The Operations
+Manager monitors when Tokens are consumed, how many are consumed, and what
+the total cost of those Tokens is for each Iteration, so that the cost of
+delivery can be understood at the granularity teams actually plan in.  This
+makes the economics of agentic work legible: a feature, a Spec, or an Agent
+Team can be judged not only by what it produces but by what it costs to
+produce.
+
+The Operations Manager also provisions and supports the adjacent systems
+that agentic delivery depends on, and folds their cost into the same
+accounting: the Issue Tracker that assigns work, the Shared Message Bus
+over which humans and Agents collaborate, and the remote model services
+that host the LLMs.  These are recurring operational costs rather than
+one-time purchases, and treating them as part of the cost of delivery,
+alongside Tokens, gives the organization an honest picture of what agentic
+product delivery requires.
 
 ## Security Manager
 
