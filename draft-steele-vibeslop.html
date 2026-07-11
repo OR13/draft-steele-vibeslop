@@ -1200,6 +1200,9 @@ community.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.3">
                 <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-credential-leakage-in-traje" class="internal xref">Credential Leakage in Trajectories</a></p>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.4">
+                <p id="section-toc.1-1.7.2.4.1"><a href="#section-7.4" class="auto internal xref">7.4</a>.  <a href="#name-impersonation" class="internal xref">Impersonation</a></p>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
@@ -2113,6 +2116,38 @@ sensitive artifact subject to the classification and handling described in
 <a href="#mixing-sensitivity" class="auto internal xref">Section 7.1</a>.  These measures reinforce the least-privilege and
 revocation practices recommended above: a credential that was downscoped
 and is quickly revocable is far less damaging if it does leak.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="impersonation">
+<section id="section-7.4">
+        <h3 id="name-impersonation">
+<a href="#section-7.4" class="section-number selfRef">7.4. </a><a href="#name-impersonation" class="section-name selfRef">Impersonation</a>
+        </h3>
+<p id="section-7.4-1">An Agent can produce fluent, confident content in any voice, including a
+convincing imitation of a specific person.  On a Shared Message Bus, where
+humans and Agents intermingle, model-generated content that is
+indistinguishable from authentic human-generated content invites
+impersonation: a reader may act on a message believing a trusted colleague
+wrote it when in fact an Agent did, whether by accident, misconfiguration,
+or deliberate abuse.  The harm ranges from misplaced trust in an
+unreviewed output to fraud conducted in a person's name.<a href="#section-7.4-1" class="pilcrow">¶</a></p>
+<p id="section-7.4-2">The mitigation is to ensure that model-generated content is easily
+recognized as such and not confused with content a human authored.  Agent
+output should be clearly and consistently attributed to the Agent that
+produced it, and, where relevant, to the human on whose behalf it acted, so
+that the distinction is visible at the point a reader encounters the
+content rather than something they must infer.<a href="#section-7.4-2" class="pilcrow">¶</a></p>
+<p id="section-7.4-3">This attribution can be established through Context engineering.  The
+instruction for an Agent to identify itself, to mark its output, and never
+to present itself as a human should be a permanent part of every Agent's
+Context, so that the behavior is applied consistently rather than depending
+on the phrasing of a particular Prompt.<a href="#section-7.4-3" class="pilcrow">¶</a></p>
+<p id="section-7.4-4">Because no such control is perfect, humans should be invited to report
+issues with Agents -- including suspected impersonation or unmarked
+model-generated content -- to an appropriate channel.  A clearly advertised
+reporting path turns every participant into a check on the system, and lets
+an organization detect and respond to failures of attribution before they
+cause serious harm.<a href="#section-7.4-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>

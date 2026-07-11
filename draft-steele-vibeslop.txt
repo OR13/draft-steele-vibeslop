@@ -80,6 +80,7 @@ Table of Contents
      7.1.  Mixing Information of Differing Sensitivity
      7.2.  Excessive Delegation Without Attenuation
      7.3.  Credential Leakage in Trajectories
+     7.4.  Impersonation
    8.  IANA Considerations
    9.  References
      9.1.  Normative References
@@ -885,6 +886,38 @@ Table of Contents
    least-privilege and revocation practices recommended above: a
    credential that was downscoped and is quickly revocable is far less
    damaging if it does leak.
+
+7.4.  Impersonation
+
+   An Agent can produce fluent, confident content in any voice,
+   including a convincing imitation of a specific person.  On a Shared
+   Message Bus, where humans and Agents intermingle, model-generated
+   content that is indistinguishable from authentic human-generated
+   content invites impersonation: a reader may act on a message
+   believing a trusted colleague wrote it when in fact an Agent did,
+   whether by accident, misconfiguration, or deliberate abuse.  The harm
+   ranges from misplaced trust in an unreviewed output to fraud
+   conducted in a person's name.
+
+   The mitigation is to ensure that model-generated content is easily
+   recognized as such and not confused with content a human authored.
+   Agent output should be clearly and consistently attributed to the
+   Agent that produced it, and, where relevant, to the human on whose
+   behalf it acted, so that the distinction is visible at the point a
+   reader encounters the content rather than something they must infer.
+
+   This attribution can be established through Context engineering.  The
+   instruction for an Agent to identify itself, to mark its output, and
+   never to present itself as a human should be a permanent part of
+   every Agent's Context, so that the behavior is applied consistently
+   rather than depending on the phrasing of a particular Prompt.
+
+   Because no such control is perfect, humans should be invited to
+   report issues with Agents -- including suspected impersonation or
+   unmarked model-generated content -- to an appropriate channel.  A
+   clearly advertised reporting path turns every participant into a
+   check on the system, and lets an organization detect and respond to
+   failures of attribution before they cause serious harm.
 
 8.  IANA Considerations
 
