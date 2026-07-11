@@ -775,7 +775,7 @@ follow from the way Agents assemble and act on Context.  This section
 describes several of these risks and the mitigations available to
 organizations adopting agentic product delivery.
 
-## Mixing Information of Differing Sensitivity
+## Mixing Information of Differing Sensitivity {#mixing-sensitivity}
 
 Because an Agent assembles Context from many sources -- files, tool
 results, an Issue Tracker, a Shared Message Bus, and prior conversation --
@@ -805,6 +805,61 @@ sooner or later, be treated as though it had none.  Attaching sensitivity
 levels to every artifact, and declining to ingest unlabeled content into
 sensitive contexts, substantially reduces the chance of a critical
 disclosure.
+
+## Excessive Delegation Without Attenuation
+
+Delegation to an Agent is often implemented by granting the Agent the same
+capabilities the delegating human holds: the same credentials, the same
+access, the same authority.  This is convenient, but it grants the Agent
+far more than the Task in front of it requires.  Attenuation is the
+deliberate narrowing of delegated authority to the minimum a delegate
+needs; excessive delegation without attenuation is the failure to perform
+this narrowing, so that an Agent assigned a small, well-defined Task
+nonetheless carries the human's full privileges.
+
+The danger is compounded by the other risks in this section.  An Agent
+pursues its goal with initiative and can exercise any capability within
+reach, and an Agent whose Context has been polluted, or whose Trajectory
+has leaked, can have those capabilities turned against the organization.
+The blast radius of every other failure is set by how much authority the
+Agent was given.
+
+The recommended posture is least privilege: an Agent should hold only the
+capabilities its assigned Task requires, and no more.  Where a human's
+credentials would grant broad access, they should be downscoped before
+being delegated, ideally to short-lived, narrowly scoped credentials
+issued per Agent Session.  Before working with any Agent that might access
+credentials at all, an organization should invest in revocation and
+recovery procedures -- the ability to withdraw an Agent's access
+immediately and to recover from its misuse -- rather than treating these as
+concerns to be addressed later.
+
+## Credential Leakage in Trajectories
+
+A Trajectory records the inputs, model outputs, tool invocations, and
+observations of an Agent Session, and is retained so that behavior can be
+inspected, replayed, and evaluated.  This same completeness makes the
+Trajectory a likely place for credentials to leak.  A credential passed to
+a Tool, printed in a command, returned in an error message, or pasted into
+a Prompt may be captured verbatim in the Trajectory, and from there
+propagate into logs, Evals, shared debugging sessions, and any Context
+later assembled from past Trajectories.
+
+Unlike a transient use of a credential, a credential captured in a
+Trajectory persists for as long as the Trajectory is retained, and is
+exposed to everyone and everything with access to it.  A leaked long-lived
+credential in a widely shared Trajectory can be a more serious exposure
+than the original action that used it.
+
+Mitigations include redacting or masking credentials before they are
+written to a Trajectory, preferring short-lived credentials so that any
+that do leak expire quickly, keeping secrets out of Prompts and Tool
+arguments by passing them through references the Agent cannot dereference
+to plaintext, and treating any Trajectory that may contain secrets as a
+sensitive artifact subject to the classification and handling described in
+{{mixing-sensitivity}}.  These measures reinforce the least-privilege and
+revocation practices recommended above: a credential that was downscoped
+and is quickly revocable is far less damaging if it does leak.
 
 
 # IANA Considerations
