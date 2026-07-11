@@ -517,4 +517,6 @@ This document has no IANA actions.
 # Acknowledgments
 {:numbered="false"}
 
-TODO acknowledge.
+Portions of this document were drafted with the assistance of an AI Agent.
+The Agent used Anthropic's Claude Opus 4.8 (1M context) model
+(claude-opus-4-8[1m]), running in the Claude Code harness, version 2.1.207.
