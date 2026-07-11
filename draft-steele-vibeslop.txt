@@ -217,6 +217,31 @@ Table of Contents
       the Spec and flowed forward, rather than made directly in code and
       lost.
 
+   Domain Driven Design (DDD):  An approach to software development,
+      described by Evans [DDD], that places a model of the business
+      domain at the center of the software and aligns the software's
+      structure and language with that model.  Its practices -- notably
+      a Ubiquitous Language and explicit Bounded Contexts -- are used in
+      this document to reason about how humans and Agents come to share
+      a precise, common understanding of the domain they work in.
+
+   Ubiquitous Language:  In Domain Driven Design, a single, precise
+      vocabulary for a domain that is shared by domain experts and
+      expressed directly in the software.  In an agentic setting the
+      Ubiquitous Language is also the language of Prompts, Specs, and
+      Context, so that humans and Agents refer to the same concepts by
+      the same terms.  Because an Agent acts on exactly the language it
+      is given, drift or ambiguity in this vocabulary produces divergent
+      Agent behavior rather than being silently repaired.
+
+   Bounded Context:  In Domain Driven Design, an explicit boundary
+      within which a particular domain model and its Ubiquitous Language
+      apply consistently, with defined relationships to other such
+      contexts.  Bounded Contexts partition a large domain into coherent
+      parts; in agentic delivery they map naturally onto the division of
+      work among the members of an Agent Team, giving each member a
+      well-scoped model and vocabulary to operate within.
+
    Loop:  The iterative cycle by which an Agent makes progress on a
       Task: assembling Context, invoking an LLM, acting on the result
       (for example by calling a tool), observing the outcome, and
