@@ -687,6 +687,70 @@ extends it, by making the Agent a more faithful and more responsible
 extension of the manager within the organization.
 
 
+# Managing Your People
+
+The previous section addressed a manager's relationship with their own
+Agent.  This section addresses the harder problem: leading people in an
+organization where everyone now works with Agents.  AI can support many of
+the routine tasks of leadership, but whether the new ways of working
+succeed depends far more on how people feel about them than on any tool.
+
+An Agent can assist with common management tasks directly.  It can draft
+and tailor communications, prepare a manager for one-on-ones, summarize
+progress across many parallel Agent Sessions, track goals through an
+Iteration, and surface the people or work that need attention.  It can even
+assemble the inputs to a performance review from an Issue Tracker and from
+Trajectories.  These uses are legitimate and valuable, but they are most
+valuable when applied transparently: people are quick to sense, and to
+resent, management by opaque automation.
+
+How people respond to agentic working varies, and their Psychometric
+Profiles are a useful guide to that variation.  Some are energized by the
+leverage Agents provide; others are anxious about their standing, skeptical
+of the output, or simply uncomfortable with the change of pace.  A manager
+should treat these reactions as information rather than as resistance to be
+overcome, and should use what they know of each person to meet them where
+they are, offering reassurance, evidence, or room to adjust as the
+individual requires.
+
+Certain norms must be established explicitly, because their absence causes
+harm that is easy to miss.  The first is a shared understanding of Proxy
+Dictation.  When a colleague addresses someone's Agent in the terse,
+imperative register that machines invite, a teammate who does not
+understand Proxy Dictation may read it as rudeness directed at a person,
+and on a Shared Message Bus, in full view of everyone, such misreadings
+breed social and even moral friction.  A team that has agreed on what Proxy
+Dictation is, and on when it is appropriate, can use it freely without
+anyone taking offense.
+
+The second norm concerns the dual nature of Vibeslop.  Everyone on a team
+should understand that the same artifact can be a useful strawman or
+worthless slop depending on what the moment calls for, and, more
+importantly, that producing work with an Agent can impose costs on others.
+Output generated quickly and in volume must still be read, reviewed, and
+integrated by colleagues; a person who ships unreviewed, plausible-but-
+wrong work, or who floods reviewers with more than they can absorb, is
+transferring the cost of their own speed onto others.  Teams should make it
+a norm to label strawmen as strawmen, and to take responsibility for the
+quality and the quantity of what they ask others to process.
+
+The constructive goal of all of this is to train people to exploit Context
+to achieve their goals while improving the working experience for everyone.
+Context engineering and Context Farming are skills that can be taught, and
+the aim is twofold: to make each person more effective, and to reduce the
+alert fatigue, ambiguity, and rework that careless use of Agents inflicts
+on a team.
+
+Finally, not everyone will enjoy working with AI, and it is a disservice to
+pretend otherwise.  Establishing clear expectations early, during
+recruitment and again in performance reviews, reduces the harm of
+mismatched expectations.  Candidates should understand how central agentic
+work is to a role before they accept it, and the competencies the
+organization now values should be assessed and rewarded openly, so that
+those who thrive are recognized and those who do not are given an honest
+account rather than a surprise.
+
+
 # Security Considerations
 
 TODO Security
