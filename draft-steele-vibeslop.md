@@ -49,9 +49,34 @@ community.
 TODO Introduction
 
 
-# Conventions and Definitions
+# Terminology
 
 {::boilerplate bcp14-tagged}
+
+Large Language Model (LLM):
+: A machine learning model, typically based on the transformer
+  architecture and trained on large text corpora, that generates text by
+  predicting subsequent tokens from a given context.  In this document an
+  LLM is treated as the underlying inference component that an Agent uses
+  to reason and produce output.
+
+Agent:
+: A software system that uses one or more LLMs to pursue a goal by
+  interpreting instructions, invoking tools, and acting over multiple
+  steps.  An Agent may operate autonomously or under human supervision,
+  and maintains state across the steps it takes.
+
+Trajectory:
+: The ordered sequence of inputs, model outputs, tool invocations, and
+  observations produced while an Agent works toward a goal.  A Trajectory
+  is the primary record used to inspect, replay, or evaluate an Agent's
+  behavior.
+
+Eval:
+: A repeatable procedure for measuring the behavior of an LLM or Agent
+  against a defined set of inputs and expected outcomes.  Evals are used
+  to assess quality, detect regressions, and compare alternative models
+  or Agent configurations.
 
 
 # Security Considerations
