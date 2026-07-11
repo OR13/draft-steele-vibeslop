@@ -605,6 +605,63 @@ behaviors become part of how Agents and their harnesses are qualified for
 use.
 
 
+# Managing Your Agent
+
+An Agent acts on the Context it is given.  A manager who does not tell their
+Agent who they are and what they are accountable for leaves the Agent to
+infer these things, usually from incomplete signals and often incorrectly.
+Deliberately supplying this information is Context engineering applied to
+the manager's own working relationship with their Agent, and it is among
+the highest-leverage actions a manager can take.  It should be treated as
+durable Context, maintained over time so that it does not fall victim to
+Context Rot as roles and goals change.
+
+At a minimum, a manager should ensure their Agent knows:
+
+- who they are, and the role or title they hold;
+- their current job description: the responsibilities and the scope of the
+  work they own;
+- who their manager is, and who, if anyone, reports to them;
+- how they are measured, including the metrics and definitions of success
+  that apply to them;
+- their goals for the current Iteration, quarter, or year.
+
+This information serves three purposes, each connected to concepts
+developed elsewhere in this document.
+
+First, it improves communication.  An Agent that knows how its human is
+measured and what they are trying to achieve can prioritize accordingly,
+frame its Context Farming around the decisions that matter to them, and
+address them at the altitude their role calls for.
+
+Second, it lets the Agent support the manager's mission rather than merely
+completing isolated Tasks.  When the manager's goals for the quarter are
+part of the Agent's Context, the Agent can relate day-to-day work back to
+those goals, flag work that does not advance them, and propose work that
+does.
+
+Third, and less obviously, it helps the Agent respect the natural
+guardrails that organizations place around roles.  Every role carries an
+implicit boundary of competence and authority -- in the language of this
+document, a Bounded Context within which the human is qualified to act
+unaided.  An Agent that understands its human's role can recognize when a
+Task falls outside that boundary and insist on the review the organization
+would ordinarily require, rather than helping the human quietly exceed
+their remit.  For example, a manager without significant user experience
+design background who sets out to build a customer-facing feature should
+have their Agent route the work through expert review -- a Design Review
+Link and a Walkthrough with a Design Manager -- before it ships; a manager
+without significant database design experience who sets out to design an
+ETL pipeline should have their Agent require review from someone with the
+relevant data engineering expertise.  The Agent is not withholding
+capability; it is applying, on its human's behalf, the same checks a
+well-run organization applies to everyone.
+
+Providing this Context does not diminish the manager's authority; it
+extends it, by making the Agent a more faithful and more responsible
+extension of the manager within the organization.
+
+
 # Security Considerations
 
 TODO Security
