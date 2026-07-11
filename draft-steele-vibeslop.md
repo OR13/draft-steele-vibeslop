@@ -246,12 +246,18 @@ Ubiquitous Language:
   divergent Agent behavior rather than being silently repaired.
 
 Bounded Context:
-: In Domain Driven Design, an explicit boundary within which a particular
-  domain model and its Ubiquitous Language apply consistently, with defined
-  relationships to other such contexts.  Bounded Contexts partition a large
-  domain into coherent parts; in agentic delivery they map naturally onto
-  the division of work among the members of an Agent Team, giving each
-  member a well-scoped model and vocabulary to operate within.
+: In Domain Driven Design, an explicit boundary within which a single
+  domain model and its Ubiquitous Language are internally consistent and
+  unambiguous.  A term has one agreed meaning inside the boundary, even
+  though the same term may mean something different in another context; the
+  boundary exists precisely because a single model cannot be unified across
+  a large domain.  Each Bounded Context owns its own Ubiquitous Language,
+  and interaction between contexts requires explicit translation rather
+  than an assumption of shared meaning.  In agentic delivery a Bounded
+  Context scopes the vocabulary an Agent, or a specialized part of an Agent
+  Team, can safely act on: within one context the language is unambiguous,
+  while work that crosses a boundary must translate terms rather than let
+  an Agent silently conflate their meanings.
 
 Loop:
 : The iterative cycle by which an Agent makes progress on a Task:
@@ -432,8 +438,9 @@ ambiguity that a human colleague would silently repair instead becomes
 divergent behavior in an Agent.  A well-maintained Ubiquitous Language is
 therefore the medium through which every role directs Agents, and Domain
 Driven Design's bounded contexts -- the explicit boundaries within which a
-particular model applies -- map naturally onto how work is partitioned
-among the members of an Agent Team.
+model and its language stay internally consistent -- give each Agent, or
+specialized part of an Agent Team, an unambiguous vocabulary to work in,
+with explicit translation required wherever work crosses a boundary.
 
 ## Product Manager
 
@@ -482,9 +489,11 @@ designing the Loop and selecting or configuring the Agent Harness, writing
 the Evals that hold Agent output to a standard, reviewing Trajectories to
 understand why an Agent behaved as it did, and maintaining Context hygiene
 against Context Rot and Context Pollution.  Increasingly the Developer
-expresses architecture as the boundaries of an Agent Team, assigning each
-bounded context to specialized members that can wield a focused set of
-Tools more effectively than a generalist could.
+expresses architecture as a set of Bounded Contexts, giving each
+specialized member of an Agent Team a consistent model and vocabulary to
+work within and defining how terms are translated where contexts meet, so
+that each member can wield a focused set of Tools more effectively than a
+generalist could.
 
 ## Account Manager
 
