@@ -313,6 +313,19 @@ Shape Up:
   cited here as one concrete, well-documented methodology for scoping and
   committing to product work.
 
+Vibeslop:
+: Output produced quickly by an Agent from loosely specified intent,
+  favoring speed over precision.  The term is deliberately dual-valued and
+  its connotation depends on context.  Used negatively, Vibeslop describes
+  low-quality, under-specified output offered where clarity and detail were
+  required, so that it obscures rather than informs.  Used positively,
+  Vibeslop describes a fast, cheap strawman produced precisely to provoke
+  reaction and elicit feedback, where the goal is momentum and shared
+  understanding rather than finished detail; in this sense it is a
+  legitimate Context Farming device.  The same artifact may be Vibeslop in
+  the pejorative sense or the approving sense depending only on whether the
+  situation calls for speed and a strawman or for clarity and detail.
+
 
 # Security Considerations
 
