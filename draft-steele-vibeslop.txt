@@ -279,14 +279,43 @@ Table of Contents
       Review Link so that the steps are exercised against the actual
       artifact under review.
 
-      A command-and-control Agent Session whose Task is to help a human
-      manage many parallel Agent Sessions rather than to perform the
-      underlying work itself.  A C2 Session decomposes work into Tasks,
-      assigns them to worker Agent Sessions -- for example by assigning
-      issues from an Issue Tracker -- and dispatches work that can be
-      progressed in parallel.  It tracks the status of the sessions it
-      manages and integrates their results, and may communicate with
-      humans and other Agents over a Shared Message Bus.
+   C2 Session:  A command-and-control Agent Session whose Task is to
+      help a human manage many parallel Agent Sessions rather than to
+      perform the underlying work itself.  A C2 Session decomposes work
+      into Tasks, assigns them to worker Agent Sessions -- for example
+      by assigning issues from an Issue Tracker -- and dispatches work
+      that can be progressed in parallel.  It tracks the status of the
+      sessions it manages and integrates their results, and may
+      communicate with humans and other Agents over a Shared Message
+      Bus.
+
+   Product Development Wheel:  An iterative, cyclical model of product
+      development in which the stages of the work -- such as discovery,
+      definition, design, delivery, and learning -- feed continuously
+      back into one another rather than proceeding as a single linear
+      pass.  The wheel emphasizes that what is learned from a shipped
+      product informs the next turn of the cycle, so that development is
+      understood as ongoing rounds of building and learning rather than
+      a project with a fixed end.
+
+   Jobs to Be Done:  A framework for understanding customer motivation,
+      which holds that customers "hire" a product to make progress on a
+      job -- a goal they are trying to accomplish in a particular
+      circumstance [JTBD].  Jobs to Be Done directs design and
+      prioritization toward the underlying job the customer is trying to
+      get done, rather than toward customer demographics or a product's
+      existing features, so that the outcome a customer seeks drives
+      what is built.
+
+   Shape Up:  A product development framework articulated by Basecamp
+      [SHAPE-UP] that organizes work into fixed-length cycles with
+      variable scope.  Work is shaped at an appropriate level of
+      abstraction before it is committed to; an appetite -- how much
+      time the work is worth -- is set in place of an estimate;
+      responsible parties then bet on shaped work and are given full
+      responsibility to deliver it within the fixed time.  Shape Up is
+      cited here as one concrete, well-documented methodology for
+      scoping and committing to product work.
 
 3.  Security Considerations
 
@@ -310,6 +339,14 @@ Table of Contents
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
 5.2.  Informative References
+
+   [JTBD]     Christensen, C. M., Hall, T., Dillon, K., and D. S.
+              Duncan, "Know Your Customers' Jobs to Be Done", 2016,
+              <https://hbr.org/2016/09/know-your-customers-jobs-to-be-
+              done>.
+
+   [SHAPE-UP] Singer, R., "Shape Up: Stop Running in Circles and Ship
+              Work that Matters", 2019, <https://basecamp.com/shapeup>.
 
    [SPEC-KIT] GitHub, "Spec Kit", <https://github.com/github/spec-kit>.
 
