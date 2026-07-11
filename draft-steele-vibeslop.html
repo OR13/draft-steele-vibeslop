@@ -1248,83 +1248,95 @@ steps.  An Agent may operate autonomously or under human supervision,
 and maintains state across the steps it takes.<a href="#section-2-2.12.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.13">Agent Session:</dt>
+<dt id="section-2-2.13">Agent Reasoning:</dt>
         <dd style="margin-left: 1.5em" id="section-2-2.14">
-          <p id="section-2-2.14.1">A single running instance of an Agent working toward a Task, with its
+          <p id="section-2-2.14.1">The intermediate deliberation an Agent produces while deciding what to
+do, distinct from its final answer or action.  Reasoning may take the
+form of explicit intermediate tokens in which the Agent works through a
+problem, plans a sequence of steps, or weighs alternatives before
+invoking a Tool.  Reasoning is recorded in the Trajectory and can be
+inspected to understand or debug why an Agent behaved as it did, though
+it is not guaranteed to be a faithful account of the LLM's internal
+computation.<a href="#section-2-2.14.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.15">Agent Session:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.16">
+          <p id="section-2-2.16.1">A single running instance of an Agent working toward a Task, with its
 own Context, Trajectory, and accumulated state.  An Agent Session begins
 when an Agent is given a Task and ends when the work is complete or
 otherwise terminated.  Multiple Agent Sessions may run in parallel, each
-progressing independent work.<a href="#section-2-2.14.1" class="pilcrow">¶</a></p>
+progressing independent work.<a href="#section-2-2.16.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.15">Knowledge Base:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.16">
-          <p id="section-2-2.16.1">The full set of information made accessible to an Agent Session through
+<dt id="section-2-2.17">Knowledge Base:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.18">
+          <p id="section-2-2.18.1">The full set of information made accessible to an Agent Session through
 the tools and Context available to it.  A Knowledge Base may include
 files, databases, search indexes, and remote services reachable via
 tools, as well as whatever is present in the Context window.  It defines
 the boundary of what an Agent Session can know or retrieve while working
-on a Task.<a href="#section-2-2.16.1" class="pilcrow">¶</a></p>
+on a Task.<a href="#section-2-2.18.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.17">Agent Tool:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.18">
-          <p id="section-2-2.18.1">A discrete capability an Agent can invoke to observe or act upon
+<dt id="section-2-2.19">Agent Tool:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.20">
+          <p id="section-2-2.20.1">A discrete capability an Agent can invoke to observe or act upon
 something outside the LLM, such as reading a file, querying a service,
 or executing a command.  A Tool is described to the Agent by its name,
 its inputs, and the results it returns, so that the LLM can decide when
 and how to call it during the Loop.  Tools are the primary means by
-which an Agent extends its Knowledge Base and effects change.<a href="#section-2-2.18.1" class="pilcrow">¶</a></p>
+which an Agent extends its Knowledge Base and effects change.<a href="#section-2-2.20.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.19">Agent Skill:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.20">
-          <p id="section-2-2.20.1">A reusable package of instructions, and optionally supporting resources,
+<dt id="section-2-2.21">Agent Skill:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.22">
+          <p id="section-2-2.22.1">A reusable package of instructions, and optionally supporting resources,
 that equips an Agent to carry out a particular class of Tasks.  A Skill
 is loaded into Context when it is relevant, guiding how the Agent uses
 its Tools and Knowledge Base without changing the underlying LLM.
 Whereas a Tool provides a capability to act, a Skill provides the
-procedure and judgment for applying capabilities to a kind of work.<a href="#section-2-2.20.1" class="pilcrow">¶</a></p>
+procedure and judgment for applying capabilities to a kind of work.<a href="#section-2-2.22.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.21">Task:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.22">
-          <p id="section-2-2.22.1">A unit of work assigned to an Agent, expressed as a goal to be achieved
+<dt id="section-2-2.23">Task:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.24">
+          <p id="section-2-2.24.1">A unit of work assigned to an Agent, expressed as a goal to be achieved
 rather than a fixed sequence of operations.  A Task defines the intended
 outcome and any constraints, and is carried out by the Agent over one or
-more steps recorded in a Trajectory.<a href="#section-2-2.22.1" class="pilcrow">¶</a></p>
+more steps recorded in a Trajectory.<a href="#section-2-2.24.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.23">Loop:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.24">
-          <p id="section-2-2.24.1">The iterative cycle by which an Agent makes progress on a Task:
+<dt id="section-2-2.25">Loop:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.26">
+          <p id="section-2-2.26.1">The iterative cycle by which an Agent makes progress on a Task:
 assembling Context, invoking an LLM, acting on the result (for example
 by calling a tool), observing the outcome, and repeating until a
 stopping condition is met.  Loop engineering is the practice of
 designing this cycle -- including its stopping conditions, error
 handling, and how Context is updated between iterations -- to produce
-reliable Agent behavior.<a href="#section-2-2.24.1" class="pilcrow">¶</a></p>
+reliable Agent behavior.<a href="#section-2-2.26.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.25">Trajectory:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.26">
-          <p id="section-2-2.26.1">The ordered sequence of inputs, model outputs, tool invocations, and
+<dt id="section-2-2.27">Trajectory:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.28">
+          <p id="section-2-2.28.1">The ordered sequence of inputs, model outputs, tool invocations, and
 observations produced while an Agent works toward a goal.  A Trajectory
 is the primary record used to inspect, replay, or evaluate an Agent's
-behavior.<a href="#section-2-2.26.1" class="pilcrow">¶</a></p>
+behavior.<a href="#section-2-2.28.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.27">Eval:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.28">
-          <p id="section-2-2.28.1">A repeatable procedure for measuring the behavior of an LLM or Agent
+<dt id="section-2-2.29">Eval:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.30">
+          <p id="section-2-2.30.1">A repeatable procedure for measuring the behavior of an LLM or Agent
 against a defined set of inputs and expected outcomes.  Evals are used
 to assess quality, detect regressions, and compare alternative models
-or Agent configurations.<a href="#section-2-2.28.1" class="pilcrow">¶</a></p>
+or Agent configurations.<a href="#section-2-2.30.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.29">Shared Message Bus:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.30">
-          <p id="section-2-2.30.1">A communications channel in which both humans and their Agents
+<dt id="section-2-2.31">Shared Message Bus:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.32">
+          <p id="section-2-2.32.1">A communications channel in which both humans and their Agents
 participate to address a Task or set of Tasks.  A Shared Message Bus is
 necessarily a venue where humans already collaborate with one another,
 such as IRC, Slack, Microsoft Teams, or other work productivity tools;
@@ -1333,51 +1345,51 @@ separate one.  Messages on a Shared Message Bus are delivered to both
 people and their Agents.  Because every participant receives every
 message, humans on a busy Shared Message Bus are subject to alert
 fatigue, where the volume of notifications reduces their ability to
-attend to the messages that require human judgment.<a href="#section-2-2.30.1" class="pilcrow">¶</a></p>
+attend to the messages that require human judgment.<a href="#section-2-2.32.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.31">Issue Tracker:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.32">
-          <p id="section-2-2.32.1">A system that records work to be done as a set of issues, each
+<dt id="section-2-2.33">Issue Tracker:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.34">
+          <p id="section-2-2.34.1">A system that records work to be done as a set of issues, each
 describing a Task and its status.  Issues can be assigned to a specific
 person or Agent, which establishes ownership and prevents double work
 when several participants might otherwise act on the same Task.  Whereas
 a Shared Message Bus broadcasts every message to every participant, an Issue
 Tracker directs work to an assigned owner; the two are often used
 together, with Shared Message Bus messages referencing issues and updates to
-issues announced on the Shared Message Bus.<a href="#section-2-2.32.1" class="pilcrow">¶</a></p>
+issues announced on the Shared Message Bus.<a href="#section-2-2.34.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.33">Context Farming:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.34">
-          <p id="section-2-2.34.1">The process of engineering ways to extract feedback, review, and
+<dt id="section-2-2.35">Context Farming:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.36">
+          <p id="section-2-2.36.1">The process of engineering ways to extract feedback, review, and
 criticism from humans without overwhelming them.  Context Farming seeks
 to gather the human judgment an Agent needs while respecting the limits
 of human attention, for example by batching requests, summarizing what
 is at stake, and asking for input only at the points where it changes
 the outcome.  It is a countermeasure to the alert fatigue that arises on
-a Shared Message Bus.<a href="#section-2-2.34.1" class="pilcrow">¶</a></p>
+a Shared Message Bus.<a href="#section-2-2.36.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.35">Design Review Link:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.36">
-          <p id="section-2-2.36.1">A URL surfaced to a human to facilitate Context Farming.  A Design
+<dt id="section-2-2.37">Design Review Link:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.38">
+          <p id="section-2-2.38.1">A URL surfaced to a human to facilitate Context Farming.  A Design
 Review Link presents the artifact under consideration -- such as a
 rendered document, a proposed change, or a running interface -- in a
 form the human can inspect and respond to, so that their feedback can be
 captured and fed back into an Agent Session's Context with minimal
-disruption.<a href="#section-2-2.36.1" class="pilcrow">¶</a></p>
+disruption.<a href="#section-2-2.38.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.37">C2 Session:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.38">
-          <p id="section-2-2.38.1">A command-and-control Agent Session whose Task is to help a human manage
+<dt id="section-2-2.39">C2 Session:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.40">
+          <p id="section-2-2.40.1">A command-and-control Agent Session whose Task is to help a human manage
 many parallel Agent Sessions rather than to perform the underlying work
 itself.  A C2 Session decomposes work into Tasks, assigns them to worker
 Agent Sessions -- for example by assigning issues from an Issue Tracker
 -- and dispatches work that can be progressed in parallel.  It tracks the
 status of the sessions it manages and integrates their results, and may
-communicate with humans and other Agents over a Shared Message Bus.<a href="#section-2-2.38.1" class="pilcrow">¶</a></p>
+communicate with humans and other Agents over a Shared Message Bus.<a href="#section-2-2.40.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
