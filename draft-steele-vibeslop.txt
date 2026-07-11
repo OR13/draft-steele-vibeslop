@@ -109,6 +109,19 @@ Table of Contents
       multiple steps.  An Agent may operate autonomously or under human
       supervision, and maintains state across the steps it takes.
 
+   Agent Session:  A single running instance of an Agent working toward
+      a Task, with its own Context, Trajectory, and accumulated state.
+      An Agent Session begins when an Agent is given a Task and ends
+      when the work is complete or otherwise terminated.  Multiple Agent
+      Sessions may run in parallel, each progressing independent work.
+
+   Knowledge Base:  The full set of information made accessible to an
+      Agent Session through the tools and Context available to it.  A
+      Knowledge Base may include files, databases, search indexes, and
+      remote services reachable via tools, as well as whatever is
+      present in the Context window.  It defines the boundary of what an
+      Agent Session can know or retrieve while working on a Task.
+
    Task:  A unit of work assigned to an Agent, expressed as a goal to be
       achieved rather than a fixed sequence of operations.  A Task
       defines the intended outcome and any constraints, and is carried
@@ -150,14 +163,14 @@ Table of Contents
       Channel messages referencing issues and updates to issues
       announced on the Bus-Channel.
 
-   C2 Session:  A command-and-control Agent session that coordinates
-      other Agent sessions rather than performing the underlying work
-      itself.  A C2 Session decomposes work into Tasks, assigns them to
-      worker sessions -- for example by assigning issues from an Issue
-      Tracker -- and dispatches work that can be progressed in parallel.
-      It tracks the status of the sessions it manages and integrates
-      their results, and may communicate with humans and other Agents
-      over a Bus-Channel.
+   C2 Session:  A command-and-control Agent Session whose Task is to
+      help a human manage many parallel Agent Sessions rather than to
+      perform the underlying work itself.  A C2 Session decomposes work
+      into Tasks, assigns them to worker Agent Sessions -- for example
+      by assigning issues from an Issue Tracker -- and dispatches work
+      that can be progressed in parallel.  It tracks the status of the
+      sessions it manages and integrates their results, and may
+      communicate with humans and other Agents over a Bus-Channel.
 
 3.  Security Considerations
 

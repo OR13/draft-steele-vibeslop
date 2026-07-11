@@ -1227,72 +1227,91 @@ steps.  An Agent may operate autonomously or under human supervision,
 and maintains state across the steps it takes.<a href="#section-2-2.8.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.9">Task:</dt>
+<dt id="section-2-2.9">Agent Session:</dt>
         <dd style="margin-left: 1.5em" id="section-2-2.10">
-          <p id="section-2-2.10.1">A unit of work assigned to an Agent, expressed as a goal to be achieved
-rather than a fixed sequence of operations.  A Task defines the intended
-outcome and any constraints, and is carried out by the Agent over one or
-more steps recorded in a Trajectory.<a href="#section-2-2.10.1" class="pilcrow">¶</a></p>
+          <p id="section-2-2.10.1">A single running instance of an Agent working toward a Task, with its
+own Context, Trajectory, and accumulated state.  An Agent Session begins
+when an Agent is given a Task and ends when the work is complete or
+otherwise terminated.  Multiple Agent Sessions may run in parallel, each
+progressing independent work.<a href="#section-2-2.10.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.11">Loop:</dt>
+<dt id="section-2-2.11">Knowledge Base:</dt>
         <dd style="margin-left: 1.5em" id="section-2-2.12">
-          <p id="section-2-2.12.1">The iterative cycle by which an Agent makes progress on a Task:
+          <p id="section-2-2.12.1">The full set of information made accessible to an Agent Session through
+the tools and Context available to it.  A Knowledge Base may include
+files, databases, search indexes, and remote services reachable via
+tools, as well as whatever is present in the Context window.  It defines
+the boundary of what an Agent Session can know or retrieve while working
+on a Task.<a href="#section-2-2.12.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.13">Task:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.14">
+          <p id="section-2-2.14.1">A unit of work assigned to an Agent, expressed as a goal to be achieved
+rather than a fixed sequence of operations.  A Task defines the intended
+outcome and any constraints, and is carried out by the Agent over one or
+more steps recorded in a Trajectory.<a href="#section-2-2.14.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.15">Loop:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.16">
+          <p id="section-2-2.16.1">The iterative cycle by which an Agent makes progress on a Task:
 assembling Context, invoking an LLM, acting on the result (for example
 by calling a tool), observing the outcome, and repeating until a
 stopping condition is met.  Loop engineering is the practice of
 designing this cycle -- including its stopping conditions, error
 handling, and how Context is updated between iterations -- to produce
-reliable Agent behavior.<a href="#section-2-2.12.1" class="pilcrow">¶</a></p>
+reliable Agent behavior.<a href="#section-2-2.16.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.13">Trajectory:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.14">
-          <p id="section-2-2.14.1">The ordered sequence of inputs, model outputs, tool invocations, and
+<dt id="section-2-2.17">Trajectory:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.18">
+          <p id="section-2-2.18.1">The ordered sequence of inputs, model outputs, tool invocations, and
 observations produced while an Agent works toward a goal.  A Trajectory
 is the primary record used to inspect, replay, or evaluate an Agent's
-behavior.<a href="#section-2-2.14.1" class="pilcrow">¶</a></p>
+behavior.<a href="#section-2-2.18.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.15">Eval:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.16">
-          <p id="section-2-2.16.1">A repeatable procedure for measuring the behavior of an LLM or Agent
+<dt id="section-2-2.19">Eval:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.20">
+          <p id="section-2-2.20.1">A repeatable procedure for measuring the behavior of an LLM or Agent
 against a defined set of inputs and expected outcomes.  Evals are used
 to assess quality, detect regressions, and compare alternative models
-or Agent configurations.<a href="#section-2-2.16.1" class="pilcrow">¶</a></p>
+or Agent configurations.<a href="#section-2-2.20.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.17">Bus-Channel:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.18">
-          <p id="section-2-2.18.1">A communications channel in which both humans and their Agents
+<dt id="section-2-2.21">Bus-Channel:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.22">
+          <p id="section-2-2.22.1">A communications channel in which both humans and their Agents
 participate to address a Task or set of Tasks.  Messages on a
 Bus-Channel are delivered to both people and their Agents.  Because
 every participant receives every message, humans on a busy Bus-Channel
 are subject to alert fatigue, where the volume of notifications reduces
-their ability to attend to the messages that require human judgment.<a href="#section-2-2.18.1" class="pilcrow">¶</a></p>
+their ability to attend to the messages that require human judgment.<a href="#section-2-2.22.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.19">Issue Tracker:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.20">
-          <p id="section-2-2.20.1">A system that records work to be done as a set of issues, each
+<dt id="section-2-2.23">Issue Tracker:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.24">
+          <p id="section-2-2.24.1">A system that records work to be done as a set of issues, each
 describing a Task and its status.  Issues can be assigned to a specific
 person or Agent, which establishes ownership and prevents double work
 when several participants might otherwise act on the same Task.  Whereas
 a Bus-Channel broadcasts every message to every participant, an Issue
 Tracker directs work to an assigned owner; the two are often used
 together, with Bus-Channel messages referencing issues and updates to
-issues announced on the Bus-Channel.<a href="#section-2-2.20.1" class="pilcrow">¶</a></p>
+issues announced on the Bus-Channel.<a href="#section-2-2.24.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.21">C2 Session:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.22">
-          <p id="section-2-2.22.1">A command-and-control Agent session that coordinates other Agent
-sessions rather than performing the underlying work itself.  A C2
-Session decomposes work into Tasks, assigns them to worker sessions --
-for example by assigning issues from an Issue Tracker -- and dispatches
-work that can be progressed in parallel.  It tracks the status of the
-sessions it manages and integrates their results, and may communicate
-with humans and other Agents over a Bus-Channel.<a href="#section-2-2.22.1" class="pilcrow">¶</a></p>
+<dt id="section-2-2.25">C2 Session:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.26">
+          <p id="section-2-2.26.1">A command-and-control Agent Session whose Task is to help a human manage
+many parallel Agent Sessions rather than to perform the underlying work
+itself.  A C2 Session decomposes work into Tasks, assigns them to worker
+Agent Sessions -- for example by assigning issues from an Issue Tracker
+-- and dispatches work that can be progressed in parallel.  It tracks the
+status of the sessions it manages and integrates their results, and may
+communicate with humans and other Agents over a Bus-Channel.<a href="#section-2-2.26.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
