@@ -125,6 +125,15 @@ Issue Tracker:
   together, with Bus-Channel messages referencing issues and updates to
   issues announced on the Bus-Channel.
 
+C2 Session:
+: A command-and-control Agent session that coordinates other Agent
+  sessions rather than performing the underlying work itself.  A C2
+  Session decomposes work into Tasks, assigns them to worker sessions --
+  for example by assigning issues from an Issue Tracker -- and dispatches
+  work that can be progressed in parallel.  It tracks the status of the
+  sessions it manages and integrates their results, and may communicate
+  with humans and other Agents over a Bus-Channel.
+
 
 # Security Considerations
 
