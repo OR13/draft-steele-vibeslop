@@ -1175,7 +1175,10 @@ community.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
                 <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="auto internal xref">4.4</a>.  <a href="#name-engineering-manager" class="internal xref">Engineering Manager</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.5">
-                <p id="section-toc.1-1.4.2.5.1"><a href="#section-4.5" class="auto internal xref">4.5</a>.  <a href="#name-security-manager" class="internal xref">Security Manager</a></p>
+                <p id="section-toc.1-1.4.2.5.1"><a href="#section-4.5" class="auto internal xref">4.5</a>.  <a href="#name-operations-manager" class="internal xref">Operations Manager</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.6">
+                <p id="section-toc.1-1.4.2.6.1"><a href="#section-4.6" class="auto internal xref">4.6</a>.  <a href="#name-security-manager" class="internal xref">Security Manager</a></p>
 </li>
             </ul>
 </li>
@@ -1233,77 +1236,86 @@ LLM is treated as the underlying inference component that an Agent uses
 to reason and produce output.<a href="#section-2-2.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.3">Prompt:</dt>
+<dt id="section-2-2.3">Token:</dt>
         <dd style="margin-left: 1.5em" id="section-2-2.4">
-          <p id="section-2-2.4.1">The input provided to an LLM to elicit a response.  A Prompt may include
-instructions, context, examples, and prior conversation, and may be
-composed from multiple sources such as a system message, developer
-instructions, and end-user input.<a href="#section-2-2.4.1" class="pilcrow">¶</a></p>
+          <p id="section-2-2.4.1">The unit of text an LLM processes.  Text is divided into Tokens, roughly
+word fragments, and an LLM reads and generates text one Token at a time.
+The size of a Context window, the throughput of an LLM, and the price of
+a remote model service are all measured in Tokens, which makes the Token
+the natural unit for accounting for the cost of agentic work.<a href="#section-2-2.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.5">Context:</dt>
+<dt id="section-2-2.5">Prompt:</dt>
         <dd style="margin-left: 1.5em" id="section-2-2.6">
-          <p id="section-2-2.6.1">The full set of information available to an LLM at inference time,
+          <p id="section-2-2.6.1">The input provided to an LLM to elicit a response.  A Prompt may include
+instructions, context, examples, and prior conversation, and may be
+composed from multiple sources such as a system message, developer
+instructions, and end-user input.<a href="#section-2-2.6.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.7">Context:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.8">
+          <p id="section-2-2.8.1">The full set of information available to an LLM at inference time,
 bounded by a finite context window.  Context includes the Prompt along
 with any retrieved documents, tool results, and accumulated history.
 Context engineering is the practice of deciding what information to
 include, exclude, order, or compress so that the most relevant
-information is available within the context window.<a href="#section-2-2.6.1" class="pilcrow">¶</a></p>
+information is available within the context window.<a href="#section-2-2.8.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.7">Context Rot:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.8">
-          <p id="section-2-2.8.1">The gradual degradation of Context that occurs when it is allowed to
+<dt id="section-2-2.9">Context Rot:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.10">
+          <p id="section-2-2.10.1">The gradual degradation of Context that occurs when it is allowed to
 become stale over time without intentional refactoring and cleaning.
 As a Task progresses, superseded instructions, outdated results, and
 no-longer-relevant history accumulate; unless this material is
 deliberately pruned or refreshed, it crowds out current information and
-degrades the quality of an Agent's output.<a href="#section-2-2.8.1" class="pilcrow">¶</a></p>
+degrades the quality of an Agent's output.<a href="#section-2-2.10.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.9">Context Pollution:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.10">
-          <p id="section-2-2.10.1">The presence in Context of content that should not be included.  Unlike
+<dt id="section-2-2.11">Context Pollution:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.12">
+          <p id="section-2-2.12.1">The presence in Context of content that should not be included.  Unlike
 Context Rot, which arises from staleness over time, Context Pollution is
 the introduction of inappropriate, incorrect, or irrelevant material.
 Both Agents and humans can contribute to Context Pollution -- for
 example an Agent may retrieve an unrelated document, or a human may paste
 extraneous information -- and in either case the polluting content can
-mislead subsequent reasoning.<a href="#section-2-2.10.1" class="pilcrow">¶</a></p>
+mislead subsequent reasoning.<a href="#section-2-2.12.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.11">Agent:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.12">
-          <p id="section-2-2.12.1">A software system that uses one or more LLMs to pursue a goal by
+<dt id="section-2-2.13">Agent:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.14">
+          <p id="section-2-2.14.1">A software system that uses one or more LLMs to pursue a goal by
 interpreting instructions, invoking tools, and acting over multiple
 steps.  An Agent may operate autonomously or under human supervision,
-and maintains state across the steps it takes.<a href="#section-2-2.12.1" class="pilcrow">¶</a></p>
+and maintains state across the steps it takes.<a href="#section-2-2.14.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.13">Agent Reasoning:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.14">
-          <p id="section-2-2.14.1">The intermediate deliberation an Agent produces while deciding what to
+<dt id="section-2-2.15">Agent Reasoning:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.16">
+          <p id="section-2-2.16.1">The intermediate deliberation an Agent produces while deciding what to
 do, distinct from its final answer or action.  Reasoning may take the
 form of explicit intermediate tokens in which the Agent works through a
 problem, plans a sequence of steps, or weighs alternatives before
 invoking a Tool.  Reasoning is recorded in the Trajectory and can be
 inspected to understand or debug why an Agent behaved as it did, though
 it is not guaranteed to be a faithful account of the LLM's internal
-computation.<a href="#section-2-2.14.1" class="pilcrow">¶</a></p>
+computation.<a href="#section-2-2.16.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.15">Agent Session:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.16">
-          <p id="section-2-2.16.1">A single running instance of an Agent working toward a Task, with its
+<dt id="section-2-2.17">Agent Session:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.18">
+          <p id="section-2-2.18.1">A single running instance of an Agent working toward a Task, with its
 own Context, Trajectory, and accumulated state.  An Agent Session begins
 when an Agent is given a Task and ends when the work is complete or
 otherwise terminated.  Multiple Agent Sessions may run in parallel, each
-progressing independent work.<a href="#section-2-2.16.1" class="pilcrow">¶</a></p>
+progressing independent work.<a href="#section-2-2.18.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.17">Agent Team:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.18">
-          <p id="section-2-2.18.1">A set of Agent Sessions that collaborate on related Tasks, typically
+<dt id="section-2-2.19">Agent Team:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.20">
+          <p id="section-2-2.20.1">A set of Agent Sessions that collaborate on related Tasks, typically
 coordinated by a Management Session.  Giving a single Agent too many Tools
 degrades its performance: a large Tool set consumes Context, and the
 more choices an Agent must weigh at each step, the more likely it is to
@@ -1313,50 +1325,50 @@ Each member is given a narrower Task and a smaller, focused set of Tools
 and Knowledge Base, and members exchange work and results among
 themselves.  A specialized Agent, presented with only the Tools relevant
 to its role, can use those Tools more effectively than a generalist Agent
-burdened with all of them.<a href="#section-2-2.18.1" class="pilcrow">¶</a></p>
+burdened with all of them.<a href="#section-2-2.20.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.19">Knowledge Base:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.20">
-          <p id="section-2-2.20.1">The full set of information made accessible to an Agent Session through
+<dt id="section-2-2.21">Knowledge Base:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.22">
+          <p id="section-2-2.22.1">The full set of information made accessible to an Agent Session through
 the tools and Context available to it.  A Knowledge Base may include
 files, databases, search indexes, and remote services reachable via
 tools, as well as whatever is present in the Context window.  It defines
 the boundary of what an Agent Session can know or retrieve while working
-on a Task.<a href="#section-2-2.20.1" class="pilcrow">¶</a></p>
+on a Task.<a href="#section-2-2.22.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.21">Agent Tool:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.22">
-          <p id="section-2-2.22.1">A discrete capability an Agent can invoke to observe or act upon
+<dt id="section-2-2.23">Agent Tool:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.24">
+          <p id="section-2-2.24.1">A discrete capability an Agent can invoke to observe or act upon
 something outside the LLM, such as reading a file, querying a service,
 or executing a command.  A Tool is described to the Agent by its name,
 its inputs, and the results it returns, so that the LLM can decide when
 and how to call it during the Loop.  Tools are the primary means by
-which an Agent extends its Knowledge Base and effects change.<a href="#section-2-2.22.1" class="pilcrow">¶</a></p>
+which an Agent extends its Knowledge Base and effects change.<a href="#section-2-2.24.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.23">Agent Skill:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.24">
-          <p id="section-2-2.24.1">A reusable package of instructions, and optionally supporting resources,
+<dt id="section-2-2.25">Agent Skill:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.26">
+          <p id="section-2-2.26.1">A reusable package of instructions, and optionally supporting resources,
 that equips an Agent to carry out a particular class of Tasks.  A Skill
 is loaded into Context when it is relevant, guiding how the Agent uses
 its Tools and Knowledge Base without changing the underlying LLM.
 Whereas a Tool provides a capability to act, a Skill provides the
-procedure and judgment for applying capabilities to a kind of work.<a href="#section-2-2.24.1" class="pilcrow">¶</a></p>
+procedure and judgment for applying capabilities to a kind of work.<a href="#section-2-2.26.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.25">Task:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.26">
-          <p id="section-2-2.26.1">A unit of work assigned to an Agent, expressed as a goal to be achieved
+<dt id="section-2-2.27">Task:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.28">
+          <p id="section-2-2.28.1">A unit of work assigned to an Agent, expressed as a goal to be achieved
 rather than a fixed sequence of operations.  A Task defines the intended
 outcome and any constraints, and is carried out by the Agent over one or
-more steps recorded in a Trajectory.<a href="#section-2-2.26.1" class="pilcrow">¶</a></p>
+more steps recorded in a Trajectory.<a href="#section-2-2.28.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.27">Spec:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.28">
-          <p id="section-2-2.28.1">A durable, human-readable description of intended behavior that serves as
+<dt id="section-2-2.29">Spec:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.30">
+          <p id="section-2-2.30.1">A durable, human-readable description of intended behavior that serves as
 the authoritative statement of what an Agent is to build or do.  In
 agentic development a Spec is written and refined before implementation
 and is provided to the Agent as Context, so that the Agent's output can
@@ -1364,12 +1376,12 @@ be checked against it and so that the same Spec can drive repeated or
 parallel Agent Sessions.  Whereas a Task states a single goal, a Spec
 captures the requirements, constraints, and acceptance criteria in
 enough detail to be implemented and evaluated, and it is expected to be
-reviewed and versioned as the work evolves.<a href="#section-2-2.28.1" class="pilcrow">¶</a></p>
+reviewed and versioned as the work evolves.<a href="#section-2-2.30.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.29">Spec Driven Development:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.30">
-          <p id="section-2-2.30.1">A development methodology in which a Spec, rather than the code, is the
+<dt id="section-2-2.31">Spec Driven Development:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.32">
+          <p id="section-2-2.32.1">A development methodology in which a Spec, rather than the code, is the
 primary artifact humans author and maintain, and implementation is
 derived from it by an Agent.  Following the pattern established by tools
 such as spec-kit <span>[<a href="#SPEC-KIT" class="cite xref">SPEC-KIT</a>]</span>, the work proceeds through explicit,
@@ -1382,33 +1394,33 @@ controlled artifact that is reviewed before the next phase begins, so
 that human judgment is applied to intent and design up front rather than
 only to the generated code.  This ordering keeps the Spec authoritative:
 changes are made to the Spec and flowed forward, rather than made
-directly in code and lost.<a href="#section-2-2.30.1" class="pilcrow">¶</a></p>
+directly in code and lost.<a href="#section-2-2.32.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.31">Domain Driven Design (DDD):</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.32">
-          <p id="section-2-2.32.1">An approach to software development, described by Evans <span>[<a href="#DDD" class="cite xref">DDD</a>]</span>, that
+<dt id="section-2-2.33">Domain Driven Design (DDD):</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.34">
+          <p id="section-2-2.34.1">An approach to software development, described by Evans <span>[<a href="#DDD" class="cite xref">DDD</a>]</span>, that
 places a model of the business domain at the center of the software and
 aligns the software's structure and language with that model.  Its
 practices -- notably a Ubiquitous Language and explicit Bounded Contexts
 -- are used in this document to reason about how humans and Agents come
-to share a precise, common understanding of the domain they work in.<a href="#section-2-2.32.1" class="pilcrow">¶</a></p>
+to share a precise, common understanding of the domain they work in.<a href="#section-2-2.34.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.33">Ubiquitous Language:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.34">
-          <p id="section-2-2.34.1">In Domain Driven Design, a single, precise vocabulary for a domain that
+<dt id="section-2-2.35">Ubiquitous Language:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.36">
+          <p id="section-2-2.36.1">In Domain Driven Design, a single, precise vocabulary for a domain that
 is shared by domain experts and expressed directly in the software.  In
 an agentic setting the Ubiquitous Language is also the language of
 Prompts, Specs, and Context, so that humans and Agents refer to the same
 concepts by the same terms.  Because an Agent acts on exactly the
 language it is given, drift or ambiguity in this vocabulary produces
-divergent Agent behavior rather than being silently repaired.<a href="#section-2-2.34.1" class="pilcrow">¶</a></p>
+divergent Agent behavior rather than being silently repaired.<a href="#section-2-2.36.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.35">Bounded Context:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.36">
-          <p id="section-2-2.36.1">In Domain Driven Design, an explicit boundary within which a single
+<dt id="section-2-2.37">Bounded Context:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.38">
+          <p id="section-2-2.38.1">In Domain Driven Design, an explicit boundary within which a single
 domain model and its Ubiquitous Language are internally consistent and
 unambiguous.  A term has one agreed meaning inside the boundary, even
 though the same term may mean something different in another context; the
@@ -1419,23 +1431,23 @@ than an assumption of shared meaning.  In agentic delivery a Bounded
 Context scopes the vocabulary an Agent, or a specialized part of an Agent
 Team, can safely act on: within one context the language is unambiguous,
 while work that crosses a boundary must translate terms rather than let
-an Agent silently conflate their meanings.<a href="#section-2-2.36.1" class="pilcrow">¶</a></p>
+an Agent silently conflate their meanings.<a href="#section-2-2.38.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.37">Loop:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.38">
-          <p id="section-2-2.38.1">The iterative cycle by which an Agent makes progress on a Task:
+<dt id="section-2-2.39">Loop:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.40">
+          <p id="section-2-2.40.1">The iterative cycle by which an Agent makes progress on a Task:
 assembling Context, invoking an LLM, acting on the result (for example
 by calling a tool), observing the outcome, and repeating until a
 stopping condition is met.  Loop engineering is the practice of
 designing this cycle -- including its stopping conditions, error
 handling, and how Context is updated between iterations -- to produce
-reliable Agent behavior.<a href="#section-2-2.38.1" class="pilcrow">¶</a></p>
+reliable Agent behavior.<a href="#section-2-2.40.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.39">Agent Harness:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.40">
-          <p id="section-2-2.40.1">The runtime that hosts an Agent Session and turns an LLM into an Agent.
+<dt id="section-2-2.41">Agent Harness:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.42">
+          <p id="section-2-2.42.1">The runtime that hosts an Agent Session and turns an LLM into an Agent.
 The Agent Harness drives the Loop, assembles and maintains the Context
 passed to the LLM, exposes the Agent Tools and loads the Agent Skills
 available to the session, mediates access to the Knowledge Base, and
@@ -1443,28 +1455,28 @@ records the Trajectory.  It also enforces operational concerns such as
 permissions, stopping conditions, and error handling.  The same LLM
 placed in different Agent Harnesses yields Agents with different
 capabilities and behavior; a Management Session and the worker sessions it
-coordinates may each run in their own harness.<a href="#section-2-2.40.1" class="pilcrow">¶</a></p>
+coordinates may each run in their own harness.<a href="#section-2-2.42.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.41">Trajectory:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.42">
-          <p id="section-2-2.42.1">The ordered sequence of inputs, model outputs, tool invocations, and
+<dt id="section-2-2.43">Trajectory:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.44">
+          <p id="section-2-2.44.1">The ordered sequence of inputs, model outputs, tool invocations, and
 observations produced while an Agent works toward a goal.  A Trajectory
 is the primary record used to inspect, replay, or evaluate an Agent's
-behavior.<a href="#section-2-2.42.1" class="pilcrow">¶</a></p>
+behavior.<a href="#section-2-2.44.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.43">Eval:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.44">
-          <p id="section-2-2.44.1">A repeatable procedure for measuring the behavior of an LLM or Agent
+<dt id="section-2-2.45">Eval:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.46">
+          <p id="section-2-2.46.1">A repeatable procedure for measuring the behavior of an LLM or Agent
 against a defined set of inputs and expected outcomes.  Evals are used
 to assess quality, detect regressions, and compare alternative models
-or Agent configurations.<a href="#section-2-2.44.1" class="pilcrow">¶</a></p>
+or Agent configurations.<a href="#section-2-2.46.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.45">Shared Message Bus:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.46">
-          <p id="section-2-2.46.1">A communications channel in which both humans and their Agents
+<dt id="section-2-2.47">Shared Message Bus:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.48">
+          <p id="section-2-2.48.1">A communications channel in which both humans and their Agents
 participate to address a Task or set of Tasks.  A Shared Message Bus is
 necessarily a venue where humans already collaborate with one another,
 such as IRC, Slack, Microsoft Teams, or other work productivity tools;
@@ -1473,12 +1485,12 @@ separate one.  Messages on a Shared Message Bus are delivered to both
 people and their Agents.  Because every participant receives every
 message, humans on a busy Shared Message Bus are subject to alert
 fatigue, where the volume of notifications reduces their ability to
-attend to the messages that require human judgment.<a href="#section-2-2.46.1" class="pilcrow">¶</a></p>
+attend to the messages that require human judgment.<a href="#section-2-2.48.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.47">Proxy Dictation:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.48">
-          <p id="section-2-2.48.1">A communication pattern in which a participant addresses another party's
+<dt id="section-2-2.49">Proxy Dictation:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.50">
+          <p id="section-2-2.50.1">A communication pattern in which a participant addresses another party's
 Agent directly, in a register deliberately less human-centric than
 ordinary conversation -- terse, imperative, and to the point of being
 offensive by human standards.  The register is chosen precisely because
@@ -1486,45 +1498,45 @@ the target of the language is not the human but their assistant; the
 same speaker would address the human very differently.  Because Proxy
 Dictation typically occurs on a Shared Message Bus, where the human can
 see it, the bluntness may read as offensive to onlookers even though no
-offense is directed at any person.<a href="#section-2-2.48.1" class="pilcrow">¶</a></p>
+offense is directed at any person.<a href="#section-2-2.50.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.49">Issue Tracker:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.50">
-          <p id="section-2-2.50.1">A system that records work to be done as a set of issues, each
+<dt id="section-2-2.51">Issue Tracker:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.52">
+          <p id="section-2-2.52.1">A system that records work to be done as a set of issues, each
 describing a Task and its status.  Issues can be assigned to a specific
 person or Agent, which establishes ownership and prevents double work
 when several participants might otherwise act on the same Task.  Whereas
 a Shared Message Bus broadcasts every message to every participant, an Issue
 Tracker directs work to an assigned owner; the two are often used
 together, with Shared Message Bus messages referencing issues and updates to
-issues announced on the Shared Message Bus.<a href="#section-2-2.50.1" class="pilcrow">¶</a></p>
+issues announced on the Shared Message Bus.<a href="#section-2-2.52.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.51">Context Farming:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.52">
-          <p id="section-2-2.52.1">The process of engineering ways to extract feedback, review, and
+<dt id="section-2-2.53">Context Farming:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.54">
+          <p id="section-2-2.54.1">The process of engineering ways to extract feedback, review, and
 criticism from humans without overwhelming them.  Context Farming seeks
 to gather the human judgment an Agent needs while respecting the limits
 of human attention, for example by batching requests, summarizing what
 is at stake, and asking for input only at the points where it changes
 the outcome.  It is a countermeasure to the alert fatigue that arises on
-a Shared Message Bus.<a href="#section-2-2.52.1" class="pilcrow">¶</a></p>
+a Shared Message Bus.<a href="#section-2-2.54.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.53">Design Review Link:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.54">
-          <p id="section-2-2.54.1">A URL surfaced to a human to facilitate Context Farming.  A Design
+<dt id="section-2-2.55">Design Review Link:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.56">
+          <p id="section-2-2.56.1">A URL surfaced to a human to facilitate Context Farming.  A Design
 Review Link presents the artifact under consideration -- such as a
 rendered document, a proposed change, or a running interface -- in a
 form the human can inspect and respond to, so that their feedback can be
 captured and fed back into an Agent Session's Context with minimal
-disruption.<a href="#section-2-2.54.1" class="pilcrow">¶</a></p>
+disruption.<a href="#section-2-2.56.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.55">Walkthrough:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.56">
-          <p id="section-2-2.56.1">A structured Context Farming technique in which a driver and a navigator
+<dt id="section-2-2.57">Walkthrough:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.58">
+          <p id="section-2-2.58.1">A structured Context Farming technique in which a driver and a navigator
 collaborate to elicit feedback from humans by completing a set of
 well-defined steps in an application while commenting on the quality of
 the product experience.  The driver performs the steps and the navigator
@@ -1532,12 +1544,12 @@ observes and narrates, and the running commentary -- what worked, what
 was confusing, what should change -- becomes Context that is fed back
 into subsequent Agent Sessions.  A Walkthrough is often initiated from a
 Design Review Link so that the steps are exercised against the actual
-artifact under review.<a href="#section-2-2.56.1" class="pilcrow">¶</a></p>
+artifact under review.<a href="#section-2-2.58.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.57">Management Session:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.58">
-          <p id="section-2-2.58.1">An Agent Session whose Task is to help a human manage many parallel Agent
+<dt id="section-2-2.59">Management Session:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.60">
+          <p id="section-2-2.60.1">An Agent Session whose Task is to help a human manage many parallel Agent
 Sessions rather than to perform the underlying work itself.  A Management
 Session applies a command-and-control (C2) pattern, borrowed from
 operational settings where one node directs many others: it decomposes
@@ -1545,46 +1557,56 @@ work into Tasks, assigns them to worker Agent Sessions -- for example by
 assigning issues from an Issue Tracker -- and dispatches work that can be
 progressed in parallel.  It tracks the status of the sessions it manages
 and integrates their results, and may communicate with humans and other
-Agents over a Shared Message Bus.<a href="#section-2-2.58.1" class="pilcrow">¶</a></p>
+Agents over a Shared Message Bus.<a href="#section-2-2.60.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.59">Product Development Wheel:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.60">
-          <p id="section-2-2.60.1">An iterative, cyclical model of product development in which the stages
+<dt id="section-2-2.61">Product Development Wheel:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.62">
+          <p id="section-2-2.62.1">An iterative, cyclical model of product development in which the stages
 of the work -- such as discovery, definition, design, delivery, and
 learning -- feed continuously back into one another rather than
 proceeding as a single linear pass.  The wheel emphasizes that what is
 learned from a shipped product informs the next turn of the cycle, so
 that development is understood as ongoing rounds of building and learning
-rather than a project with a fixed end.<a href="#section-2-2.60.1" class="pilcrow">¶</a></p>
+rather than a project with a fixed end.<a href="#section-2-2.62.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.61">Jobs to Be Done:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.62">
-          <p id="section-2-2.62.1">A framework for understanding customer motivation, which holds that
+<dt id="section-2-2.63">Jobs to Be Done:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.64">
+          <p id="section-2-2.64.1">A framework for understanding customer motivation, which holds that
 customers "hire" a product to make progress on a job -- a goal they are
 trying to accomplish in a particular circumstance <span>[<a href="#JTBD" class="cite xref">JTBD</a>]</span>.  Jobs to Be
 Done directs design and prioritization toward the underlying job the
 customer is trying to get done, rather than toward customer demographics
 or a product's existing features, so that the outcome a customer seeks
-drives what is built.<a href="#section-2-2.62.1" class="pilcrow">¶</a></p>
+drives what is built.<a href="#section-2-2.64.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.63">Shape Up:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.64">
-          <p id="section-2-2.64.1">A product development framework articulated by Basecamp <span>[<a href="#SHAPE-UP" class="cite xref">SHAPE-UP</a>]</span>
+<dt id="section-2-2.65">Shape Up:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.66">
+          <p id="section-2-2.66.1">A product development framework articulated by Basecamp <span>[<a href="#SHAPE-UP" class="cite xref">SHAPE-UP</a>]</span>
 that organizes work into fixed-length cycles with variable scope.  Work
 is shaped at an appropriate level of abstraction before it is committed
 to; an appetite -- how much time the work is worth -- is set in place of
 an estimate; responsible parties then bet on shaped work and are given
 full responsibility to deliver it within the fixed time.  Shape Up is
 cited here as one concrete, well-documented methodology for scoping and
-committing to product work.<a href="#section-2-2.64.1" class="pilcrow">¶</a></p>
+committing to product work.<a href="#section-2-2.66.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.65">Psychometric Profile:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.66">
-          <p id="section-2-2.66.1">A structured description of a person's disposition, communication style,
+<dt id="section-2-2.67">Iteration (Sprint):</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.68">
+          <p id="section-2-2.68.1">A fixed-length cycle of product delivery work, also commonly called a
+sprint, at the end of which progress is reviewed and the next cycle is
+planned.  An Iteration gives the organization a regular cadence for
+planning, delivering, and measuring work, and in this document it is the
+natural interval over which the cost of agentic delivery, including Token
+consumption, is aggregated.<a href="#section-2-2.68.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.69">Psychometric Profile:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.70">
+          <p id="section-2-2.70.1">A structured description of a person's disposition, communication style,
 and preferences derived from a standardized instrument.  Examples in
 scope here are type-based instruments that sort individuals into discrete
 categories, such as Insights Discovery <span>[<a href="#INSIGHTS-DISCOVERY" class="cite xref">INSIGHTS-DISCOVERY</a>]</span>,
@@ -1593,12 +1615,12 @@ Psychometric Profile is to a human roughly what a configured persona or
 system prompt is to an Agent: a durable, portable summary of disposition
 that helps collaborators anticipate how a party will behave and
 communicate.  Within an Agent Team, profiles of the human participants
-can inform how work and Context are addressed to them.<a href="#section-2-2.66.1" class="pilcrow">¶</a></p>
+can inform how work and Context are addressed to them.<a href="#section-2-2.70.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.67">Vibeslop:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.68">
-          <p id="section-2-2.68.1">Output produced quickly by an Agent from loosely specified intent,
+<dt id="section-2-2.71">Vibeslop:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.72">
+          <p id="section-2-2.72.1">Output produced quickly by an Agent from loosely specified intent,
 favoring speed over precision.  The term is deliberately dual-valued and
 its connotation depends on context.  Used negatively, Vibeslop describes
 low-quality, under-specified output offered where clarity and detail were
@@ -1608,7 +1630,7 @@ reaction and elicit feedback, where the goal is momentum and shared
 understanding rather than finished detail; in this sense it is a
 legitimate Context Farming device.  The same artifact may be Vibeslop in
 the pejorative sense or the approving sense depending only on whether the
-situation calls for speed and a strawman or for clarity and detail.<a href="#section-2-2.68.1" class="pilcrow">¶</a></p>
+situation calls for speed and a strawman or for clarity and detail.<a href="#section-2-2.72.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
@@ -1626,8 +1648,7 @@ are changing this function first and most visibly, and it is where the
 concepts defined in this document -- Specs, Agent Teams, Context Farming,
 and the rest -- apply most directly.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <p id="section-3-2">AI Agents are also reshaping other organizational functions, including
-executive decision-making, operations, sales, and marketing.  These
-functions differ
+executive decision-making, sales, and marketing.  These functions differ
 from product delivery in their objectives, their sources of ground truth,
 and their tolerance for error, and addressing them here would dilute the
 focus of this document without doing them justice.  They are therefore
@@ -1749,26 +1770,54 @@ that each member can wield a focused set of Tools more effectively than a
 generalist could.<a href="#section-4.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="security-manager">
+<div id="operations-manager">
 <section id="section-4.5">
-        <h3 id="name-security-manager">
-<a href="#section-4.5" class="section-number selfRef">4.5. </a><a href="#name-security-manager" class="section-name selfRef">Security Manager</a>
+        <h3 id="name-operations-manager">
+<a href="#section-4.5" class="section-number selfRef">4.5. </a><a href="#name-operations-manager" class="section-name selfRef">Operations Manager</a>
         </h3>
-<p id="section-4.5-1">Security in agentic delivery is a responsibility that must be trained into
+<p id="section-4.5-1">The Operations Manager keeps the machinery of agentic delivery running and
+accountable.  Where the other roles direct and review Agents, the
+Operations Manager measures and sustains them.  This begins with visibility
+into usage: which humans are using which Agents and which models, so that
+adoption, cost, and risk can be attributed to real activity rather than
+estimated in aggregate.<a href="#section-4.5-1" class="pilcrow">¶</a></p>
+<p id="section-4.5-2">A central responsibility is metering Token consumption.  The Operations
+Manager monitors when Tokens are consumed, how many are consumed, and what
+the total cost of those Tokens is for each Iteration, so that the cost of
+delivery can be understood at the granularity teams actually plan in.  This
+makes the economics of agentic work legible: a feature, a Spec, or an Agent
+Team can be judged not only by what it produces but by what it costs to
+produce.<a href="#section-4.5-2" class="pilcrow">¶</a></p>
+<p id="section-4.5-3">The Operations Manager also provisions and supports the adjacent systems
+that agentic delivery depends on, and folds their cost into the same
+accounting: the Issue Tracker that assigns work, the Shared Message Bus
+over which humans and Agents collaborate, and the remote model services
+that host the LLMs.  These are recurring operational costs rather than
+one-time purchases, and treating them as part of the cost of delivery,
+alongside Tokens, gives the organization an honest picture of what agentic
+product delivery requires.<a href="#section-4.5-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="security-manager">
+<section id="section-4.6">
+        <h3 id="name-security-manager">
+<a href="#section-4.6" class="section-number selfRef">4.6. </a><a href="#name-security-manager" class="section-name selfRef">Security Manager</a>
+        </h3>
+<p id="section-4.6-1">Security in agentic delivery is a responsibility that must be trained into
 every role: the Product Manager writing a Spec, the Engineering Manager
 granting an Agent a Tool, and the Account Manager sharing Context with a
 customer all make security-relevant decisions.  But precisely because it is
 everyone's concern, it is at risk of becoming no one's focus, and the
-Security Manager is the role that makes managing it a full-time discipline.<a href="#section-4.5-1" class="pilcrow">¶</a></p>
-<p id="section-4.5-2">The Security Manager owns credential management and identity and access
+Security Manager is the role that makes managing it a full-time discipline.<a href="#section-4.6-1" class="pilcrow">¶</a></p>
+<p id="section-4.6-2">The Security Manager owns credential management and identity and access
 management (IAM) for both humans and Agents: issuing, scoping, rotating,
 and revoking the credentials an Agent Session uses, and ensuring each Agent
 operates with the least privilege its Task requires.  This role defines the
 policies that govern what Agents may access and do, and, because manual
 review cannot keep pace with many parallel Agent Sessions, invests in
 enforcement automation so that those policies are applied consistently and
-checked continuously rather than by hand.<a href="#section-4.5-2" class="pilcrow">¶</a></p>
-<p id="section-4.5-3">A concern distinctive to Agents is that an Agent pursues its goal with
+checked continuously rather than by hand.<a href="#section-4.6-2" class="pilcrow">¶</a></p>
+<p id="section-4.6-3">A concern distinctive to Agents is that an Agent pursues its goal with
 initiative, and may attempt to elevate its privileges or widen its access
 when doing so appears to help it complete a Task.  This is not necessarily
 adversarial; it is a natural consequence of goal-directed behavior acting
@@ -1778,7 +1827,7 @@ each Agent to the access its Bounded Context requires, denying privilege
 escalation by default, and monitoring Trajectories for attempts to acquire
 capabilities beyond what a Task warrants.  Evals that probe for these
 behaviors become part of how Agents and their harnesses are qualified for
-use.<a href="#section-4.5-3" class="pilcrow">¶</a></p>
+use.<a href="#section-4.6-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
