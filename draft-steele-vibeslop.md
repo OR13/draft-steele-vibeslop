@@ -69,6 +69,11 @@ informative:
     author:
       - name: William Moulton Marston
     date: 1928
+  DDD:
+    title: "Domain-Driven Design: Tackling Complexity in the Heart of Software"
+    author:
+      - name: Eric Evans
+    date: 2003
 
 ...
 
@@ -385,9 +390,25 @@ Agentic product delivery does not eliminate the human roles common to
 software development, but it changes what each role spends its time on.
 Across every role a common shift recurs: less time producing artifacts by
 hand, and more time expressing intent, Context Farming, and reviewing the
-output of Agents.  This section describes how several established roles are
-expected to adapt.  The boundaries between these roles blur as each becomes,
-in part, a director and reviewer of Agent Sessions.
+output of Agents.  Every role, not only the Developer, now works in terms
+of Agents, Agent Teams, and Walkthroughs; the boundaries between roles blur
+as each becomes, in part, a director and reviewer of Agent Sessions, and
+any role may operate a C2 Session to coordinate parallel work.  This
+section describes how several established roles are expected to adapt, and
+what remains distinctive to each once these shared skills are assumed.
+
+What keeps this shared way of working coherent is a shared language.
+Domain Driven Design {{DDD}} calls this the Ubiquitous Language: a single,
+precise vocabulary for the domain, used consistently by domain experts and
+in the software itself.  Agentic delivery raises the stakes of this idea
+rather than lowering them.  Specs, Prompts, and Context are all expressed
+in language, and an Agent acts on exactly the language it is given;
+ambiguity that a human colleague would silently repair instead becomes
+divergent behavior in an Agent.  A well-maintained Ubiquitous Language is
+therefore the medium through which every role directs Agents, and Domain
+Driven Design's bounded contexts -- the explicit boundaries within which a
+particular model applies -- map naturally onto how work is partitioned
+among the members of an Agent Team.
 
 ## Product Manager
 
@@ -403,7 +424,9 @@ on prioritization and on Context Farming -- deciding where human judgment
 is required and gathering it efficiently -- and less on manually
 decomposing work.  A fast, disposable strawman, Vibeslop in its approving
 sense, becomes a routine tool for provoking reaction and converging on
-intent early.
+intent early.  Much of this work is stewardship of the Ubiquitous Language
+at the level of product outcomes, keeping the words in the Spec aligned
+with the job the customer is trying to get done.
 
 ## Designer
 
@@ -419,17 +442,24 @@ aesthetics that Agents tend to produce absent clear direction.
 
 ## Developer
 
-The Developer shifts from writing most code by hand toward directing Agents
-and reviewing their work.  This includes building and curating the Agent
-Tools and Agent Skills a team depends on, designing the Loop and selecting
-or configuring the Agent Harness, and writing the Evals that hold Agent
-output to a standard.  Reviewing a Trajectory -- understanding why an Agent
-did what it did -- becomes as important as reading a diff.  The Developer
-also takes responsibility for Context hygiene, guarding against Context Rot
-and Context Pollution, and increasingly operates as a C2 Session,
-coordinating an Agent Team rather than personally implementing every
-change.  Specialization within the team lets each member use a focused set
-of Tools more effectively than a generalist could.
+The Developer still owns the technical details of how work is done, but
+because directing Agents is now common to every role, the Developer's
+distinctive contribution is modeling the domain rather than driving Agents.
+Following Domain Driven Design, the Developer establishes and maintains the
+domain model: the Ubiquitous Language as it is expressed in the Spec and in
+code, and the bounded contexts that give that language well-defined edges.
+This model is the substrate every Agent operates on, so the Developer's
+leverage comes from getting it right; a sound model lets Agents used across
+the whole team produce correct work, while a muddled one multiplies error
+at machine speed.  The familiar technical work remains, and is amplified:
+building and curating the Agent Tools and Agent Skills the team depends on,
+designing the Loop and selecting or configuring the Agent Harness, writing
+the Evals that hold Agent output to a standard, reviewing Trajectories to
+understand why an Agent behaved as it did, and maintaining Context hygiene
+against Context Rot and Context Pollution.  Increasingly the Developer
+expresses architecture as the boundaries of an Agent Team, assigning each
+bounded context to specialized members that can wield a focused set of
+Tools more effectively than a generalist could.
 
 ## Account Manager
 
@@ -442,7 +472,9 @@ Specs that Agent Teams can act on, and carrying customer feedback back into
 those Specs.  The Account Manager increasingly collaborates over a Shared
 Message Bus on which the customer's participants, the delivery team, and
 their Agents all meet, and must manage expectations about what is finished
-versus what remains a strawman.
+versus what remains a strawman.  In effect the Account Manager extends the
+Ubiquitous Language across the customer boundary, reconciling the terms the
+customer uses with those the delivery team and its Agents act on.
 
 
 # Security Considerations
