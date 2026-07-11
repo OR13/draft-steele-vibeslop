@@ -421,7 +421,7 @@ Agentic product delivery does not eliminate the human roles common to
 software development, but it changes what each role spends its time on.
 Across every role a common shift recurs: less time producing artifacts by
 hand, and more time expressing intent, Context Farming, and reviewing the
-output of Agents.  Every role, not only the Developer, now works in terms
+output of Agents.  Every role, not only the Engineering Manager, now works in terms
 of Agents, Agent Teams, and Walkthroughs; the boundaries between roles blur
 as each becomes, in part, a director and reviewer of Agent Sessions, and
 any role may operate a C2 Session to coordinate parallel work.  This
@@ -460,27 +460,27 @@ intent early.  Much of this work is stewardship of the Ubiquitous Language
 at the level of product outcomes, keeping the words in the Spec aligned
 with the job the customer is trying to get done.
 
-## Designer
+## Design Manager
 
-The Designer moves from producing finished, pixel-level artifacts toward
+The Design Manager moves from producing finished, pixel-level artifacts toward
 expressing design intent and evaluating what Agents generate from it.
 Design Review Links and Walkthroughs become primary instruments: rather
-than handing off a static mockup, the Designer inspects running interfaces
+than handing off a static mockup, the Design Manager inspects running interfaces
 and captures feedback as Context for subsequent Agent Sessions.  The
-Designer curates Evals for qualities that are difficult to specify but easy
+Design Manager curates Evals for qualities that are difficult to specify but easy
 to recognize, and guards against Vibeslop in its pejorative sense -- output
 that is fast and plausible but under-considered, including the generic
 aesthetics that Agents tend to produce absent clear direction.
 
-## Developer
+## Engineering Manager
 
-The Developer still owns the technical details of how work is done, but
-because directing Agents is now common to every role, the Developer's
+The Engineering Manager still owns the technical details of how work is done, but
+because directing Agents is now common to every role, the Engineering Manager's
 distinctive contribution is modeling the domain rather than driving Agents.
-Following Domain Driven Design, the Developer establishes and maintains the
+Following Domain Driven Design, the Engineering Manager establishes and maintains the
 domain model: the Ubiquitous Language as it is expressed in the Spec and in
 code, and the bounded contexts that give that language well-defined edges.
-This model is the substrate every Agent operates on, so the Developer's
+This model is the substrate every Agent operates on, so the Engineering Manager's
 leverage comes from getting it right; a sound model lets Agents used across
 the whole team produce correct work, while a muddled one multiplies error
 at machine speed.  The familiar technical work remains, and is amplified:
@@ -488,7 +488,7 @@ building and curating the Agent Tools and Agent Skills the team depends on,
 designing the Loop and selecting or configuring the Agent Harness, writing
 the Evals that hold Agent output to a standard, reviewing Trajectories to
 understand why an Agent behaved as it did, and maintaining Context hygiene
-against Context Rot and Context Pollution.  Increasingly the Developer
+against Context Rot and Context Pollution.  Increasingly the Engineering Manager
 expresses architecture as a set of Bounded Contexts, giving each
 specialized member of an Agent Team a consistent model and vocabulary to
 work within and defining how terms are translated where contexts meet, so
