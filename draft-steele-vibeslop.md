@@ -97,6 +97,16 @@ Agent:
   steps.  An Agent may operate autonomously or under human supervision,
   and maintains state across the steps it takes.
 
+Agent Reasoning:
+: The intermediate deliberation an Agent produces while deciding what to
+  do, distinct from its final answer or action.  Reasoning may take the
+  form of explicit intermediate tokens in which the Agent works through a
+  problem, plans a sequence of steps, or weighs alternatives before
+  invoking a Tool.  Reasoning is recorded in the Trajectory and can be
+  inspected to understand or debug why an Agent behaved as it did, though
+  it is not guaranteed to be a faithful account of the LLM's internal
+  computation.
+
 Agent Session:
 : A single running instance of an Agent working toward a Task, with its
   own Context, Trajectory, and accumulated state.  An Agent Session begins
