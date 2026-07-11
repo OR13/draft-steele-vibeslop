@@ -228,7 +228,16 @@ Design Review Link:
   captured and fed back into an Agent Session's Context with minimal
   disruption.
 
-C2 Session:
+Walkthrough:
+: A structured Context Farming technique in which a driver and a navigator
+  collaborate to elicit feedback from humans by completing a set of
+  well-defined steps in an application while commenting on the quality of
+  the product experience.  The driver performs the steps and the navigator
+  observes and narrates, and the running commentary -- what worked, what
+  was confusing, what should change -- becomes Context that is fed back
+  into subsequent Agent Sessions.  A Walkthrough is often initiated from a
+  Design Review Link so that the steps are exercised against the actual
+  artifact under review.
 : A command-and-control Agent Session whose Task is to help a human manage
   many parallel Agent Sessions rather than to perform the underlying work
   itself.  A C2 Session decomposes work into Tasks, assigns them to worker
