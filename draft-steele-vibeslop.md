@@ -417,7 +417,29 @@ Vibeslop:
   situation calls for speed and a strawman or for clarity and detail.
 
 
-# Evolving Roles in Agentic Product Delivery
+# Scope
+
+This document is deliberately limited to product delivery: the work of
+designing, building, and shipping a software product, and the roles most
+directly involved in it, discussed in {{roles}}.  Agentic ways of working
+are changing this function first and most visibly, and it is where the
+concepts defined in this document -- Specs, Agent Teams, Context Farming,
+and the rest -- apply most directly.
+
+AI Agents are also reshaping other organizational functions, including
+executive decision-making, operations, sales, and marketing.  These
+functions differ
+from product delivery in their objectives, their sources of ground truth,
+and their tolerance for error, and addressing them here would dilute the
+focus of this document without doing them justice.  They are therefore
+deliberately out of scope and deferred to future work.
+
+Confining the present document to product delivery keeps its observations
+concrete and lets the terminology be exercised against a single, coherent
+set of practices before any attempt is made to generalize it.
+
+
+# Evolving Roles in Agentic Product Delivery {#roles}
 
 Agentic product delivery does not eliminate the human roles common to
 software development, but it changes what each role spends its time on.
