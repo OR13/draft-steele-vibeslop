@@ -160,7 +160,7 @@ Agent Session:
 
 Agent Team:
 : A set of Agent Sessions that collaborate on related Tasks, typically
-  coordinated by a C2 Session.  Giving a single Agent too many Tools
+  coordinated by a Management Session.  Giving a single Agent too many Tools
   degrades its performance: a large Tool set consumes Context, and the
   more choices an Agent must weigh at each step, the more likely it is to
   select the wrong Tool or lose track of its Task.  An Agent Team
@@ -276,7 +276,7 @@ Agent Harness:
   records the Trajectory.  It also enforces operational concerns such as
   permissions, stopping conditions, and error handling.  The same LLM
   placed in different Agent Harnesses yields Agents with different
-  capabilities and behavior; a C2 Session and the worker sessions it
+  capabilities and behavior; a Management Session and the worker sessions it
   coordinates may each run in their own harness.
 
 Trajectory:
@@ -352,14 +352,16 @@ Walkthrough:
   Design Review Link so that the steps are exercised against the actual
   artifact under review.
 
-C2 Session:
-: A command-and-control Agent Session whose Task is to help a human manage
-  many parallel Agent Sessions rather than to perform the underlying work
-  itself.  A C2 Session decomposes work into Tasks, assigns them to worker
-  Agent Sessions -- for example by assigning issues from an Issue Tracker
-  -- and dispatches work that can be progressed in parallel.  It tracks the
-  status of the sessions it manages and integrates their results, and may
-  communicate with humans and other Agents over a Shared Message Bus.
+Management Session:
+: An Agent Session whose Task is to help a human manage many parallel Agent
+  Sessions rather than to perform the underlying work itself.  A Management
+  Session applies a command-and-control (C2) pattern, borrowed from
+  operational settings where one node directs many others: it decomposes
+  work into Tasks, assigns them to worker Agent Sessions -- for example by
+  assigning issues from an Issue Tracker -- and dispatches work that can be
+  progressed in parallel.  It tracks the status of the sessions it manages
+  and integrates their results, and may communicate with humans and other
+  Agents over a Shared Message Bus.
 
 Product Development Wheel:
 : An iterative, cyclical model of product development in which the stages
@@ -424,7 +426,7 @@ hand, and more time expressing intent, Context Farming, and reviewing the
 output of Agents.  Every role, not only the Engineering Manager, now works in terms
 of Agents, Agent Teams, and Walkthroughs; the boundaries between roles blur
 as each becomes, in part, a director and reviewer of Agent Sessions, and
-any role may operate a C2 Session to coordinate parallel work.  This
+any role may operate a Management Session to coordinate parallel work.  This
 section describes how several established roles are expected to adapt, and
 what remains distinctive to each once these shared skills are assumed.
 
