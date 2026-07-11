@@ -993,3 +993,8 @@ This document has no IANA actions.
 Portions of this document were drafted with the assistance of an AI Agent.
 The Agent used Anthropic's Claude Opus 4.8 (1M context) model
 (claude-opus-4-8[1m]), running in the Claude Code harness, version 2.1.207.
+
+The Security Considerations were expanded and refined with the assistance
+of a second Agent, using OpenAI's gpt-5.6-terra model running in the Codex
+CLI harness, version 0.144.1, and coordinated by the Claude Code Agent
+acting as a Management Session.
