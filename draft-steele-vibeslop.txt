@@ -183,6 +183,17 @@ Table of Contents
       defines the intended outcome and any constraints, and is carried
       out by the Agent over one or more steps recorded in a Trajectory.
 
+   Spec:  A durable, human-readable description of intended behavior
+      that serves as the authoritative statement of what an Agent is to
+      build or do.  In agentic development a Spec is written and refined
+      before implementation and is provided to the Agent as Context, so
+      that the Agent's output can be checked against it and so that the
+      same Spec can drive repeated or parallel Agent Sessions.  Whereas
+      a Task states a single goal, a Spec captures the requirements,
+      constraints, and acceptance criteria in enough detail to be
+      implemented and evaluated, and it is expected to be reviewed and
+      versioned as the work evolves.
+
    Loop:  The iterative cycle by which an Agent makes progress on a
       Task: assembling Context, invoking an LLM, acting on the result
       (for example by calling a tool), observing the outcome, and
