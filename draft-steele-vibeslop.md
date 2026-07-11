@@ -138,11 +138,11 @@ Eval:
   to assess quality, detect regressions, and compare alternative models
   or Agent configurations.
 
-Bus-Channel:
+Shared Message Bus:
 : A communications channel in which both humans and their Agents
   participate to address a Task or set of Tasks.  Messages on a
-  Bus-Channel are delivered to both people and their Agents.  Because
-  every participant receives every message, humans on a busy Bus-Channel
+  Shared Message Bus are delivered to both people and their Agents.  Because
+  every participant receives every message, humans on a busy Shared Message Bus
   are subject to alert fatigue, where the volume of notifications reduces
   their ability to attend to the messages that require human judgment.
 
@@ -151,10 +151,10 @@ Issue Tracker:
   describing a Task and its status.  Issues can be assigned to a specific
   person or Agent, which establishes ownership and prevents double work
   when several participants might otherwise act on the same Task.  Whereas
-  a Bus-Channel broadcasts every message to every participant, an Issue
+  a Shared Message Bus broadcasts every message to every participant, an Issue
   Tracker directs work to an assigned owner; the two are often used
-  together, with Bus-Channel messages referencing issues and updates to
-  issues announced on the Bus-Channel.
+  together, with Shared Message Bus messages referencing issues and updates to
+  issues announced on the Shared Message Bus.
 
 Context Farming:
 : The process of engineering ways to extract feedback, review, and
@@ -163,7 +163,7 @@ Context Farming:
   of human attention, for example by batching requests, summarizing what
   is at stake, and asking for input only at the points where it changes
   the outcome.  It is a countermeasure to the alert fatigue that arises on
-  a Bus-Channel.
+  a Shared Message Bus.
 
 Design Review Link:
 : A URL surfaced to a human to facilitate Context Farming.  A Design
@@ -172,13 +172,15 @@ Design Review Link:
   form the human can inspect and respond to, so that their feedback can be
   captured and fed back into an Agent Session's Context with minimal
   disruption.
+
+C2 Session:
 : A command-and-control Agent Session whose Task is to help a human manage
   many parallel Agent Sessions rather than to perform the underlying work
   itself.  A C2 Session decomposes work into Tasks, assigns them to worker
   Agent Sessions -- for example by assigning issues from an Issue Tracker
   -- and dispatches work that can be progressed in parallel.  It tracks the
   status of the sessions it manages and integrates their results, and may
-  communicate with humans and other Agents over a Bus-Channel.
+  communicate with humans and other Agents over a Shared Message Bus.
 
 
 # Security Considerations
