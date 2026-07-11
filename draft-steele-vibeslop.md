@@ -770,7 +770,41 @@ account rather than a surprise.
 
 # Security Considerations
 
-TODO Security
+The techniques described in this document introduce security risks that
+follow from the way Agents assemble and act on Context.  This section
+describes several of these risks and the mitigations available to
+organizations adopting agentic product delivery.
+
+## Mixing Information of Differing Sensitivity
+
+Because an Agent assembles Context from many sources -- files, tool
+results, an Issue Tracker, a Shared Message Bus, and prior conversation --
+information of differing sensitivity or classification is easily combined
+within a single Context window.  Once combined, the Agent cannot reliably
+tell which material was confidential and which was not, and may repeat
+sensitive information in an output intended for a less privileged audience.
+On a Shared Message Bus, where humans and Agents belonging to several
+parties may be present, this can lead to accidental disclosure, or to the
+breach of a non-disclosure agreement (NDA), simply because content crossed
+a boundary the Agent did not know existed.  This is a specific and serious
+form of Context Pollution: the offending content is not merely irrelevant
+but is material that should never have entered a given Context at all.
+
+The primary mitigation is to make information management policy a permanent
+part of Context rather than an external document the Agent is trusted to
+recall.  The rules governing what may be combined, shared, or disclosed
+should travel with the Agent in every Agent Session, so that the Agent
+evaluates each action against them as a matter of course.
+
+This mitigation depends on classification being explicit.  Information
+sensitivity levels must be attached to all content, so that an Agent can
+recognize the classification of each item it handles and apply policy to
+it.  Unlabeled content is the dangerous case: an Agent cannot honor a
+boundary it cannot see, and content whose sensitivity is not attached will,
+sooner or later, be treated as though it had none.  Attaching sensitivity
+levels to every artifact, and declining to ingest unlabeled content into
+sensitive contexts, substantially reduces the chance of a critical
+disclosure.
 
 
 # IANA Considerations
