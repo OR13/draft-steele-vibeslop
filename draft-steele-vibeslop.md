@@ -140,11 +140,15 @@ Eval:
 
 Shared Message Bus:
 : A communications channel in which both humans and their Agents
-  participate to address a Task or set of Tasks.  Messages on a
-  Shared Message Bus are delivered to both people and their Agents.  Because
-  every participant receives every message, humans on a busy Shared Message Bus
-  are subject to alert fatigue, where the volume of notifications reduces
-  their ability to attend to the messages that require human judgment.
+  participate to address a Task or set of Tasks.  A Shared Message Bus is
+  necessarily a venue where humans already collaborate with one another,
+  such as IRC, Slack, Microsoft Teams, or other work productivity tools;
+  Agents join the venues people already use rather than requiring a
+  separate one.  Messages on a Shared Message Bus are delivered to both
+  people and their Agents.  Because every participant receives every
+  message, humans on a busy Shared Message Bus are subject to alert
+  fatigue, where the volume of notifications reduces their ability to
+  attend to the messages that require human judgment.
 
 Issue Tracker:
 : A system that records work to be done as a set of issues, each
