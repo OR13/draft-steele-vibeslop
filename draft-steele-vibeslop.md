@@ -11,9 +11,9 @@ v: 3
 # area: AREA
 # workgroup: WG Working Group
 keyword:
- - next generation
- - unicorn
- - sparkling distributed ledger
+ - artificial intelligence
+ - agents
+ - large language models
 venue:
 #  group: WG
 #  type: Working Group
@@ -25,7 +25,6 @@ venue:
 author:
  -
     fullname: "Orie Steele"
-    organization: Your Organization Here
     email: "orie@or13.io"
 
 normative:
@@ -36,7 +35,11 @@ informative:
 
 --- abstract
 
-TODO Abstract
+AI Agents have transformed the way internet applications are developed and
+have introduced a new set of challenges for organizations.  This document
+describes techniques and concepts that are emerging to assist with these
+challenges, and relates them to concepts already familiar to the IETF
+community.
 
 
 --- middle
