@@ -30,6 +30,12 @@ author:
 normative:
 
 informative:
+  SPEC-KIT:
+    title: "Spec Kit"
+    target: https://github.com/github/spec-kit
+    author:
+      - org: GitHub
+    date: false
 
 ...
 
@@ -172,7 +178,8 @@ Spec Driven Development:
 : A development methodology in which a Spec, rather than the code, is the
   primary artifact humans author and maintain, and implementation is
   derived from it by an Agent.  Following the pattern established by tools
-  such as spec-kit, the work proceeds through explicit, ordered phases:
+  such as spec-kit {{SPEC-KIT}}, the work proceeds through explicit,
+  ordered phases:
   establishing guiding principles for the project, specifying the desired
   outcome and requirements, clarifying any underspecified areas, producing
   a technical plan, decomposing that plan into discrete tasks, and finally
