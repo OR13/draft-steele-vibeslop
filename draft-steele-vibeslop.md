@@ -771,126 +771,213 @@ account rather than a surprise.
 # Security Considerations
 
 The techniques described in this document introduce security risks that
-follow from the way Agents assemble and act on Context.  This section
-describes several of these risks and the mitigations available to
-organizations adopting agentic product delivery.
+follow from the way Agents assemble, retain, and act on Context. An Agent
+Team can combine autonomous decision-making with access to organizational
+systems, thereby increasing both the value of effective controls and the
+consequences of their absence. This section describes significant risks and
+corresponding mitigations for organizations adopting agentic product
+delivery.
 
 ## Mixing Information of Differing Sensitivity {#mixing-sensitivity}
 
-Because an Agent assembles Context from many sources -- files, tool
-results, an Issue Tracker, a Shared Message Bus, and prior conversation --
-information of differing sensitivity or classification is easily combined
-within a single Context window.  Once combined, the Agent cannot reliably
-tell which material was confidential and which was not, and may repeat
-sensitive information in an output intended for a less privileged audience.
-On a Shared Message Bus, where humans and Agents belonging to several
-parties may be present, this can lead to accidental disclosure, or to the
-breach of a non-disclosure agreement (NDA), simply because content crossed
-a boundary the Agent did not know existed.  This is a specific and serious
-form of Context Pollution: the offending content is not merely irrelevant
-but is material that should never have entered a given Context at all.
+An Agent may assemble Context from files, Agent Tool results, an Issue
+Tracker, a Shared Message Bus, a Knowledge Base, and prior conversations.
+Those sources can contain information with differing sensitivity,
+ownership, contractual restrictions, or audience. Once combined in a
+single Context, an LLM may not reliably preserve those boundaries and can
+repeat sensitive material in output intended for a less privileged
+recipient.
 
-The primary mitigation is to make information management policy a permanent
-part of Context rather than an external document the Agent is trusted to
-recall.  The rules governing what may be combined, shared, or disclosed
-should travel with the Agent in every Agent Session, so that the Agent
-evaluates each action against them as a matter of course.
+This risk is particularly acute when a Shared Message Bus includes multiple
+teams, organizations, or human and Agent participants. It can result in
+accidental disclosure, breach of confidentiality obligations, or
+unauthorized use of customer or security-sensitive information. This is a
+form of Context Pollution in which material is harmful because it should
+not have entered the relevant Bounded Context.
 
-This mitigation depends on classification being explicit.  Information
-sensitivity levels must be attached to all content, so that an Agent can
-recognize the classification of each item it handles and apply policy to
-it.  Unlabeled content is the dangerous case: an Agent cannot honor a
-boundary it cannot see, and content whose sensitivity is not attached will,
-sooner or later, be treated as though it had none.  Attaching sensitivity
-levels to every artifact, and declining to ingest unlabeled content into
-sensitive contexts, substantially reduces the chance of a critical
-disclosure.
+Organizations SHOULD classify artifacts and communications according to
+sensitivity and attach that classification as machine-readable metadata
+where feasible. An Agent Harness SHOULD enforce policies governing which
+sources may be retrieved, combined, retained, or transmitted for a given
+Agent Session. Sensitive Bounded Contexts SHOULD reject unlabeled content,
+or treat it as sensitive until it is reviewed and classified.
+
+Information-handling rules SHOULD be included in the persistent Context
+provided to an Agent, but Prompt instructions alone MUST NOT be relied upon
+as the enforcement mechanism. Access controls, retrieval filters, output
+filters, and recipient-aware policy checks SHOULD enforce the same rules
+outside the LLM. Before sending output to a Shared Message Bus or external
+system, an Agent SHOULD verify that the intended audience is authorized for
+all included information.
 
 ## Excessive Delegation Without Attenuation
 
 Delegation to an Agent is often implemented by granting the Agent the same
-capabilities the delegating human holds: the same credentials, the same
-access, the same authority.  This is convenient, but it grants the Agent
-far more than the Task in front of it requires.  Attenuation is the
-deliberate narrowing of delegated authority to the minimum a delegate
-needs; excessive delegation without attenuation is the failure to perform
-this narrowing, so that an Agent assigned a small, well-defined Task
-nonetheless carries the human's full privileges.
+credentials, access, and authority held by the delegating human. This is
+convenient, but it can grant substantially more authority than the assigned
+Task requires. Attenuation is the deliberate narrowing of delegated
+authority to the minimum necessary for a delegate to complete its Task.
 
-The danger is compounded by the other risks in this section.  An Agent
-pursues its goal with initiative and can exercise any capability within
-reach, and an Agent whose Context has been polluted, or whose Trajectory
-has leaked, can have those capabilities turned against the organization.
-The blast radius of every other failure is set by how much authority the
-Agent was given.
+An Agent can act with initiative across a Trajectory, including by invoking
+multiple Agent Tools and delegating work to other members of an Agent Team.
+Consequently, an Agent with broad authority can convert an error, Context
+Pollution event, compromised Tool, or malicious instruction into actions
+well beyond the intended Task. The blast radius of many other failures is
+therefore determined by the authority delegated to the Agent.
 
-The recommended posture is least privilege: an Agent should hold only the
-capabilities its assigned Task requires, and no more.  Where a human's
-credentials would grant broad access, they should be downscoped before
-being delegated, ideally to short-lived, narrowly scoped credentials
-issued per Agent Session.  Before working with any Agent that might access
-credentials at all, an organization should invest in revocation and
-recovery procedures -- the ability to withdraw an Agent's access
-immediately and to recover from its misuse -- rather than treating these as
-concerns to be addressed later.
+Organizations SHOULD apply least privilege to every Agent Session. Access
+tokens SHOULD be short-lived, scoped to the required resource and action,
+and bound where practical to a specific Agent, Task, and execution
+environment. An Agent SHOULD NOT receive standing administrative
+credentials or credentials reusable outside its assigned Bounded Context.
+High-impact actions, including deployment, credential issuance, data
+export, and changes to production access control, SHOULD require separate
+authorization or human approval.
+
+Organizations MUST maintain prompt revocation procedures for delegated
+credentials and Agent Tool access. Those procedures SHOULD be tested
+regularly and SHOULD include containment, token rotation, and recovery of
+changes made by a compromised or malfunctioning Agent.
 
 ## Credential Leakage in Trajectories
 
-A Trajectory records the inputs, model outputs, tool invocations, and
-observations of an Agent Session, and is retained so that behavior can be
-inspected, replayed, and evaluated.  This same completeness makes the
-Trajectory a likely place for credentials to leak.  A credential passed to
-a Tool, printed in a command, returned in an error message, or pasted into
-a Prompt may be captured verbatim in the Trajectory, and from there
-propagate into logs, Evals, shared debugging sessions, and any Context
-later assembled from past Trajectories.
+A Trajectory can record Prompts, model output, Agent Tool invocations, Tool
+output, and observations from an Agent Session. Its value for debugging,
+replay, and Eval also makes it a likely location for secret disclosure. A
+credential passed in a command, included in a Prompt, emitted in an error
+message, or returned by an Agent Tool can be captured verbatim and later
+propagated into logs, Evals, debugging sessions, or Context assembled from
+past Trajectories.
 
-Unlike a transient use of a credential, a credential captured in a
-Trajectory persists for as long as the Trajectory is retained, and is
-exposed to everyone and everything with access to it.  A leaked long-lived
-credential in a widely shared Trajectory can be a more serious exposure
-than the original action that used it.
+A credential captured in a retained Trajectory remains exposed for the
+duration of retention and to every principal permitted to access that
+Trajectory. This can make a leaked long-lived credential more damaging than
+the original action that used it.
 
-Mitigations include redacting or masking credentials before they are
-written to a Trajectory, preferring short-lived credentials so that any
-that do leak expire quickly, keeping secrets out of Prompts and Tool
-arguments by passing them through references the Agent cannot dereference
-to plaintext, and treating any Trajectory that may contain secrets as a
-sensitive artifact subject to the classification and handling described in
-{{mixing-sensitivity}}.  These measures reinforce the least-privilege and
-revocation practices recommended above: a credential that was downscoped
-and is quickly revocable is far less damaging if it does leak.
+Agent Harnesses SHOULD detect and redact credentials, session tokens,
+private keys, and other secrets before recording or displaying
+Trajectories. Redaction SHOULD occur at multiple boundaries, including
+Prompt capture, Tool invocation logging, Tool output logging, and export.
+Organizations SHOULD avoid placing secrets in Prompts or ordinary Tool
+arguments. Where possible, an Agent Tool SHOULD accept an opaque reference
+to a secret managed by a dedicated credential service, rather than
+plaintext secret material.
+
+Trajectories that might contain secrets MUST be treated as sensitive
+artifacts, subject to the classification and handling described in
+{{mixing-sensitivity}}. Access SHOULD be limited, retention periods SHOULD be minimized,
+and sharing for debugging or Eval SHOULD use sanitized copies. Short-lived,
+scoped credentials and effective revocation reduce the impact of any
+credential that escapes these controls.
+
+## Indirect Prompt Injection from Untrusted Content
+
+Content retrieved from an Issue Tracker, Knowledge Base, repository,
+document, web page, or Agent Tool can contain instructions directed at an
+Agent. Such instructions may attempt to override the Agent's assigned
+Task, alter its use of credentials, cause disclosure of Context, or induce
+unsafe Tool actions. Because the instructions can be embedded in otherwise
+plausible content, this is commonly an indirect Prompt injection risk.
+
+Treating retrieved content as trusted merely because it was obtained
+through an authorized system is unsafe. An attacker who can edit a ticket,
+contribute a document, influence Tool output, or compromise a source
+system may thereby influence an Agent Session. The risk increases when the
+Agent can invoke powerful Agent Tools or when untrusted content and
+sensitive Context are combined.
+
+Organizations SHOULD identify the provenance and trust level of each
+Context source. Untrusted retrieved content SHOULD be clearly delimited and
+presented to the LLM as data, not as authoritative instructions. The Agent
+Harness SHOULD enforce a fixed policy for Tool use, authorization, and data
+disclosure that cannot be modified by retrieved content. Agent Tools SHOULD
+validate arguments against allowlists and schemas, and SHOULD require
+additional confirmation for consequential actions.
+
+Agents SHOULD NOT disclose secrets, alter access controls, or expand their
+authority solely because a retrieved artifact requests it. Evals SHOULD
+include representative indirect Prompt injection cases for each Agent Skill
+and Agent Tool combination.
+
+## Supply Chain of Agent Tools and Agent Skills
+
+An Agent Tool or Agent Skill can influence an Agent's behavior, access
+organizational data, or execute actions on behalf of an Agent Team.
+Compromise, malicious modification, insecure dependencies, or ambiguous
+documentation in these components can therefore create a supply-chain
+path to unauthorized actions or disclosure.
+
+The risk is not limited to executable code. An Agent Skill may include
+Prompts, operational procedures, retrieval sources, or instructions that
+change how an Agent interprets a Task. A compromised or poorly maintained
+Skill can introduce persistent Context Pollution across many Agent
+Sessions.
+
+Organizations SHOULD maintain an inventory of approved Agent Tools and
+Agent Skills, including their owner, version, permissions, dependencies,
+and intended Bounded Context. Components SHOULD be obtained from controlled
+sources, pinned to reviewed versions, and subject to integrity verification.
+Changes to a Skill, Tool, or its permissions SHOULD undergo review,
+security testing, and relevant Evals before deployment.
+
+An Agent Harness SHOULD prevent unapproved Skills or Tools from being
+loaded dynamically into a production Agent Session. Each Agent Tool SHOULD
+be isolated to the extent practical, granted only the permissions required
+for its function, and monitored for unexpected network access, data access,
+or side effects. Organizations SHOULD provide a rapid disablement mechanism
+for compromised Tools and Skills.
+
+## Auditability and Accountability of Agent Actions
+
+Agentic product delivery can distribute a Task across multiple Agents,
+human reviewers, Agent Tools, and a Shared Message Bus. Without reliable
+records, an organization may be unable to determine which Agent acted,
+which identity authorized the action, what Context was material to the
+decision, or whether a human approval occurred. This impedes incident
+response, compliance, and remediation, and permits disputed or falsely
+attributed actions.
+
+Organizations SHOULD record security-relevant events for each Agent
+Session, including the responsible Agent identity, delegating identity,
+applicable authority, Agent Tool invocations, requested and actual effects,
+approval decisions, and relevant versions of Agent Skills and Agent
+Harness policy. Records SHOULD be protected against unauthorized
+modification, access-controlled according to their sensitivity, and
+retained for a period appropriate to the risk of the action.
+
+For consequential actions, systems SHOULD produce an auditable binding
+between the action, the authorized identity, and the Agent that performed
+it. Human approval, where required, SHOULD identify the specific proposed
+action and material scope rather than approving an open-ended Trajectory.
+Audit records SHOULD support reconstruction of events without indiscriminate
+retention of sensitive Prompt content or credentials.
 
 ## Impersonation
 
-An Agent can produce fluent, confident content in any voice, including a
-convincing imitation of a specific person.  On a Shared Message Bus, where
-humans and Agents intermingle, model-generated content that is
-indistinguishable from authentic human-generated content invites
-impersonation: a reader may act on a message believing a trusted colleague
-wrote it when in fact an Agent did, whether by accident, misconfiguration,
-or deliberate abuse.  The harm ranges from misplaced trust in an
-unreviewed output to fraud conducted in a person's name.
+An Agent can produce fluent and confident content in the voice of a
+specific person. On a Shared Message Bus, where humans and Agents
+intermingle, readers may act on a message believing that a trusted colleague
+authored or approved it when it was instead generated by an Agent. This can
+lead to misplaced reliance on unreviewed output, unauthorized commitments,
+or fraud conducted in a person's name.
 
-The mitigation is to ensure that model-generated content is easily
-recognized as such and not confused with content a human authored.  Agent
-output should be clearly and consistently attributed to the Agent that
-produced it, and, where relevant, to the human on whose behalf it acted, so
-that the distinction is visible at the point a reader encounters the
-content rather than something they must infer.
+Agent-generated content SHOULD be clearly and consistently attributed to
+the Agent that produced it and, where applicable, to the human or service
+on whose behalf it acted. Attribution SHOULD be visible at the point where
+a recipient encounters the content, rather than requiring inference from
+formatting or conversational context. Systems SHOULD distinguish automated
+publication from human review or approval.
 
-This attribution can be established through Context engineering.  The
-instruction for an Agent to identify itself, to mark its output, and never
-to present itself as a human should be a permanent part of every Agent's
-Context, so that the behavior is applied consistently rather than depending
-on the phrasing of a particular Prompt.
+An Agent's persistent Context SHOULD instruct it to identify itself
+accurately and not represent itself as a human. However, this instruction
+MUST be reinforced by platform controls, such as authenticated identities,
+distinct Agent accounts, and message metadata protected from unauthorized
+alteration. High-impact requests received through a Shared Message Bus
+SHOULD be verified through an authenticated channel before execution.
 
-Because no such control is perfect, humans should be invited to report
-issues with Agents -- including suspected impersonation or unmarked
-model-generated content -- to an appropriate channel.  A clearly advertised
-reporting path turns every participant into a check on the system, and lets
-an organization detect and respond to failures of attribution before they
-cause serious harm.
+Organizations SHOULD provide a clear reporting and response path for
+suspected impersonation, unmarked model-generated content, or misuse of an
+Agent identity.
 
 
 # IANA Considerations
