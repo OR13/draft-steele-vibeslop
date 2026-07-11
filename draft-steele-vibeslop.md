@@ -51,6 +51,23 @@ informative:
       - name: Karen Dillon
       - name: David S. Duncan
     date: 2016
+  INSIGHTS-DISCOVERY:
+    title: "Insights Discovery"
+    target: https://www.insights.com/products/insights-discovery/
+    author:
+      - org: The Insights Group Ltd.
+    date: false
+  MBTI:
+    title: "The Myers-Briggs Type Indicator (MBTI)"
+    target: https://www.themyersbriggs.com/en-US/Products-and-Services/Myers-Briggs
+    author:
+      - org: The Myers-Briggs Company
+    date: false
+  DISC:
+    title: "Emotions of Normal People"
+    author:
+      - name: William Moulton Marston
+    date: 1928
 
 ...
 
@@ -312,6 +329,18 @@ Shape Up:
   full responsibility to deliver it within the fixed time.  Shape Up is
   cited here as one concrete, well-documented methodology for scoping and
   committing to product work.
+
+Psychometric Profile:
+: A structured description of a person's disposition, communication style,
+  and preferences derived from a standardized instrument.  Examples in
+  scope here are type-based instruments that sort individuals into discrete
+  categories, such as Insights Discovery {{INSIGHTS-DISCOVERY}},
+  the Myers-Briggs Type Indicator {{MBTI}}, and DISC {{DISC}}.  A
+  Psychometric Profile is to a human roughly what a configured persona or
+  system prompt is to an Agent: a durable, portable summary of disposition
+  that helps collaborators anticipate how a party will behave and
+  communicate.  Within an Agent Team, profiles of the human participants
+  can inform how work and Context are addressed to them.
 
 Vibeslop:
 : Output produced quickly by an Agent from loosely specified intent,
