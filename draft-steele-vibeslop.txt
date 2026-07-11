@@ -91,10 +91,20 @@ Table of Contents
       underlying inference component that an Agent uses to reason and
       produce output.
 
+   Prompt:  The input provided to an LLM to elicit a response.  A Prompt
+      may include instructions, context, examples, and prior
+      conversation, and may be composed from multiple sources such as a
+      system message, developer instructions, and end-user input.
+
    Agent:  A software system that uses one or more LLMs to pursue a goal
       by interpreting instructions, invoking tools, and acting over
       multiple steps.  An Agent may operate autonomously or under human
       supervision, and maintains state across the steps it takes.
+
+   Task:  A unit of work assigned to an Agent, expressed as a goal to be
+      achieved rather than a fixed sequence of operations.  A Task
+      defines the intended outcome and any constraints, and is carried
+      out by the Agent over one or more steps recorded in a Trajectory.
 
    Trajectory:  The ordered sequence of inputs, model outputs, tool
       invocations, and observations produced while an Agent works toward
