@@ -25,6 +25,7 @@ venue:
 author:
  -
     fullname: "Orie Steele"
+    organization: Tradeverifyd
     email: "orie@or13.io"
 
 normative:
@@ -376,6 +377,72 @@ Vibeslop:
   legitimate Context Farming device.  The same artifact may be Vibeslop in
   the pejorative sense or the approving sense depending only on whether the
   situation calls for speed and a strawman or for clarity and detail.
+
+
+# Evolving Roles in Agentic Product Delivery
+
+Agentic product delivery does not eliminate the human roles common to
+software development, but it changes what each role spends its time on.
+Across every role a common shift recurs: less time producing artifacts by
+hand, and more time expressing intent, Context Farming, and reviewing the
+output of Agents.  This section describes how several established roles are
+expected to adapt.  The boundaries between these roles blur as each becomes,
+in part, a director and reviewer of Agent Sessions.
+
+## Product Manager
+
+The Product Manager shifts from writing tickets and requirements documents
+toward authoring and maintaining Specs.  In Spec Driven Development the
+Spec, rather than a backlog of individually managed tasks, is the
+authoritative expression of intent, and keeping it accurate becomes the
+Product Manager's central responsibility.  Frameworks such as Jobs to Be
+Done remain valuable for anchoring the Spec to the outcome a customer is
+trying to achieve rather than to a list of features.  Because many Agent
+Sessions can progress in parallel, the Product Manager spends more effort
+on prioritization and on Context Farming -- deciding where human judgment
+is required and gathering it efficiently -- and less on manually
+decomposing work.  A fast, disposable strawman, Vibeslop in its approving
+sense, becomes a routine tool for provoking reaction and converging on
+intent early.
+
+## Designer
+
+The Designer moves from producing finished, pixel-level artifacts toward
+expressing design intent and evaluating what Agents generate from it.
+Design Review Links and Walkthroughs become primary instruments: rather
+than handing off a static mockup, the Designer inspects running interfaces
+and captures feedback as Context for subsequent Agent Sessions.  The
+Designer curates Evals for qualities that are difficult to specify but easy
+to recognize, and guards against Vibeslop in its pejorative sense -- output
+that is fast and plausible but under-considered, including the generic
+aesthetics that Agents tend to produce absent clear direction.
+
+## Developer
+
+The Developer shifts from writing most code by hand toward directing Agents
+and reviewing their work.  This includes building and curating the Agent
+Tools and Agent Skills a team depends on, designing the Loop and selecting
+or configuring the Agent Harness, and writing the Evals that hold Agent
+output to a standard.  Reviewing a Trajectory -- understanding why an Agent
+did what it did -- becomes as important as reading a diff.  The Developer
+also takes responsibility for Context hygiene, guarding against Context Rot
+and Context Pollution, and increasingly operates as a C2 Session,
+coordinating an Agent Team rather than personally implementing every
+change.  Specialization within the team lets each member use a focused set
+of Tools more effectively than a generalist could.
+
+## Account Manager
+
+The Account Manager adapts to a faster and more visible delivery cadence,
+and to customers who increasingly expect change within a single
+conversation rather than across release cycles.  A central part of the role
+becomes Context Farming at the customer boundary: translating what
+customers are trying to accomplish, in the sense of Jobs to Be Done, into
+Specs that Agent Teams can act on, and carrying customer feedback back into
+those Specs.  The Account Manager increasingly collaborates over a Shared
+Message Bus on which the customer's participants, the delivery team, and
+their Agents all meet, and must manage expectations about what is finished
+versus what remains a strawman.
 
 
 # Security Considerations
