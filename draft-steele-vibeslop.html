@@ -1409,15 +1409,28 @@ captured and fed back into an Agent Session's Context with minimal
 disruption.<a href="#section-2-2.42.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.43">C2 Session:</dt>
+<dt id="section-2-2.43">Walkthrough:</dt>
         <dd style="margin-left: 1.5em" id="section-2-2.44">
-          <p id="section-2-2.44.1">A command-and-control Agent Session whose Task is to help a human manage
+          <p id="section-2-2.44.1">A structured Context Farming technique in which a driver and a navigator
+collaborate to elicit feedback from humans by completing a set of
+well-defined steps in an application while commenting on the quality of
+the product experience.  The driver performs the steps and the navigator
+observes and narrates, and the running commentary -- what worked, what
+was confusing, what should change -- becomes Context that is fed back
+into subsequent Agent Sessions.  A Walkthrough is often initiated from a
+Design Review Link so that the steps are exercised against the actual
+artifact under review.<a href="#section-2-2.44.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.45"></dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.46">
+          <p id="section-2-2.46.1">A command-and-control Agent Session whose Task is to help a human manage
 many parallel Agent Sessions rather than to perform the underlying work
 itself.  A C2 Session decomposes work into Tasks, assigns them to worker
 Agent Sessions -- for example by assigning issues from an Issue Tracker
 -- and dispatches work that can be progressed in parallel.  It tracks the
 status of the sessions it manages and integrates their results, and may
-communicate with humans and other Agents over a Shared Message Bus.<a href="#section-2-2.44.1" class="pilcrow">¶</a></p>
+communicate with humans and other Agents over a Shared Message Bus.<a href="#section-2-2.46.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
