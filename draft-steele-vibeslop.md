@@ -534,6 +534,36 @@ versus what remains a strawman.  In effect the Account Manager extends the
 Ubiquitous Language across the customer boundary, reconciling the terms the
 customer uses with those the delivery team and its Agents act on.
 
+## Security Manager
+
+Security in agentic delivery is a responsibility that must be trained into
+every role: the Product Manager writing a Spec, the Engineering Manager
+granting an Agent a Tool, and the Account Manager sharing Context with a
+customer all make security-relevant decisions.  But precisely because it is
+everyone's concern, it is at risk of becoming no one's focus, and the
+Security Manager is the role that makes managing it a full-time discipline.
+
+The Security Manager owns credential management and identity and access
+management (IAM) for both humans and Agents: issuing, scoping, rotating,
+and revoking the credentials an Agent Session uses, and ensuring each Agent
+operates with the least privilege its Task requires.  This role defines the
+policies that govern what Agents may access and do, and, because manual
+review cannot keep pace with many parallel Agent Sessions, invests in
+enforcement automation so that those policies are applied consistently and
+checked continuously rather than by hand.
+
+A concern distinctive to Agents is that an Agent pursues its goal with
+initiative, and may attempt to elevate its privileges or widen its access
+when doing so appears to help it complete a Task.  This is not necessarily
+adversarial; it is a natural consequence of goal-directed behavior acting
+against whatever Tools and credentials are within reach.  The Security
+Manager designs the system so that such attempts fail safely: confining
+each Agent to the access its Bounded Context requires, denying privilege
+escalation by default, and monitoring Trajectories for attempts to acquire
+capabilities beyond what a Task warrants.  Evals that probe for these
+behaviors become part of how Agents and their harnesses are qualified for
+use.
+
 
 # Security Considerations
 
