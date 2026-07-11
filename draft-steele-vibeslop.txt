@@ -220,6 +220,17 @@ Table of Contents
       conditions, error handling, and how Context is updated between
       iterations -- to produce reliable Agent behavior.
 
+   Agent Harness:  The runtime that hosts an Agent Session and turns an
+      LLM into an Agent.  The Agent Harness drives the Loop, assembles
+      and maintains the Context passed to the LLM, exposes the Agent
+      Tools and loads the Agent Skills available to the session,
+      mediates access to the Knowledge Base, and records the Trajectory.
+      It also enforces operational concerns such as permissions,
+      stopping conditions, and error handling.  The same LLM placed in
+      different Agent Harnesses yields Agents with different
+      capabilities and behavior; a C2 Session and the worker sessions it
+      coordinates may each run in their own harness.
+
    Trajectory:  The ordered sequence of inputs, model outputs, tool
       invocations, and observations produced while an Agent works toward
       a goal.  A Trajectory is the primary record used to inspect,
