@@ -1402,12 +1402,18 @@ divergent Agent behavior rather than being silently repaired.<a href="#section-2
         <dd class="break"></dd>
 <dt id="section-2-2.35">Bounded Context:</dt>
         <dd style="margin-left: 1.5em" id="section-2-2.36">
-          <p id="section-2-2.36.1">In Domain Driven Design, an explicit boundary within which a particular
-domain model and its Ubiquitous Language apply consistently, with defined
-relationships to other such contexts.  Bounded Contexts partition a large
-domain into coherent parts; in agentic delivery they map naturally onto
-the division of work among the members of an Agent Team, giving each
-member a well-scoped model and vocabulary to operate within.<a href="#section-2-2.36.1" class="pilcrow">¶</a></p>
+          <p id="section-2-2.36.1">In Domain Driven Design, an explicit boundary within which a single
+domain model and its Ubiquitous Language are internally consistent and
+unambiguous.  A term has one agreed meaning inside the boundary, even
+though the same term may mean something different in another context; the
+boundary exists precisely because a single model cannot be unified across
+a large domain.  Each Bounded Context owns its own Ubiquitous Language,
+and interaction between contexts requires explicit translation rather
+than an assumption of shared meaning.  In agentic delivery a Bounded
+Context scopes the vocabulary an Agent, or a specialized part of an Agent
+Team, can safely act on: within one context the language is unambiguous,
+while work that crosses a boundary must translate terms rather than let
+an Agent silently conflate their meanings.<a href="#section-2-2.36.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-2-2.37">Loop:</dt>
@@ -1625,8 +1631,9 @@ ambiguity that a human colleague would silently repair instead becomes
 divergent behavior in an Agent.  A well-maintained Ubiquitous Language is
 therefore the medium through which every role directs Agents, and Domain
 Driven Design's bounded contexts -- the explicit boundaries within which a
-particular model applies -- map naturally onto how work is partitioned
-among the members of an Agent Team.<a href="#section-3-2" class="pilcrow">¶</a></p>
+model and its language stay internally consistent -- give each Agent, or
+specialized part of an Agent Team, an unambiguous vocabulary to work in,
+with explicit translation required wherever work crosses a boundary.<a href="#section-3-2" class="pilcrow">¶</a></p>
 <div id="product-manager">
 <section id="section-3.1">
         <h3 id="name-product-manager">
@@ -1685,9 +1692,11 @@ designing the Loop and selecting or configuring the Agent Harness, writing
 the Evals that hold Agent output to a standard, reviewing Trajectories to
 understand why an Agent behaved as it did, and maintaining Context hygiene
 against Context Rot and Context Pollution.  Increasingly the Developer
-expresses architecture as the boundaries of an Agent Team, assigning each
-bounded context to specialized members that can wield a focused set of
-Tools more effectively than a generalist could.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+expresses architecture as a set of Bounded Contexts, giving each
+specialized member of an Agent Team a consistent model and vocabulary to
+work within and defining how terms are translated where contexts meet, so
+that each member can wield a focused set of Tools more effectively than a
+generalist could.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="account-manager">
