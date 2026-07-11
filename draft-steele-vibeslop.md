@@ -36,6 +36,21 @@ informative:
     author:
       - org: GitHub
     date: false
+  SHAPE-UP:
+    title: "Shape Up: Stop Running in Circles and Ship Work that Matters"
+    target: https://basecamp.com/shapeup
+    author:
+      - name: Ryan Singer
+    date: 2019
+  JTBD:
+    title: "Know Your Customers' Jobs to Be Done"
+    target: https://hbr.org/2016/09/know-your-customers-jobs-to-be-done
+    author:
+      - name: Clayton M. Christensen
+      - name: Taddy Hall
+      - name: Karen Dillon
+      - name: David S. Duncan
+    date: 2016
 
 ...
 
@@ -260,6 +275,8 @@ Walkthrough:
   into subsequent Agent Sessions.  A Walkthrough is often initiated from a
   Design Review Link so that the steps are exercised against the actual
   artifact under review.
+
+C2 Session:
 : A command-and-control Agent Session whose Task is to help a human manage
   many parallel Agent Sessions rather than to perform the underlying work
   itself.  A C2 Session decomposes work into Tasks, assigns them to worker
@@ -267,6 +284,34 @@ Walkthrough:
   -- and dispatches work that can be progressed in parallel.  It tracks the
   status of the sessions it manages and integrates their results, and may
   communicate with humans and other Agents over a Shared Message Bus.
+
+Product Development Wheel:
+: An iterative, cyclical model of product development in which the stages
+  of the work -- such as discovery, definition, design, delivery, and
+  learning -- feed continuously back into one another rather than
+  proceeding as a single linear pass.  The wheel emphasizes that what is
+  learned from a shipped product informs the next turn of the cycle, so
+  that development is understood as ongoing rounds of building and learning
+  rather than a project with a fixed end.
+
+Jobs to Be Done:
+: A framework for understanding customer motivation, which holds that
+  customers "hire" a product to make progress on a job -- a goal they are
+  trying to accomplish in a particular circumstance {{JTBD}}.  Jobs to Be
+  Done directs design and prioritization toward the underlying job the
+  customer is trying to get done, rather than toward customer demographics
+  or a product's existing features, so that the outcome a customer seeks
+  drives what is built.
+
+Shape Up:
+: A product development framework articulated by Basecamp {{SHAPE-UP}}
+  that organizes work into fixed-length cycles with variable scope.  Work
+  is shaped at an appropriate level of abstraction before it is committed
+  to; an appetite -- how much time the work is worth -- is set in place of
+  an estimate; responsible parties then bet on shaped work and are given
+  full responsibility to deliver it within the fixed time.  Shape Up is
+  cited here as one concrete, well-documented methodology for scoping and
+  committing to product work.
 
 
 # Security Considerations
