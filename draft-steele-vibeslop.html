@@ -1209,36 +1209,57 @@ composed from multiple sources such as a system message, developer
 instructions, and end-user input.<a href="#section-2-2.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.5">Agent:</dt>
+<dt id="section-2-2.5">Context:</dt>
         <dd style="margin-left: 1.5em" id="section-2-2.6">
-          <p id="section-2-2.6.1">A software system that uses one or more LLMs to pursue a goal by
+          <p id="section-2-2.6.1">The full set of information available to an LLM at inference time,
+bounded by a finite context window.  Context includes the Prompt along
+with any retrieved documents, tool results, and accumulated history.
+Context engineering is the practice of deciding what information to
+include, exclude, order, or compress so that the most relevant
+information is available within the context window.<a href="#section-2-2.6.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.7">Agent:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.8">
+          <p id="section-2-2.8.1">A software system that uses one or more LLMs to pursue a goal by
 interpreting instructions, invoking tools, and acting over multiple
 steps.  An Agent may operate autonomously or under human supervision,
-and maintains state across the steps it takes.<a href="#section-2-2.6.1" class="pilcrow">¶</a></p>
+and maintains state across the steps it takes.<a href="#section-2-2.8.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.7">Task:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.8">
-          <p id="section-2-2.8.1">A unit of work assigned to an Agent, expressed as a goal to be achieved
+<dt id="section-2-2.9">Task:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.10">
+          <p id="section-2-2.10.1">A unit of work assigned to an Agent, expressed as a goal to be achieved
 rather than a fixed sequence of operations.  A Task defines the intended
 outcome and any constraints, and is carried out by the Agent over one or
-more steps recorded in a Trajectory.<a href="#section-2-2.8.1" class="pilcrow">¶</a></p>
+more steps recorded in a Trajectory.<a href="#section-2-2.10.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.9">Trajectory:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.10">
-          <p id="section-2-2.10.1">The ordered sequence of inputs, model outputs, tool invocations, and
+<dt id="section-2-2.11">Loop:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.12">
+          <p id="section-2-2.12.1">The iterative cycle by which an Agent makes progress on a Task:
+assembling Context, invoking an LLM, acting on the result (for example
+by calling a tool), observing the outcome, and repeating until a
+stopping condition is met.  Loop engineering is the practice of
+designing this cycle -- including its stopping conditions, error
+handling, and how Context is updated between iterations -- to produce
+reliable Agent behavior.<a href="#section-2-2.12.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.13">Trajectory:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.14">
+          <p id="section-2-2.14.1">The ordered sequence of inputs, model outputs, tool invocations, and
 observations produced while an Agent works toward a goal.  A Trajectory
 is the primary record used to inspect, replay, or evaluate an Agent's
-behavior.<a href="#section-2-2.10.1" class="pilcrow">¶</a></p>
+behavior.<a href="#section-2-2.14.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.11">Eval:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.12">
-          <p id="section-2-2.12.1">A repeatable procedure for measuring the behavior of an LLM or Agent
+<dt id="section-2-2.15">Eval:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.16">
+          <p id="section-2-2.16.1">A repeatable procedure for measuring the behavior of an LLM or Agent
 against a defined set of inputs and expected outcomes.  Evals are used
 to assess quality, detect regressions, and compare alternative models
-or Agent configurations.<a href="#section-2-2.12.1" class="pilcrow">¶</a></p>
+or Agent configurations.<a href="#section-2-2.16.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>

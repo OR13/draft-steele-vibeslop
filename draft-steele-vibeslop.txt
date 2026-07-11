@@ -96,6 +96,14 @@ Table of Contents
       conversation, and may be composed from multiple sources such as a
       system message, developer instructions, and end-user input.
 
+   Context:  The full set of information available to an LLM at
+      inference time, bounded by a finite context window.  Context
+      includes the Prompt along with any retrieved documents, tool
+      results, and accumulated history.  Context engineering is the
+      practice of deciding what information to include, exclude, order,
+      or compress so that the most relevant information is available
+      within the context window.
+
    Agent:  A software system that uses one or more LLMs to pursue a goal
       by interpreting instructions, invoking tools, and acting over
       multiple steps.  An Agent may operate autonomously or under human
@@ -105,6 +113,14 @@ Table of Contents
       achieved rather than a fixed sequence of operations.  A Task
       defines the intended outcome and any constraints, and is carried
       out by the Agent over one or more steps recorded in a Trajectory.
+
+   Loop:  The iterative cycle by which an Agent makes progress on a
+      Task: assembling Context, invoking an LLM, acting on the result
+      (for example by calling a tool), observing the outcome, and
+      repeating until a stopping condition is met.  Loop engineering is
+      the practice of designing this cycle -- including its stopping
+      conditions, error handling, and how Context is updated between
+      iterations -- to produce reliable Agent behavior.
 
    Trajectory:  The ordered sequence of inputs, model outputs, tool
       invocations, and observations produced while an Agent works toward
