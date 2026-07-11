@@ -255,6 +255,17 @@ Shared Message Bus:
   fatigue, where the volume of notifications reduces their ability to
   attend to the messages that require human judgment.
 
+Proxy Dictation:
+: A communication pattern in which a participant addresses another party's
+  Agent directly, in a register deliberately less human-centric than
+  ordinary conversation -- terse, imperative, and to the point of being
+  offensive by human standards.  The register is chosen precisely because
+  the target of the language is not the human but their assistant; the
+  same speaker would address the human very differently.  Because Proxy
+  Dictation typically occurs on a Shared Message Bus, where the human can
+  see it, the bluntness may read as offensive to onlookers even though no
+  offense is directed at any person.
+
 Issue Tracker:
 : A system that records work to be done as a set of issues, each
   describing a Task and its status.  Issues can be assigned to a specific
