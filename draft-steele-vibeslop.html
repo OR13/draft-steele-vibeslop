@@ -1578,9 +1578,24 @@ situation calls for speed and a strawman or for clarity and detail.<a href="#sec
 software development, but it changes what each role spends its time on.
 Across every role a common shift recurs: less time producing artifacts by
 hand, and more time expressing intent, Context Farming, and reviewing the
-output of Agents.  This section describes how several established roles are
-expected to adapt.  The boundaries between these roles blur as each becomes,
-in part, a director and reviewer of Agent Sessions.<a href="#section-3-1" class="pilcrow">¶</a></p>
+output of Agents.  Every role, not only the Developer, now works in terms
+of Agents, Agent Teams, and Walkthroughs; the boundaries between roles blur
+as each becomes, in part, a director and reviewer of Agent Sessions, and
+any role may operate a C2 Session to coordinate parallel work.  This
+section describes how several established roles are expected to adapt, and
+what remains distinctive to each once these shared skills are assumed.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">What keeps this shared way of working coherent is a shared language.
+Domain Driven Design <span>[<a href="#DDD" class="cite xref">DDD</a>]</span> calls this the Ubiquitous Language: a single,
+precise vocabulary for the domain, used consistently by domain experts and
+in the software itself.  Agentic delivery raises the stakes of this idea
+rather than lowering them.  Specs, Prompts, and Context are all expressed
+in language, and an Agent acts on exactly the language it is given;
+ambiguity that a human colleague would silently repair instead becomes
+divergent behavior in an Agent.  A well-maintained Ubiquitous Language is
+therefore the medium through which every role directs Agents, and Domain
+Driven Design's bounded contexts -- the explicit boundaries within which a
+particular model applies -- map naturally onto how work is partitioned
+among the members of an Agent Team.<a href="#section-3-2" class="pilcrow">¶</a></p>
 <div id="product-manager">
 <section id="section-3.1">
         <h3 id="name-product-manager">
@@ -1598,7 +1613,9 @@ on prioritization and on Context Farming -- deciding where human judgment
 is required and gathering it efficiently -- and less on manually
 decomposing work.  A fast, disposable strawman, Vibeslop in its approving
 sense, becomes a routine tool for provoking reaction and converging on
-intent early.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+intent early.  Much of this work is stewardship of the Ubiquitous Language
+at the level of product outcomes, keeping the words in the Spec aligned
+with the job the customer is trying to get done.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="designer">
@@ -1622,17 +1639,24 @@ aesthetics that Agents tend to produce absent clear direction.<a href="#section-
         <h3 id="name-developer">
 <a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-developer" class="section-name selfRef">Developer</a>
         </h3>
-<p id="section-3.3-1">The Developer shifts from writing most code by hand toward directing Agents
-and reviewing their work.  This includes building and curating the Agent
-Tools and Agent Skills a team depends on, designing the Loop and selecting
-or configuring the Agent Harness, and writing the Evals that hold Agent
-output to a standard.  Reviewing a Trajectory -- understanding why an Agent
-did what it did -- becomes as important as reading a diff.  The Developer
-also takes responsibility for Context hygiene, guarding against Context Rot
-and Context Pollution, and increasingly operates as a C2 Session,
-coordinating an Agent Team rather than personally implementing every
-change.  Specialization within the team lets each member use a focused set
-of Tools more effectively than a generalist could.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-1">The Developer still owns the technical details of how work is done, but
+because directing Agents is now common to every role, the Developer's
+distinctive contribution is modeling the domain rather than driving Agents.
+Following Domain Driven Design, the Developer establishes and maintains the
+domain model: the Ubiquitous Language as it is expressed in the Spec and in
+code, and the bounded contexts that give that language well-defined edges.
+This model is the substrate every Agent operates on, so the Developer's
+leverage comes from getting it right; a sound model lets Agents used across
+the whole team produce correct work, while a muddled one multiplies error
+at machine speed.  The familiar technical work remains, and is amplified:
+building and curating the Agent Tools and Agent Skills the team depends on,
+designing the Loop and selecting or configuring the Agent Harness, writing
+the Evals that hold Agent output to a standard, reviewing Trajectories to
+understand why an Agent behaved as it did, and maintaining Context hygiene
+against Context Rot and Context Pollution.  Increasingly the Developer
+expresses architecture as the boundaries of an Agent Team, assigning each
+bounded context to specialized members that can wield a focused set of
+Tools more effectively than a generalist could.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="account-manager">
@@ -1649,7 +1673,9 @@ Specs that Agent Teams can act on, and carrying customer feedback back into
 those Specs.  The Account Manager increasingly collaborates over a Shared
 Message Bus on which the customer's participants, the delivery team, and
 their Agents all meet, and must manage expectations about what is finished
-versus what remains a strawman.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
+versus what remains a strawman.  In effect the Account Manager extends the
+Ubiquitous Language across the customer boundary, reconciling the terms the
+customer uses with those the delivery team and its Agents act on.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1698,6 +1724,10 @@ versus what remains a strawman.<a href="#section-3.4-1" class="pilcrow">¶</a></
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
+<dt id="DDD">[DDD]</dt>
+        <dd>
+<span class="refAuthor">Evans, E.</span>, <span class="refTitle">"Domain-Driven Design: Tackling Complexity in the Heart of Software"</span>, <time datetime="2003" class="refDate">2003</time>. </dd>
+<dd class="break"></dd>
 <dt id="DISC">[DISC]</dt>
         <dd>
 <span class="refAuthor">Marston, W. M.</span>, <span class="refTitle">"Emotions of Normal People"</span>, <time datetime="1928" class="refDate">1928</time>. </dd>
