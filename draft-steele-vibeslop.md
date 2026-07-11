@@ -156,7 +156,22 @@ Issue Tracker:
   together, with Bus-Channel messages referencing issues and updates to
   issues announced on the Bus-Channel.
 
-C2 Session:
+Context Farming:
+: The process of engineering ways to extract feedback, review, and
+  criticism from humans without overwhelming them.  Context Farming seeks
+  to gather the human judgment an Agent needs while respecting the limits
+  of human attention, for example by batching requests, summarizing what
+  is at stake, and asking for input only at the points where it changes
+  the outcome.  It is a countermeasure to the alert fatigue that arises on
+  a Bus-Channel.
+
+Design Review Link:
+: A URL surfaced to a human to facilitate Context Farming.  A Design
+  Review Link presents the artifact under consideration -- such as a
+  rendered document, a proposed change, or a running interface -- in a
+  form the human can inspect and respond to, so that their feedback can be
+  captured and fed back into an Agent Session's Context with minimal
+  disruption.
 : A command-and-control Agent Session whose Task is to help a human manage
   many parallel Agent Sessions rather than to perform the underlying work
   itself.  A C2 Session decomposes work into Tasks, assigns them to worker
