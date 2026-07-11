@@ -496,6 +496,21 @@ to recognize, and guards against Vibeslop in its pejorative sense -- output
 that is fast and plausible but under-considered, including the generic
 aesthetics that Agents tend to produce absent clear direction.
 
+## Account Manager
+
+The Account Manager adapts to a faster and more visible delivery cadence,
+and to customers who increasingly expect change within a single
+conversation rather than across release cycles.  A central part of the role
+becomes Context Farming at the customer boundary: translating what
+customers are trying to accomplish, in the sense of Jobs to Be Done, into
+Specs that Agent Teams can act on, and carrying customer feedback back into
+those Specs.  The Account Manager increasingly collaborates over a Shared
+Message Bus on which the customer's participants, the delivery team, and
+their Agents all meet, and must manage expectations about what is finished
+versus what remains a strawman.  In effect the Account Manager extends the
+Ubiquitous Language across the customer boundary, reconciling the terms the
+customer uses with those the delivery team and its Agents act on.
+
 ## Engineering Manager
 
 The Engineering Manager still owns the technical details of how work is done, but
@@ -518,21 +533,6 @@ specialized member of an Agent Team a consistent model and vocabulary to
 work within and defining how terms are translated where contexts meet, so
 that each member can wield a focused set of Tools more effectively than a
 generalist could.
-
-## Account Manager
-
-The Account Manager adapts to a faster and more visible delivery cadence,
-and to customers who increasingly expect change within a single
-conversation rather than across release cycles.  A central part of the role
-becomes Context Farming at the customer boundary: translating what
-customers are trying to accomplish, in the sense of Jobs to Be Done, into
-Specs that Agent Teams can act on, and carrying customer feedback back into
-those Specs.  The Account Manager increasingly collaborates over a Shared
-Message Bus on which the customer's participants, the delivery team, and
-their Agents all meet, and must manage expectations about what is finished
-versus what remains a strawman.  In effect the Account Manager extends the
-Ubiquitous Language across the customer boundary, reconciling the terms the
-customer uses with those the delivery team and its Agents act on.
 
 ## Security Manager
 
