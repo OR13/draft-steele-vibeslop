@@ -74,6 +74,23 @@ Context:
   include, exclude, order, or compress so that the most relevant
   information is available within the context window.
 
+Context Rot:
+: The gradual degradation of Context that occurs when it is allowed to
+  become stale over time without intentional refactoring and cleaning.
+  As a Task progresses, superseded instructions, outdated results, and
+  no-longer-relevant history accumulate; unless this material is
+  deliberately pruned or refreshed, it crowds out current information and
+  degrades the quality of an Agent's output.
+
+Context Pollution:
+: The presence in Context of content that should not be included.  Unlike
+  Context Rot, which arises from staleness over time, Context Pollution is
+  the introduction of inappropriate, incorrect, or irrelevant material.
+  Both Agents and humans can contribute to Context Pollution -- for
+  example an Agent may retrieve an unrelated document, or a human may paste
+  extraneous information -- and in either case the polluting content can
+  mislead subsequent reasoning.
+
 Agent:
 : A software system that uses one or more LLMs to pursue a goal by
   interpreting instructions, invoking tools, and acting over multiple
