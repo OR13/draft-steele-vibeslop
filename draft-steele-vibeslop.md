@@ -114,6 +114,19 @@ Agent Session:
   otherwise terminated.  Multiple Agent Sessions may run in parallel, each
   progressing independent work.
 
+Agent Team:
+: A set of Agent Sessions that collaborate on related Tasks, typically
+  coordinated by a C2 Session.  Giving a single Agent too many Tools
+  degrades its performance: a large Tool set consumes Context, and the
+  more choices an Agent must weigh at each step, the more likely it is to
+  select the wrong Tool or lose track of its Task.  An Agent Team
+  addresses this the way human teams do, through specialization and trade.
+  Each member is given a narrower Task and a smaller, focused set of Tools
+  and Knowledge Base, and members exchange work and results among
+  themselves.  A specialized Agent, presented with only the Tools relevant
+  to its role, can use those Tools more effectively than a generalist Agent
+  burdened with all of them.
+
 Knowledge Base:
 : The full set of information made accessible to an Agent Session through
   the tools and Context available to it.  A Knowledge Base may include
