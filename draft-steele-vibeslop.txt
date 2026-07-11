@@ -317,6 +317,18 @@ Table of Contents
       cited here as one concrete, well-documented methodology for
       scoping and committing to product work.
 
+   Psychometric Profile:  A structured description of a person's
+      disposition, communication style, and preferences derived from a
+      standardized instrument.  Examples in scope here are type-based
+      instruments that sort individuals into discrete categories, such
+      as Insights Discovery [INSIGHTS-DISCOVERY], the Myers-Briggs Type
+      Indicator [MBTI], and DISC [DISC].  A Psychometric Profile is to a
+      human roughly what a configured persona or system prompt is to an
+      Agent: a durable, portable summary of disposition that helps
+      collaborators anticipate how a party will behave and communicate.
+      Within an Agent Team, profiles of the human participants can
+      inform how work and Context are addressed to them.
+
    Vibeslop:  Output produced quickly by an Agent from loosely specified
       intent, favoring speed over precision.  The term is deliberately
       dual-valued and its connotation depends on context.  Used
@@ -354,10 +366,20 @@ Table of Contents
 
 5.2.  Informative References
 
+   [DISC]     Marston, W. M., "Emotions of Normal People", 1928.
+
+   [INSIGHTS-DISCOVERY]
+              The Insights Group Ltd., "Insights Discovery",
+              <https://www.insights.com/products/insights-discovery/>.
+
    [JTBD]     Christensen, C. M., Hall, T., Dillon, K., and D. S.
               Duncan, "Know Your Customers' Jobs to Be Done", 2016,
               <https://hbr.org/2016/09/know-your-customers-jobs-to-be-
               done>.
+
+   [MBTI]     The Myers-Briggs Company, "The Myers-Briggs Type Indicator
+              (MBTI)", <https://www.themyersbriggs.com/en-US/Products-
+              and-Services/Myers-Briggs>.
 
    [SHAPE-UP] Singer, R., "Shape Up: Stop Running in Circles and Ship
               Work that Matters", 2019, <https://basecamp.com/shapeup>.
