@@ -168,6 +168,21 @@ Spec:
   enough detail to be implemented and evaluated, and it is expected to be
   reviewed and versioned as the work evolves.
 
+Spec Driven Development:
+: A development methodology in which a Spec, rather than the code, is the
+  primary artifact humans author and maintain, and implementation is
+  derived from it by an Agent.  Following the pattern established by tools
+  such as spec-kit, the work proceeds through explicit, ordered phases:
+  establishing guiding principles for the project, specifying the desired
+  outcome and requirements, clarifying any underspecified areas, producing
+  a technical plan, decomposing that plan into discrete tasks, and finally
+  implementing those tasks.  Each phase produces a durable, version-
+  controlled artifact that is reviewed before the next phase begins, so
+  that human judgment is applied to intent and design up front rather than
+  only to the generated code.  This ordering keeps the Spec authoritative:
+  changes are made to the Spec and flowed forward, rather than made
+  directly in code and lost.
+
 Loop:
 : The iterative cycle by which an Agent makes progress on a Task:
   assembling Context, invoking an LLM, acting on the result (for example
