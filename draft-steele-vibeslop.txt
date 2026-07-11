@@ -65,7 +65,7 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
-   2.  Conventions and Definitions
+   2.  Terminology
    3.  Security Considerations
    4.  IANA Considerations
    5.  Normative References
@@ -76,13 +76,35 @@ Table of Contents
 
    TODO Introduction
 
-2.  Conventions and Definitions
+2.  Terminology
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
    "OPTIONAL" in this document are to be interpreted as described in
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
+
+   Large Language Model (LLM):  A machine learning model, typically
+      based on the transformer architecture and trained on large text
+      corpora, that generates text by predicting subsequent tokens from
+      a given context.  In this document an LLM is treated as the
+      underlying inference component that an Agent uses to reason and
+      produce output.
+
+   Agent:  A software system that uses one or more LLMs to pursue a goal
+      by interpreting instructions, invoking tools, and acting over
+      multiple steps.  An Agent may operate autonomously or under human
+      supervision, and maintains state across the steps it takes.
+
+   Trajectory:  The ordered sequence of inputs, model outputs, tool
+      invocations, and observations produced while an Agent works toward
+      a goal.  A Trajectory is the primary record used to inspect,
+      replay, or evaluate an Agent's behavior.
+
+   Eval:  A repeatable procedure for measuring the behavior of an LLM or
+      Agent against a defined set of inputs and expected outcomes.
+      Evals are used to assess quality, detect regressions, and compare
+      alternative models or Agent configurations.
 
 3.  Security Considerations
 
