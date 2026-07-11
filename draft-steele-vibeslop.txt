@@ -66,16 +66,17 @@ Table of Contents
 
    1.  Introduction
    2.  Terminology
-   3.  Evolving Roles in Agentic Product Delivery
-     3.1.  Product Manager
-     3.2.  Design Manager
-     3.3.  Engineering Manager
-     3.4.  Account Manager
-   4.  Security Considerations
-   5.  IANA Considerations
-   6.  References
-     6.1.  Normative References
-     6.2.  Informative References
+   3.  Scope
+   4.  Evolving Roles in Agentic Product Delivery
+     4.1.  Product Manager
+     4.2.  Design Manager
+     4.3.  Engineering Manager
+     4.4.  Account Manager
+   5.  Security Considerations
+   6.  IANA Considerations
+   7.  References
+     7.1.  Normative References
+     7.2.  Informative References
    Acknowledgments
    Author's Address
 
@@ -403,7 +404,29 @@ Table of Contents
       only on whether the situation calls for speed and a strawman or
       for clarity and detail.
 
-3.  Evolving Roles in Agentic Product Delivery
+3.  Scope
+
+   This document is deliberately limited to product delivery: the work
+   of designing, building, and shipping a software product, and the
+   roles most directly involved in it, discussed in Section 4.  Agentic
+   ways of working are changing this function first and most visibly,
+   and it is where the concepts defined in this document -- Specs, Agent
+   Teams, Context Farming, and the rest -- apply most directly.
+
+   AI Agents are also reshaping other organizational functions,
+   including executive decision-making, operations, sales, and
+   marketing.  These functions differ from product delivery in their
+   objectives, their sources of ground truth, and their tolerance for
+   error, and addressing them here would dilute the focus of this
+   document without doing them justice.  They are therefore deliberately
+   out of scope and deferred to future work.
+
+   Confining the present document to product delivery keeps its
+   observations concrete and lets the terminology be exercised against a
+   single, coherent set of practices before any attempt is made to
+   generalize it.
+
+4.  Evolving Roles in Agentic Product Delivery
 
    Agentic product delivery does not eliminate the human roles common to
    software development, but it changes what each role spends its time
@@ -434,7 +457,7 @@ Table of Contents
    in, with explicit translation required wherever work crosses a
    boundary.
 
-3.1.  Product Manager
+4.1.  Product Manager
 
    The Product Manager shifts from writing tickets and requirements
    documents toward authoring and maintaining Specs.  In Spec Driven
@@ -453,7 +476,7 @@ Table of Contents
    Language at the level of product outcomes, keeping the words in the
    Spec aligned with the job the customer is trying to get done.
 
-3.2.  Design Manager
+4.2.  Design Manager
 
    The Design Manager moves from producing finished, pixel-level
    artifacts toward expressing design intent and evaluating what Agents
@@ -467,7 +490,7 @@ Table of Contents
    generic aesthetics that Agents tend to produce absent clear
    direction.
 
-3.3.  Engineering Manager
+4.3.  Engineering Manager
 
    The Engineering Manager still owns the technical details of how work
    is done, but because directing Agents is now common to every role,
@@ -492,7 +515,7 @@ Table of Contents
    are translated where contexts meet, so that each member can wield a
    focused set of Tools more effectively than a generalist could.
 
-3.4.  Account Manager
+4.4.  Account Manager
 
    The Account Manager adapts to a faster and more visible delivery
    cadence, and to customers who increasingly expect change within a
@@ -509,17 +532,17 @@ Table of Contents
    terms the customer uses with those the delivery team and its Agents
    act on.
 
-4.  Security Considerations
+5.  Security Considerations
 
    TODO Security
 
-5.  IANA Considerations
+6.  IANA Considerations
 
    This document has no IANA actions.
 
-6.  References
+7.  References
 
-6.1.  Normative References
+7.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -530,7 +553,7 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
-6.2.  Informative References
+7.2.  Informative References
 
    [DDD]      Evans, E., "Domain-Driven Design: Tackling Complexity in
               the Heart of Software", 2003.
