@@ -442,7 +442,7 @@ concepts defined in this document -- Specs, Agent Teams, Context Farming,
 and the rest -- apply most directly.
 
 AI Agents are also reshaping other organizational functions, including
-executive decision-making, sales, and marketing.  These functions differ
+executive decision-making and sales.  These functions differ
 from product delivery in their objectives, their sources of ground truth,
 and their tolerance for error, and addressing them here would dilute the
 focus of this document without doing them justice.  They are therefore
@@ -740,6 +740,23 @@ Context engineering and Context Farming are skills that can be taught, and
 the aim is twofold: to make each person more effective, and to reduce the
 alert fatigue, ambiguity, and rework that careless use of Agents inflicts
 on a team.
+
+Managers of non-engineering roles carry a particular version of this
+expectation.  When Agents take over the tedious work that once filled these
+roles' days, the time that is freed is not a dividend to be pocketed; it is
+meant to be reinvested in the product itself.  The Product Manager, Design
+Manager, marketing roles, and Account Manager are now expected to use the
+product more, and to criticize it more, than before.  Walkthroughs
+performed by people, and not only by Agents, become one of the most
+critical activities a team performs, because a person exercising the
+running product surfaces problems that a Spec and an Eval do not.  The
+Context Farming these roles produce -- the concrete, first-hand judgments
+of people who represent the customer, the market, and the experience -- is
+among the most valuable input an Agent Team can receive.  A role that does
+not contribute directly to changes in code has correspondingly less excuse
+for failing to exercise, and to interrogate, the product at every
+opportunity; scrutiny of the product is precisely where its comparative
+advantage now lies.
 
 Finally, not everyone will enjoy working with AI, and it is a disservice to
 pretend otherwise.  Establishing clear expectations early, during
