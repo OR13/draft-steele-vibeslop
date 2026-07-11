@@ -68,7 +68,9 @@ Table of Contents
    2.  Terminology
    3.  Security Considerations
    4.  IANA Considerations
-   5.  Normative References
+   5.  References
+     5.1.  Normative References
+     5.2.  Informative References
    Acknowledgments
    Author's Address
 
@@ -197,17 +199,17 @@ Table of Contents
    Spec Driven Development:  A development methodology in which a Spec,
       rather than the code, is the primary artifact humans author and
       maintain, and implementation is derived from it by an Agent.
-      Following the pattern established by tools such as spec-kit, the
-      work proceeds through explicit, ordered phases: establishing
-      guiding principles for the project, specifying the desired outcome
-      and requirements, clarifying any underspecified areas, producing a
-      technical plan, decomposing that plan into discrete tasks, and
-      finally implementing those tasks.  Each phase produces a durable,
-      version- controlled artifact that is reviewed before the next
-      phase begins, so that human judgment is applied to intent and
-      design up front rather than only to the generated code.  This
-      ordering keeps the Spec authoritative: changes are made to the
-      Spec and flowed forward, rather than made directly in code and
+      Following the pattern established by tools such as spec-kit
+      [SPEC-KIT], the work proceeds through explicit, ordered phases:
+      establishing guiding principles for the project, specifying the
+      desired outcome and requirements, clarifying any underspecified
+      areas, producing a technical plan, decomposing that plan into
+      discrete tasks, and finally implementing those tasks.  Each phase
+      produces a durable, version- controlled artifact that is reviewed
+      before the next phase begins, so that human judgment is applied to
+      intent and design up front rather than only to the generated code.
+      This ordering keeps the Spec authoritative: changes are made to
+      the Spec and flowed forward, rather than made directly in code and
       lost.
 
    Loop:  The iterative cycle by which an Agent makes progress on a
@@ -294,7 +296,9 @@ Table of Contents
 
    This document has no IANA actions.
 
-5.  Normative References
+5.  References
+
+5.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -304,6 +308,10 @@ Table of Contents
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+5.2.  Informative References
+
+   [SPEC-KIT] GitHub, "Spec Kit", <https://github.com/github/spec-kit>.
 
 Acknowledgments
 
