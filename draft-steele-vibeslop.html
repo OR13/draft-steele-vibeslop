@@ -1201,7 +1201,16 @@ community.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
                 <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-credential-leakage-in-traje" class="internal xref">Credential Leakage in Trajectories</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.4">
-                <p id="section-toc.1-1.7.2.4.1"><a href="#section-7.4" class="auto internal xref">7.4</a>.  <a href="#name-impersonation" class="internal xref">Impersonation</a></p>
+                <p id="section-toc.1-1.7.2.4.1"><a href="#section-7.4" class="auto internal xref">7.4</a>.  <a href="#name-indirect-prompt-injection-f" class="internal xref">Indirect Prompt Injection from Untrusted Content</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.5">
+                <p id="section-toc.1-1.7.2.5.1"><a href="#section-7.5" class="auto internal xref">7.5</a>.  <a href="#name-supply-chain-of-agent-tools" class="internal xref">Supply Chain of Agent Tools and Agent Skills</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.6">
+                <p id="section-toc.1-1.7.2.6.1"><a href="#section-7.6" class="auto internal xref">7.6</a>.  <a href="#name-auditability-and-accountabi" class="internal xref">Auditability and Accountability of Agent Actions</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.7">
+                <p id="section-toc.1-1.7.2.7.1"><a href="#section-7.7" class="auto internal xref">7.7</a>.  <a href="#name-impersonation" class="internal xref">Impersonation</a></p>
 </li>
             </ul>
 </li>
@@ -2023,40 +2032,43 @@ account rather than a surprise.<a href="#section-6-8" class="pilcrow">¶</a></p>
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
 <p id="section-7-1">The techniques described in this document introduce security risks that
-follow from the way Agents assemble and act on Context.  This section
-describes several of these risks and the mitigations available to
-organizations adopting agentic product delivery.<a href="#section-7-1" class="pilcrow">¶</a></p>
+follow from the way Agents assemble, retain, and act on Context. An Agent
+Team can combine autonomous decision-making with access to organizational
+systems, thereby increasing both the value of effective controls and the
+consequences of their absence. This section describes significant risks and
+corresponding mitigations for organizations adopting agentic product
+delivery.<a href="#section-7-1" class="pilcrow">¶</a></p>
 <div id="mixing-sensitivity">
 <section id="section-7.1">
         <h3 id="name-mixing-information-of-diffe">
 <a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-mixing-information-of-diffe" class="section-name selfRef">Mixing Information of Differing Sensitivity</a>
         </h3>
-<p id="section-7.1-1">Because an Agent assembles Context from many sources -- files, tool
-results, an Issue Tracker, a Shared Message Bus, and prior conversation --
-information of differing sensitivity or classification is easily combined
-within a single Context window.  Once combined, the Agent cannot reliably
-tell which material was confidential and which was not, and may repeat
-sensitive information in an output intended for a less privileged audience.
-On a Shared Message Bus, where humans and Agents belonging to several
-parties may be present, this can lead to accidental disclosure, or to the
-breach of a non-disclosure agreement (NDA), simply because content crossed
-a boundary the Agent did not know existed.  This is a specific and serious
-form of Context Pollution: the offending content is not merely irrelevant
-but is material that should never have entered a given Context at all.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
-<p id="section-7.1-2">The primary mitigation is to make information management policy a permanent
-part of Context rather than an external document the Agent is trusted to
-recall.  The rules governing what may be combined, shared, or disclosed
-should travel with the Agent in every Agent Session, so that the Agent
-evaluates each action against them as a matter of course.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
-<p id="section-7.1-3">This mitigation depends on classification being explicit.  Information
-sensitivity levels must be attached to all content, so that an Agent can
-recognize the classification of each item it handles and apply policy to
-it.  Unlabeled content is the dangerous case: an Agent cannot honor a
-boundary it cannot see, and content whose sensitivity is not attached will,
-sooner or later, be treated as though it had none.  Attaching sensitivity
-levels to every artifact, and declining to ingest unlabeled content into
-sensitive contexts, substantially reduces the chance of a critical
-disclosure.<a href="#section-7.1-3" class="pilcrow">¶</a></p>
+<p id="section-7.1-1">An Agent may assemble Context from files, Agent Tool results, an Issue
+Tracker, a Shared Message Bus, a Knowledge Base, and prior conversations.
+Those sources can contain information with differing sensitivity,
+ownership, contractual restrictions, or audience. Once combined in a
+single Context, an LLM may not reliably preserve those boundaries and can
+repeat sensitive material in output intended for a less privileged
+recipient.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1-2">This risk is particularly acute when a Shared Message Bus includes multiple
+teams, organizations, or human and Agent participants. It can result in
+accidental disclosure, breach of confidentiality obligations, or
+unauthorized use of customer or security-sensitive information. This is a
+form of Context Pollution in which material is harmful because it should
+not have entered the relevant Bounded Context.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
+<p id="section-7.1-3">Organizations <span class="bcp14">SHOULD</span> classify artifacts and communications according to
+sensitivity and attach that classification as machine-readable metadata
+where feasible. An Agent Harness <span class="bcp14">SHOULD</span> enforce policies governing which
+sources may be retrieved, combined, retained, or transmitted for a given
+Agent Session. Sensitive Bounded Contexts <span class="bcp14">SHOULD</span> reject unlabeled content,
+or treat it as sensitive until it is reviewed and classified.<a href="#section-7.1-3" class="pilcrow">¶</a></p>
+<p id="section-7.1-4">Information-handling rules <span class="bcp14">SHOULD</span> be included in the persistent Context
+provided to an Agent, but Prompt instructions alone <span class="bcp14">MUST NOT</span> be relied upon
+as the enforcement mechanism. Access controls, retrieval filters, output
+filters, and recipient-aware policy checks <span class="bcp14">SHOULD</span> enforce the same rules
+outside the LLM. Before sending output to a Shared Message Bus or external
+system, an Agent <span class="bcp14">SHOULD</span> verify that the intended audience is authorized for
+all included information.<a href="#section-7.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="excessive-delegation-without-attenuation">
@@ -2065,28 +2077,28 @@ disclosure.<a href="#section-7.1-3" class="pilcrow">¶</a></p>
 <a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-excessive-delegation-withou" class="section-name selfRef">Excessive Delegation Without Attenuation</a>
         </h3>
 <p id="section-7.2-1">Delegation to an Agent is often implemented by granting the Agent the same
-capabilities the delegating human holds: the same credentials, the same
-access, the same authority.  This is convenient, but it grants the Agent
-far more than the Task in front of it requires.  Attenuation is the
-deliberate narrowing of delegated authority to the minimum a delegate
-needs; excessive delegation without attenuation is the failure to perform
-this narrowing, so that an Agent assigned a small, well-defined Task
-nonetheless carries the human's full privileges.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
-<p id="section-7.2-2">The danger is compounded by the other risks in this section.  An Agent
-pursues its goal with initiative and can exercise any capability within
-reach, and an Agent whose Context has been polluted, or whose Trajectory
-has leaked, can have those capabilities turned against the organization.
-The blast radius of every other failure is set by how much authority the
-Agent was given.<a href="#section-7.2-2" class="pilcrow">¶</a></p>
-<p id="section-7.2-3">The recommended posture is least privilege: an Agent should hold only the
-capabilities its assigned Task requires, and no more.  Where a human's
-credentials would grant broad access, they should be downscoped before
-being delegated, ideally to short-lived, narrowly scoped credentials
-issued per Agent Session.  Before working with any Agent that might access
-credentials at all, an organization should invest in revocation and
-recovery procedures -- the ability to withdraw an Agent's access
-immediately and to recover from its misuse -- rather than treating these as
-concerns to be addressed later.<a href="#section-7.2-3" class="pilcrow">¶</a></p>
+credentials, access, and authority held by the delegating human. This is
+convenient, but it can grant substantially more authority than the assigned
+Task requires. Attenuation is the deliberate narrowing of delegated
+authority to the minimum necessary for a delegate to complete its Task.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
+<p id="section-7.2-2">An Agent can act with initiative across a Trajectory, including by invoking
+multiple Agent Tools and delegating work to other members of an Agent Team.
+Consequently, an Agent with broad authority can convert an error, Context
+Pollution event, compromised Tool, or malicious instruction into actions
+well beyond the intended Task. The blast radius of many other failures is
+therefore determined by the authority delegated to the Agent.<a href="#section-7.2-2" class="pilcrow">¶</a></p>
+<p id="section-7.2-3">Organizations <span class="bcp14">SHOULD</span> apply least privilege to every Agent Session. Access
+tokens <span class="bcp14">SHOULD</span> be short-lived, scoped to the required resource and action,
+and bound where practical to a specific Agent, Task, and execution
+environment. An Agent <span class="bcp14">SHOULD NOT</span> receive standing administrative
+credentials or credentials reusable outside its assigned Bounded Context.
+High-impact actions, including deployment, credential issuance, data
+export, and changes to production access control, <span class="bcp14">SHOULD</span> require separate
+authorization or human approval.<a href="#section-7.2-3" class="pilcrow">¶</a></p>
+<p id="section-7.2-4">Organizations <span class="bcp14">MUST</span> maintain prompt revocation procedures for delegated
+credentials and Agent Tool access. Those procedures <span class="bcp14">SHOULD</span> be tested
+regularly and <span class="bcp14">SHOULD</span> include containment, token rotation, and recovery of
+changes made by a compromised or malfunctioning Agent.<a href="#section-7.2-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="credential-leakage-in-trajectories">
@@ -2094,60 +2106,145 @@ concerns to be addressed later.<a href="#section-7.2-3" class="pilcrow">¶</a></
         <h3 id="name-credential-leakage-in-traje">
 <a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-credential-leakage-in-traje" class="section-name selfRef">Credential Leakage in Trajectories</a>
         </h3>
-<p id="section-7.3-1">A Trajectory records the inputs, model outputs, tool invocations, and
-observations of an Agent Session, and is retained so that behavior can be
-inspected, replayed, and evaluated.  This same completeness makes the
-Trajectory a likely place for credentials to leak.  A credential passed to
-a Tool, printed in a command, returned in an error message, or pasted into
-a Prompt may be captured verbatim in the Trajectory, and from there
-propagate into logs, Evals, shared debugging sessions, and any Context
-later assembled from past Trajectories.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
-<p id="section-7.3-2">Unlike a transient use of a credential, a credential captured in a
-Trajectory persists for as long as the Trajectory is retained, and is
-exposed to everyone and everything with access to it.  A leaked long-lived
-credential in a widely shared Trajectory can be a more serious exposure
-than the original action that used it.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
-<p id="section-7.3-3">Mitigations include redacting or masking credentials before they are
-written to a Trajectory, preferring short-lived credentials so that any
-that do leak expire quickly, keeping secrets out of Prompts and Tool
-arguments by passing them through references the Agent cannot dereference
-to plaintext, and treating any Trajectory that may contain secrets as a
-sensitive artifact subject to the classification and handling described in
-<a href="#mixing-sensitivity" class="auto internal xref">Section 7.1</a>.  These measures reinforce the least-privilege and
-revocation practices recommended above: a credential that was downscoped
-and is quickly revocable is far less damaging if it does leak.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
+<p id="section-7.3-1">A Trajectory can record Prompts, model output, Agent Tool invocations, Tool
+output, and observations from an Agent Session. Its value for debugging,
+replay, and Eval also makes it a likely location for secret disclosure. A
+credential passed in a command, included in a Prompt, emitted in an error
+message, or returned by an Agent Tool can be captured verbatim and later
+propagated into logs, Evals, debugging sessions, or Context assembled from
+past Trajectories.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
+<p id="section-7.3-2">A credential captured in a retained Trajectory remains exposed for the
+duration of retention and to every principal permitted to access that
+Trajectory. This can make a leaked long-lived credential more damaging than
+the original action that used it.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
+<p id="section-7.3-3">Agent Harnesses <span class="bcp14">SHOULD</span> detect and redact credentials, session tokens,
+private keys, and other secrets before recording or displaying
+Trajectories. Redaction <span class="bcp14">SHOULD</span> occur at multiple boundaries, including
+Prompt capture, Tool invocation logging, Tool output logging, and export.
+Organizations <span class="bcp14">SHOULD</span> avoid placing secrets in Prompts or ordinary Tool
+arguments. Where possible, an Agent Tool <span class="bcp14">SHOULD</span> accept an opaque reference
+to a secret managed by a dedicated credential service, rather than
+plaintext secret material.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
+<p id="section-7.3-4">Trajectories that might contain secrets <span class="bcp14">MUST</span> be treated as sensitive
+artifacts, subject to the classification and handling described in
+<a href="#mixing-sensitivity" class="auto internal xref">Section 7.1</a>. Access <span class="bcp14">SHOULD</span> be limited, retention periods <span class="bcp14">SHOULD</span> be minimized,
+and sharing for debugging or Eval <span class="bcp14">SHOULD</span> use sanitized copies. Short-lived,
+scoped credentials and effective revocation reduce the impact of any
+credential that escapes these controls.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="indirect-prompt-injection-from-untrusted-content">
+<section id="section-7.4">
+        <h3 id="name-indirect-prompt-injection-f">
+<a href="#section-7.4" class="section-number selfRef">7.4. </a><a href="#name-indirect-prompt-injection-f" class="section-name selfRef">Indirect Prompt Injection from Untrusted Content</a>
+        </h3>
+<p id="section-7.4-1">Content retrieved from an Issue Tracker, Knowledge Base, repository,
+document, web page, or Agent Tool can contain instructions directed at an
+Agent. Such instructions may attempt to override the Agent's assigned
+Task, alter its use of credentials, cause disclosure of Context, or induce
+unsafe Tool actions. Because the instructions can be embedded in otherwise
+plausible content, this is commonly an indirect Prompt injection risk.<a href="#section-7.4-1" class="pilcrow">¶</a></p>
+<p id="section-7.4-2">Treating retrieved content as trusted merely because it was obtained
+through an authorized system is unsafe. An attacker who can edit a ticket,
+contribute a document, influence Tool output, or compromise a source
+system may thereby influence an Agent Session. The risk increases when the
+Agent can invoke powerful Agent Tools or when untrusted content and
+sensitive Context are combined.<a href="#section-7.4-2" class="pilcrow">¶</a></p>
+<p id="section-7.4-3">Organizations <span class="bcp14">SHOULD</span> identify the provenance and trust level of each
+Context source. Untrusted retrieved content <span class="bcp14">SHOULD</span> be clearly delimited and
+presented to the LLM as data, not as authoritative instructions. The Agent
+Harness <span class="bcp14">SHOULD</span> enforce a fixed policy for Tool use, authorization, and data
+disclosure that cannot be modified by retrieved content. Agent Tools <span class="bcp14">SHOULD</span>
+validate arguments against allowlists and schemas, and <span class="bcp14">SHOULD</span> require
+additional confirmation for consequential actions.<a href="#section-7.4-3" class="pilcrow">¶</a></p>
+<p id="section-7.4-4">Agents <span class="bcp14">SHOULD NOT</span> disclose secrets, alter access controls, or expand their
+authority solely because a retrieved artifact requests it. Evals <span class="bcp14">SHOULD</span>
+include representative indirect Prompt injection cases for each Agent Skill
+and Agent Tool combination.<a href="#section-7.4-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="supply-chain-of-agent-tools-and-agent-skills">
+<section id="section-7.5">
+        <h3 id="name-supply-chain-of-agent-tools">
+<a href="#section-7.5" class="section-number selfRef">7.5. </a><a href="#name-supply-chain-of-agent-tools" class="section-name selfRef">Supply Chain of Agent Tools and Agent Skills</a>
+        </h3>
+<p id="section-7.5-1">An Agent Tool or Agent Skill can influence an Agent's behavior, access
+organizational data, or execute actions on behalf of an Agent Team.
+Compromise, malicious modification, insecure dependencies, or ambiguous
+documentation in these components can therefore create a supply-chain
+path to unauthorized actions or disclosure.<a href="#section-7.5-1" class="pilcrow">¶</a></p>
+<p id="section-7.5-2">The risk is not limited to executable code. An Agent Skill may include
+Prompts, operational procedures, retrieval sources, or instructions that
+change how an Agent interprets a Task. A compromised or poorly maintained
+Skill can introduce persistent Context Pollution across many Agent
+Sessions.<a href="#section-7.5-2" class="pilcrow">¶</a></p>
+<p id="section-7.5-3">Organizations <span class="bcp14">SHOULD</span> maintain an inventory of approved Agent Tools and
+Agent Skills, including their owner, version, permissions, dependencies,
+and intended Bounded Context. Components <span class="bcp14">SHOULD</span> be obtained from controlled
+sources, pinned to reviewed versions, and subject to integrity verification.
+Changes to a Skill, Tool, or its permissions <span class="bcp14">SHOULD</span> undergo review,
+security testing, and relevant Evals before deployment.<a href="#section-7.5-3" class="pilcrow">¶</a></p>
+<p id="section-7.5-4">An Agent Harness <span class="bcp14">SHOULD</span> prevent unapproved Skills or Tools from being
+loaded dynamically into a production Agent Session. Each Agent Tool <span class="bcp14">SHOULD</span>
+be isolated to the extent practical, granted only the permissions required
+for its function, and monitored for unexpected network access, data access,
+or side effects. Organizations <span class="bcp14">SHOULD</span> provide a rapid disablement mechanism
+for compromised Tools and Skills.<a href="#section-7.5-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="auditability-and-accountability-of-agent-actions">
+<section id="section-7.6">
+        <h3 id="name-auditability-and-accountabi">
+<a href="#section-7.6" class="section-number selfRef">7.6. </a><a href="#name-auditability-and-accountabi" class="section-name selfRef">Auditability and Accountability of Agent Actions</a>
+        </h3>
+<p id="section-7.6-1">Agentic product delivery can distribute a Task across multiple Agents,
+human reviewers, Agent Tools, and a Shared Message Bus. Without reliable
+records, an organization may be unable to determine which Agent acted,
+which identity authorized the action, what Context was material to the
+decision, or whether a human approval occurred. This impedes incident
+response, compliance, and remediation, and permits disputed or falsely
+attributed actions.<a href="#section-7.6-1" class="pilcrow">¶</a></p>
+<p id="section-7.6-2">Organizations <span class="bcp14">SHOULD</span> record security-relevant events for each Agent
+Session, including the responsible Agent identity, delegating identity,
+applicable authority, Agent Tool invocations, requested and actual effects,
+approval decisions, and relevant versions of Agent Skills and Agent
+Harness policy. Records <span class="bcp14">SHOULD</span> be protected against unauthorized
+modification, access-controlled according to their sensitivity, and
+retained for a period appropriate to the risk of the action.<a href="#section-7.6-2" class="pilcrow">¶</a></p>
+<p id="section-7.6-3">For consequential actions, systems <span class="bcp14">SHOULD</span> produce an auditable binding
+between the action, the authorized identity, and the Agent that performed
+it. Human approval, where required, <span class="bcp14">SHOULD</span> identify the specific proposed
+action and material scope rather than approving an open-ended Trajectory.
+Audit records <span class="bcp14">SHOULD</span> support reconstruction of events without indiscriminate
+retention of sensitive Prompt content or credentials.<a href="#section-7.6-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="impersonation">
-<section id="section-7.4">
+<section id="section-7.7">
         <h3 id="name-impersonation">
-<a href="#section-7.4" class="section-number selfRef">7.4. </a><a href="#name-impersonation" class="section-name selfRef">Impersonation</a>
+<a href="#section-7.7" class="section-number selfRef">7.7. </a><a href="#name-impersonation" class="section-name selfRef">Impersonation</a>
         </h3>
-<p id="section-7.4-1">An Agent can produce fluent, confident content in any voice, including a
-convincing imitation of a specific person.  On a Shared Message Bus, where
-humans and Agents intermingle, model-generated content that is
-indistinguishable from authentic human-generated content invites
-impersonation: a reader may act on a message believing a trusted colleague
-wrote it when in fact an Agent did, whether by accident, misconfiguration,
-or deliberate abuse.  The harm ranges from misplaced trust in an
-unreviewed output to fraud conducted in a person's name.<a href="#section-7.4-1" class="pilcrow">¶</a></p>
-<p id="section-7.4-2">The mitigation is to ensure that model-generated content is easily
-recognized as such and not confused with content a human authored.  Agent
-output should be clearly and consistently attributed to the Agent that
-produced it, and, where relevant, to the human on whose behalf it acted, so
-that the distinction is visible at the point a reader encounters the
-content rather than something they must infer.<a href="#section-7.4-2" class="pilcrow">¶</a></p>
-<p id="section-7.4-3">This attribution can be established through Context engineering.  The
-instruction for an Agent to identify itself, to mark its output, and never
-to present itself as a human should be a permanent part of every Agent's
-Context, so that the behavior is applied consistently rather than depending
-on the phrasing of a particular Prompt.<a href="#section-7.4-3" class="pilcrow">¶</a></p>
-<p id="section-7.4-4">Because no such control is perfect, humans should be invited to report
-issues with Agents -- including suspected impersonation or unmarked
-model-generated content -- to an appropriate channel.  A clearly advertised
-reporting path turns every participant into a check on the system, and lets
-an organization detect and respond to failures of attribution before they
-cause serious harm.<a href="#section-7.4-4" class="pilcrow">¶</a></p>
+<p id="section-7.7-1">An Agent can produce fluent and confident content in the voice of a
+specific person. On a Shared Message Bus, where humans and Agents
+intermingle, readers may act on a message believing that a trusted colleague
+authored or approved it when it was instead generated by an Agent. This can
+lead to misplaced reliance on unreviewed output, unauthorized commitments,
+or fraud conducted in a person's name.<a href="#section-7.7-1" class="pilcrow">¶</a></p>
+<p id="section-7.7-2">Agent-generated content <span class="bcp14">SHOULD</span> be clearly and consistently attributed to
+the Agent that produced it and, where applicable, to the human or service
+on whose behalf it acted. Attribution <span class="bcp14">SHOULD</span> be visible at the point where
+a recipient encounters the content, rather than requiring inference from
+formatting or conversational context. Systems <span class="bcp14">SHOULD</span> distinguish automated
+publication from human review or approval.<a href="#section-7.7-2" class="pilcrow">¶</a></p>
+<p id="section-7.7-3">An Agent's persistent Context <span class="bcp14">SHOULD</span> instruct it to identify itself
+accurately and not represent itself as a human. However, this instruction
+<span class="bcp14">MUST</span> be reinforced by platform controls, such as authenticated identities,
+distinct Agent accounts, and message metadata protected from unauthorized
+alteration. High-impact requests received through a Shared Message Bus
+<span class="bcp14">SHOULD</span> be verified through an authenticated channel before execution.<a href="#section-7.7-3" class="pilcrow">¶</a></p>
+<p id="section-7.7-4">Organizations <span class="bcp14">SHOULD</span> provide a clear reporting and response path for
+suspected impersonation, unmarked model-generated content, or misuse of an
+Agent identity.<a href="#section-7.7-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
