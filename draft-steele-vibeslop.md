@@ -115,6 +115,16 @@ Bus-Channel:
   are subject to alert fatigue, where the volume of notifications reduces
   their ability to attend to the messages that require human judgment.
 
+Issue Tracker:
+: A system that records work to be done as a set of issues, each
+  describing a Task and its status.  Issues can be assigned to a specific
+  person or Agent, which establishes ownership and prevents double work
+  when several participants might otherwise act on the same Task.  Whereas
+  a Bus-Channel broadcasts every message to every participant, an Issue
+  Tracker directs work to an assigned owner; the two are often used
+  together, with Bus-Channel messages referencing issues and updates to
+  issues announced on the Bus-Channel.
+
 
 # Security Considerations
 
