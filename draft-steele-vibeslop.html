@@ -1402,42 +1402,55 @@ fatigue, where the volume of notifications reduces their ability to
 attend to the messages that require human judgment.<a href="#section-2-2.38.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.39">Issue Tracker:</dt>
+<dt id="section-2-2.39">Proxy Dictation:</dt>
         <dd style="margin-left: 1.5em" id="section-2-2.40">
-          <p id="section-2-2.40.1">A system that records work to be done as a set of issues, each
+          <p id="section-2-2.40.1">A communication pattern in which a participant addresses another party's
+Agent directly, in a register deliberately less human-centric than
+ordinary conversation -- terse, imperative, and to the point of being
+offensive by human standards.  The register is chosen precisely because
+the target of the language is not the human but their assistant; the
+same speaker would address the human very differently.  Because Proxy
+Dictation typically occurs on a Shared Message Bus, where the human can
+see it, the bluntness may read as offensive to onlookers even though no
+offense is directed at any person.<a href="#section-2-2.40.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.41">Issue Tracker:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.42">
+          <p id="section-2-2.42.1">A system that records work to be done as a set of issues, each
 describing a Task and its status.  Issues can be assigned to a specific
 person or Agent, which establishes ownership and prevents double work
 when several participants might otherwise act on the same Task.  Whereas
 a Shared Message Bus broadcasts every message to every participant, an Issue
 Tracker directs work to an assigned owner; the two are often used
 together, with Shared Message Bus messages referencing issues and updates to
-issues announced on the Shared Message Bus.<a href="#section-2-2.40.1" class="pilcrow">¶</a></p>
+issues announced on the Shared Message Bus.<a href="#section-2-2.42.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.41">Context Farming:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.42">
-          <p id="section-2-2.42.1">The process of engineering ways to extract feedback, review, and
+<dt id="section-2-2.43">Context Farming:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.44">
+          <p id="section-2-2.44.1">The process of engineering ways to extract feedback, review, and
 criticism from humans without overwhelming them.  Context Farming seeks
 to gather the human judgment an Agent needs while respecting the limits
 of human attention, for example by batching requests, summarizing what
 is at stake, and asking for input only at the points where it changes
 the outcome.  It is a countermeasure to the alert fatigue that arises on
-a Shared Message Bus.<a href="#section-2-2.42.1" class="pilcrow">¶</a></p>
+a Shared Message Bus.<a href="#section-2-2.44.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.43">Design Review Link:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.44">
-          <p id="section-2-2.44.1">A URL surfaced to a human to facilitate Context Farming.  A Design
+<dt id="section-2-2.45">Design Review Link:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.46">
+          <p id="section-2-2.46.1">A URL surfaced to a human to facilitate Context Farming.  A Design
 Review Link presents the artifact under consideration -- such as a
 rendered document, a proposed change, or a running interface -- in a
 form the human can inspect and respond to, so that their feedback can be
 captured and fed back into an Agent Session's Context with minimal
-disruption.<a href="#section-2-2.44.1" class="pilcrow">¶</a></p>
+disruption.<a href="#section-2-2.46.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.45">Walkthrough:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.46">
-          <p id="section-2-2.46.1">A structured Context Farming technique in which a driver and a navigator
+<dt id="section-2-2.47">Walkthrough:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.48">
+          <p id="section-2-2.48.1">A structured Context Farming technique in which a driver and a navigator
 collaborate to elicit feedback from humans by completing a set of
 well-defined steps in an application while commenting on the quality of
 the product experience.  The driver performs the steps and the navigator
@@ -1445,57 +1458,57 @@ observes and narrates, and the running commentary -- what worked, what
 was confusing, what should change -- becomes Context that is fed back
 into subsequent Agent Sessions.  A Walkthrough is often initiated from a
 Design Review Link so that the steps are exercised against the actual
-artifact under review.<a href="#section-2-2.46.1" class="pilcrow">¶</a></p>
+artifact under review.<a href="#section-2-2.48.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.47">C2 Session:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.48">
-          <p id="section-2-2.48.1">A command-and-control Agent Session whose Task is to help a human manage
+<dt id="section-2-2.49">C2 Session:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.50">
+          <p id="section-2-2.50.1">A command-and-control Agent Session whose Task is to help a human manage
 many parallel Agent Sessions rather than to perform the underlying work
 itself.  A C2 Session decomposes work into Tasks, assigns them to worker
 Agent Sessions -- for example by assigning issues from an Issue Tracker
 -- and dispatches work that can be progressed in parallel.  It tracks the
 status of the sessions it manages and integrates their results, and may
-communicate with humans and other Agents over a Shared Message Bus.<a href="#section-2-2.48.1" class="pilcrow">¶</a></p>
+communicate with humans and other Agents over a Shared Message Bus.<a href="#section-2-2.50.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.49">Product Development Wheel:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.50">
-          <p id="section-2-2.50.1">An iterative, cyclical model of product development in which the stages
+<dt id="section-2-2.51">Product Development Wheel:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.52">
+          <p id="section-2-2.52.1">An iterative, cyclical model of product development in which the stages
 of the work -- such as discovery, definition, design, delivery, and
 learning -- feed continuously back into one another rather than
 proceeding as a single linear pass.  The wheel emphasizes that what is
 learned from a shipped product informs the next turn of the cycle, so
 that development is understood as ongoing rounds of building and learning
-rather than a project with a fixed end.<a href="#section-2-2.50.1" class="pilcrow">¶</a></p>
+rather than a project with a fixed end.<a href="#section-2-2.52.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.51">Jobs to Be Done:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.52">
-          <p id="section-2-2.52.1">A framework for understanding customer motivation, which holds that
+<dt id="section-2-2.53">Jobs to Be Done:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.54">
+          <p id="section-2-2.54.1">A framework for understanding customer motivation, which holds that
 customers "hire" a product to make progress on a job -- a goal they are
 trying to accomplish in a particular circumstance <span>[<a href="#JTBD" class="cite xref">JTBD</a>]</span>.  Jobs to Be
 Done directs design and prioritization toward the underlying job the
 customer is trying to get done, rather than toward customer demographics
 or a product's existing features, so that the outcome a customer seeks
-drives what is built.<a href="#section-2-2.52.1" class="pilcrow">¶</a></p>
+drives what is built.<a href="#section-2-2.54.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.53">Shape Up:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.54">
-          <p id="section-2-2.54.1">A product development framework articulated by Basecamp <span>[<a href="#SHAPE-UP" class="cite xref">SHAPE-UP</a>]</span>
+<dt id="section-2-2.55">Shape Up:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.56">
+          <p id="section-2-2.56.1">A product development framework articulated by Basecamp <span>[<a href="#SHAPE-UP" class="cite xref">SHAPE-UP</a>]</span>
 that organizes work into fixed-length cycles with variable scope.  Work
 is shaped at an appropriate level of abstraction before it is committed
 to; an appetite -- how much time the work is worth -- is set in place of
 an estimate; responsible parties then bet on shaped work and are given
 full responsibility to deliver it within the fixed time.  Shape Up is
 cited here as one concrete, well-documented methodology for scoping and
-committing to product work.<a href="#section-2-2.54.1" class="pilcrow">¶</a></p>
+committing to product work.<a href="#section-2-2.56.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.55">Psychometric Profile:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.56">
-          <p id="section-2-2.56.1">A structured description of a person's disposition, communication style,
+<dt id="section-2-2.57">Psychometric Profile:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.58">
+          <p id="section-2-2.58.1">A structured description of a person's disposition, communication style,
 and preferences derived from a standardized instrument.  Examples in
 scope here are type-based instruments that sort individuals into discrete
 categories, such as Insights Discovery <span>[<a href="#INSIGHTS-DISCOVERY" class="cite xref">INSIGHTS-DISCOVERY</a>]</span>,
@@ -1504,12 +1517,12 @@ Psychometric Profile is to a human roughly what a configured persona or
 system prompt is to an Agent: a durable, portable summary of disposition
 that helps collaborators anticipate how a party will behave and
 communicate.  Within an Agent Team, profiles of the human participants
-can inform how work and Context are addressed to them.<a href="#section-2-2.56.1" class="pilcrow">¶</a></p>
+can inform how work and Context are addressed to them.<a href="#section-2-2.58.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.57">Vibeslop:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.58">
-          <p id="section-2-2.58.1">Output produced quickly by an Agent from loosely specified intent,
+<dt id="section-2-2.59">Vibeslop:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.60">
+          <p id="section-2-2.60.1">Output produced quickly by an Agent from loosely specified intent,
 favoring speed over precision.  The term is deliberately dual-valued and
 its connotation depends on context.  Used negatively, Vibeslop describes
 low-quality, under-specified output offered where clarity and detail were
@@ -1519,7 +1532,7 @@ reaction and elicit feedback, where the goal is momentum and shared
 understanding rather than finished detail; in this sense it is a
 legitimate Context Farming device.  The same artifact may be Vibeslop in
 the pejorative sense or the approving sense depending only on whether the
-situation calls for speed and a strawman or for clarity and detail.<a href="#section-2-2.58.1" class="pilcrow">¶</a></p>
+situation calls for speed and a strawman or for clarity and detail.<a href="#section-2-2.60.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
