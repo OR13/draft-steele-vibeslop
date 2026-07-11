@@ -1163,10 +1163,10 @@ community.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
                 <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-product-manager" class="internal xref">Product Manager</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
-                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-designer" class="internal xref">Designer</a></p>
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-design-manager" class="internal xref">Design Manager</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
-                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-developer" class="internal xref">Developer</a></p>
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-engineering-manager" class="internal xref">Engineering Manager</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
                 <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-account-manager" class="internal xref">Account Manager</a></p>
@@ -1615,7 +1615,7 @@ situation calls for speed and a strawman or for clarity and detail.<a href="#sec
 software development, but it changes what each role spends its time on.
 Across every role a common shift recurs: less time producing artifacts by
 hand, and more time expressing intent, Context Farming, and reviewing the
-output of Agents.  Every role, not only the Developer, now works in terms
+output of Agents.  Every role, not only the Engineering Manager, now works in terms
 of Agents, Agent Teams, and Walkthroughs; the boundaries between roles blur
 as each becomes, in part, a director and reviewer of Agent Sessions, and
 any role may operate a C2 Session to coordinate parallel work.  This
@@ -1656,34 +1656,34 @@ at the level of product outcomes, keeping the words in the Spec aligned
 with the job the customer is trying to get done.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="designer">
+<div id="design-manager">
 <section id="section-3.2">
-        <h3 id="name-designer">
-<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-designer" class="section-name selfRef">Designer</a>
+        <h3 id="name-design-manager">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-design-manager" class="section-name selfRef">Design Manager</a>
         </h3>
-<p id="section-3.2-1">The Designer moves from producing finished, pixel-level artifacts toward
+<p id="section-3.2-1">The Design Manager moves from producing finished, pixel-level artifacts toward
 expressing design intent and evaluating what Agents generate from it.
 Design Review Links and Walkthroughs become primary instruments: rather
-than handing off a static mockup, the Designer inspects running interfaces
+than handing off a static mockup, the Design Manager inspects running interfaces
 and captures feedback as Context for subsequent Agent Sessions.  The
-Designer curates Evals for qualities that are difficult to specify but easy
+Design Manager curates Evals for qualities that are difficult to specify but easy
 to recognize, and guards against Vibeslop in its pejorative sense -- output
 that is fast and plausible but under-considered, including the generic
 aesthetics that Agents tend to produce absent clear direction.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="developer">
+<div id="engineering-manager">
 <section id="section-3.3">
-        <h3 id="name-developer">
-<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-developer" class="section-name selfRef">Developer</a>
+        <h3 id="name-engineering-manager">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-engineering-manager" class="section-name selfRef">Engineering Manager</a>
         </h3>
-<p id="section-3.3-1">The Developer still owns the technical details of how work is done, but
-because directing Agents is now common to every role, the Developer's
+<p id="section-3.3-1">The Engineering Manager still owns the technical details of how work is done, but
+because directing Agents is now common to every role, the Engineering Manager's
 distinctive contribution is modeling the domain rather than driving Agents.
-Following Domain Driven Design, the Developer establishes and maintains the
+Following Domain Driven Design, the Engineering Manager establishes and maintains the
 domain model: the Ubiquitous Language as it is expressed in the Spec and in
 code, and the bounded contexts that give that language well-defined edges.
-This model is the substrate every Agent operates on, so the Developer's
+This model is the substrate every Agent operates on, so the Engineering Manager's
 leverage comes from getting it right; a sound model lets Agents used across
 the whole team produce correct work, while a muddled one multiplies error
 at machine speed.  The familiar technical work remains, and is amplified:
@@ -1691,7 +1691,7 @@ building and curating the Agent Tools and Agent Skills the team depends on,
 designing the Loop and selecting or configuring the Agent Harness, writing
 the Evals that hold Agent output to a standard, reviewing Trajectories to
 understand why an Agent behaved as it did, and maintaining Context hygiene
-against Context Rot and Context Pollution.  Increasingly the Developer
+against Context Rot and Context Pollution.  Increasingly the Engineering Manager
 expresses architecture as a set of Bounded Contexts, giving each
 specialized member of an Agent Team a consistent model and vocabulary to
 work within and defining how terms are translated where contexts meet, so
