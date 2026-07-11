@@ -107,6 +107,14 @@ Eval:
   to assess quality, detect regressions, and compare alternative models
   or Agent configurations.
 
+Bus-Channel:
+: A communications channel in which both humans and their Agents
+  participate to address a Task or set of Tasks.  Messages on a
+  Bus-Channel are delivered to both people and their Agents.  Because
+  every participant receives every message, humans on a busy Bus-Channel
+  are subject to alert fatigue, where the volume of notifications reduces
+  their ability to attend to the messages that require human judgment.
+
 
 # Security Considerations
 
