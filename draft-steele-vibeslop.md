@@ -95,6 +95,22 @@ Knowledge Base:
   the boundary of what an Agent Session can know or retrieve while working
   on a Task.
 
+Agent Tool:
+: A discrete capability an Agent can invoke to observe or act upon
+  something outside the LLM, such as reading a file, querying a service,
+  or executing a command.  A Tool is described to the Agent by its name,
+  its inputs, and the results it returns, so that the LLM can decide when
+  and how to call it during the Loop.  Tools are the primary means by
+  which an Agent extends its Knowledge Base and effects change.
+
+Agent Skill:
+: A reusable package of instructions, and optionally supporting resources,
+  that equips an Agent to carry out a particular class of Tasks.  A Skill
+  is loaded into Context when it is relevant, guiding how the Agent uses
+  its Tools and Knowledge Base without changing the underlying LLM.
+  Whereas a Tool provides a capability to act, a Skill provides the
+  procedure and judgment for applying capabilities to a kind of work.
+
 Task:
 : A unit of work assigned to an Agent, expressed as a goal to be achieved
   rather than a fixed sequence of operations.  A Task defines the intended
