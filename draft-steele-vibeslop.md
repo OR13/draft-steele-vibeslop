@@ -768,6 +768,90 @@ those who thrive are recognized and those who do not are given an honest
 account rather than a surprise.
 
 
+# Starting a New Project
+
+Starting a new project in an agentic setting begins before any Task is
+assigned.  The team first stands up the environment its Agents will work
+in, establishes the rules those Agents must obey, and agrees on how work
+will be broken down so that humans can steer it.  Effort invested here is
+repaid throughout the project, because an Agent inherits the strengths and
+the weaknesses of the environment it is given.
+
+## Establishing the Agent Harness
+
+The first step is to set up the Agent Harness the team will share.  The
+harness determines which LLMs, Agent Tools, and Agent Skills are available,
+how the Loop is run, and how Agent Sessions are isolated from one another.
+Two capabilities should be confirmed before real work begins.  First,
+telemetry: the harness should emit the usage and cost signals the
+Operations Manager depends on -- which humans invoked which Agents and
+models, and how many Tokens were consumed -- so that the economics of the
+project are visible from the first Iteration rather than reconstructed
+later.  Second, Issue Tracker access: the harness should be able to read
+and update the Issue Tracker, so that Agents can be assigned issues, record
+progress, and avoid double work.
+
+The harness should also be told where the Knowledge Base is: the
+repositories, documents, services, and data an Agent may draw on.  Equally
+important is agreeing how the Knowledge Base will be evolved as the project
+proceeds -- what will be added, who curates it, and how stale material is
+retired -- because a Knowledge Base that is set once and then neglected
+becomes a source of Context Rot.
+
+## The Constitution
+
+Before assigning Tasks, the team should give its Agents a constitution: a
+small set of rules that must not be violated in service of any Task.  Where
+a Spec says what to build and a Task says what to do now, the constitution
+says what must always hold regardless of the goal -- for example, that
+credentials are never exfiltrated, that certain systems are never modified
+without human approval, that classified information stays within its
+Bounded Context, or that an Agent always identifies itself as an Agent.
+
+The constitution differs from ordinary instructions in that it is not
+negotiable against progress.  An Agent under pressure to complete a Task
+will, absent such rules, treat almost anything as permissible if it appears
+to help; the constitution is the standing boundary a Task cannot override.
+It belongs in the persistent Context of every Agent Session, and, as
+{{mixing-sensitivity}} and the surrounding considerations note, its most
+important rules should also be enforced outside the LLM rather than trusted
+to the Agent's compliance alone.
+
+## Specifying the MVP
+
+With the environment and the constitution in place, the team builds the
+Spec for a minimum viable product (MVP).  The aim is not to specify the
+whole product but to describe the smallest version that can be put in front
+of people and learned from.
+
+Two questions discipline this work.  The first is: how will we know when we
+have enough to test?  A Spec is ready for implementation when it describes
+an outcome concrete enough to be exercised in a Walkthrough and judged
+against, not when it is exhaustive.  The second is: how will the Agent know
+when it is done?  Each unit of work should carry explicit acceptance
+criteria, ideally expressed as Evals the Agent can run, so that being done
+is a condition the Agent can check rather than a judgment it must guess.
+Work with no definition of done invites an Agent either to stop too early
+or to continue elaborating past the point of value.
+
+## Breaking Work into Steerable Chunks
+
+Finally, the work must be broken into chunks small enough that human review
+can steer it.  An Agent Team coordinated by a Management Session can produce
+a great deal of work quickly, and therein lies a risk: if too much is
+completed before a human looks, decisions that shape later phases are made
+without the chance to correct them, and the cost of unwinding them grows
+with every dependent step.
+
+The remedy is to sequence work so that the decisions which guide future
+phases are surfaced for review early and cheaply, before the work that
+depends on them is built.  Prefer many small increments, each ending at a
+point where a human can inspect the result -- often through a Walkthrough
+-- and redirect the next increment.  The goal is not to slow the Agents
+down but to keep humans in a position to steer while steering is still
+cheap.
+
+
 # Security Considerations
 
 The techniques described in this document introduce security risks that
