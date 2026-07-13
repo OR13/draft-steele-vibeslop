@@ -1,3 +1,6 @@
-# Automatically generated CODEOWNERS
-# Regenerate with `make update-codeowners`
-draft-steele-vibeslop.md orie@or13.io
+# Manually maintained CODEOWNERS — do NOT run `make update-codeowners`
+# (the generator would overwrite this file with per-author email lines).
+#
+# Both authors review each other's changes: every PR requires approval from a
+# code owner, and an author cannot approve their own PR. See CONTRIBUTING.md.
+* @OR13 @MJL40635
