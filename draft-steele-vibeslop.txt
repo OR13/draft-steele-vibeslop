@@ -4,8 +4,8 @@
 
 Network Working Group                                          O. Steele
 Internet-Draft                                              Tradeverifyd
-Intended status: Informational                              12 July 2026
-Expires: 13 January 2027
+Intended status: Informational                              13 July 2026
+Expires: 14 January 2027
 
 
                                 Vibeslop
@@ -17,7 +17,11 @@ Abstract
    developed and have introduced a new set of challenges for
    organizations.  This document describes techniques and concepts that
    are emerging to assist with these challenges, and relates them to
-   concepts already familiar to the IETF community.
+   concepts already familiar to the internet community.  The pace of
+   change in this area is accelerating, and it is anticipated that much
+   of what this document discusses will become outdated quickly;
+   nevertheless, a static publication may prove amusing to future
+   readers, whether machine or human.
 
 About This Document
 
@@ -46,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 January 2027.
+   This Internet-Draft will expire on 14 January 2027.
 
 Copyright Notice
 
