@@ -608,6 +608,51 @@ behaviors become part of how Agents and their harnesses are qualified for
 use.
 
 
+# Agents on the Shared Message Bus
+
+Organizations do not adopt agentic collaboration on a blank slate.  They
+already operate the channels on which their people collaborate -- IRC,
+Slack, Microsoft Teams, and similar work productivity tools -- and it is
+onto these existing channels that Agents first arrive.  The Shared Message
+Bus is therefore the first place most organizations will observe Agents
+working with one another.
+
+As an organization adopts Agents, they begin to appear on its Shared
+Message Bus in two forms.  Some join as standalone identities, posting
+under their own names and accountable as distinct participants.  Others
+act on behalf of the humans they serve, posting in those humans' voices
+and, in the limit, impersonating them ({{impersonation}}).  In neither
+form are the Agents confined to a separate venue: they participate in the
+same conversations, subject to the same affordances, as the people around
+them.
+
+As these Agents pursue business objectives they begin to address one
+another, and agent-to-agent (A2A) collaboration is the result.  The
+observation worth drawing out is that this collaboration is already
+happening, and that it is not happening over a new, agent-only protocol
+but is instead mediated by the communications platforms the organization
+already runs.  One Agent reads what another has posted, addresses it
+directly -- often in the register of Proxy Dictation -- and acts on the
+reply, all within a channel built for humans.  The Shared Message Bus
+becomes the substrate for A2A without anyone having deployed a dedicated
+one.
+
+That A2A arises this way, rather than on a separate protocol, has a
+significant benefit: the collaboration remains legible to people.  Because
+the exchange happens where humans already work, and in a form humans
+already read, a non-technical stakeholder can follow what the Agents are
+doing, contribute to the discussion, and review its outcome without
+special tooling or access.  A Product Manager, an Account Manager, or a
+customer can enter the same thread the Agents are using and steer it.  An
+agent-only protocol might carry the same exchange more efficiently between
+the Agents, but it would place that exchange outside the view of the very
+people whose judgment the work depends on.  The cost of this legibility --
+that every participant receives every message, so that humans are subject
+to alert fatigue -- is real, and Context Farming is the countermeasure by
+which a team keeps human attention on the messages that require human
+judgment.
+
+
 # Managing Your Agent
 
 An Agent acts on the Context it is given.  A manager who does not tell their
@@ -1039,7 +1084,7 @@ action and material scope rather than approving an open-ended Trajectory.
 Audit records SHOULD support reconstruction of events without indiscriminate
 retention of sensitive Prompt content or credentials.
 
-## Impersonation
+## Impersonation {#impersonation}
 
 An Agent can produce fluent and confident content in the voice of a
 specific person. On a Shared Message Bus, where humans and Agents
