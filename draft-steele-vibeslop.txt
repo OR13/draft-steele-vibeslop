@@ -4,8 +4,8 @@
 
 Network Working Group                                          O. Steele
 Internet-Draft                                              Tradeverifyd
-Intended status: Informational                              13 July 2026
-Expires: 14 January 2027
+Intended status: Informational                              15 July 2026
+Expires: 16 January 2027
 
 
                                 Vibeslop
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 January 2027.
+   This Internet-Draft will expire on 16 January 2027.
 
 Copyright Notice
 
@@ -78,25 +78,26 @@ Table of Contents
      4.4.  Engineering Manager
      4.5.  Operations Manager
      4.6.  Security Manager
-   5.  Managing Your Agent
-   6.  Managing Your People
-   7.  Starting a New Project
-     7.1.  Establishing the Agent Harness
-     7.2.  The Constitution
-     7.3.  Specifying the MVP
-     7.4.  Breaking Work into Steerable Chunks
-   8.  Security Considerations
-     8.1.  Mixing Information of Differing Sensitivity
-     8.2.  Excessive Delegation Without Attenuation
-     8.3.  Credential Leakage in Trajectories
-     8.4.  Indirect Prompt Injection from Untrusted Content
-     8.5.  Supply Chain of Agent Tools and Agent Skills
-     8.6.  Auditability and Accountability of Agent Actions
-     8.7.  Impersonation
-   9.  IANA Considerations
-   10. References
-     10.1.  Normative References
-     10.2.  Informative References
+   5.  Agents on the Shared Message Bus
+   6.  Managing Your Agent
+   7.  Managing Your People
+   8.  Starting a New Project
+     8.1.  Establishing the Agent Harness
+     8.2.  The Constitution
+     8.3.  Specifying the MVP
+     8.4.  Breaking Work into Steerable Chunks
+   9.  Security Considerations
+     9.1.  Mixing Information of Differing Sensitivity
+     9.2.  Excessive Delegation Without Attenuation
+     9.3.  Credential Leakage in Trajectories
+     9.4.  Indirect Prompt Injection from Untrusted Content
+     9.5.  Supply Chain of Agent Tools and Agent Skills
+     9.6.  Auditability and Accountability of Agent Actions
+     9.7.  Impersonation
+   10. IANA Considerations
+   11. References
+     11.1.  Normative References
+     11.2.  Informative References
    Acknowledgments
    Author's Address
 
@@ -625,7 +626,51 @@ Table of Contents
    what a Task warrants.  Evals that probe for these behaviors become
    part of how Agents and their harnesses are qualified for use.
 
-5.  Managing Your Agent
+5.  Agents on the Shared Message Bus
+
+   Organizations do not adopt agentic collaboration on a blank slate.
+   They already operate the channels on which their people collaborate
+   -- IRC, Slack, Microsoft Teams, and similar work productivity tools
+   -- and it is onto these existing channels that Agents first arrive.
+   The Shared Message Bus is therefore the first place most
+   organizations will observe Agents working with one another.
+
+   As an organization adopts Agents, they begin to appear on its Shared
+   Message Bus in two forms.  Some join as standalone identities,
+   posting under their own names and accountable as distinct
+   participants.  Others act on behalf of the humans they serve, posting
+   in those humans' voices and, in the limit, impersonating them
+   (Section 9.7).  In neither form are the Agents confined to a separate
+   venue: they participate in the same conversations, subject to the
+   same affordances, as the people around them.
+
+   As these Agents pursue business objectives they begin to address one
+   another, and agent-to-agent (A2A) collaboration is the result.  The
+   observation worth drawing out is that this collaboration is already
+   happening, and that it is not happening over a new, agent-only
+   protocol but is instead mediated by the communications platforms the
+   organization already runs.  One Agent reads what another has posted,
+   addresses it directly -- often in the register of Proxy Dictation --
+   and acts on the reply, all within a channel built for humans.  The
+   Shared Message Bus becomes the substrate for A2A without anyone
+   having deployed a dedicated one.
+
+   That A2A arises this way, rather than on a separate protocol, has a
+   significant benefit: the collaboration remains legible to people.
+   Because the exchange happens where humans already work, and in a form
+   humans already read, a non-technical stakeholder can follow what the
+   Agents are doing, contribute to the discussion, and review its
+   outcome without special tooling or access.  A Product Manager, an
+   Account Manager, or a customer can enter the same thread the Agents
+   are using and steer it.  An agent-only protocol might carry the same
+   exchange more efficiently between the Agents, but it would place that
+   exchange outside the view of the very people whose judgment the work
+   depends on.  The cost of this legibility -- that every participant
+   receives every message, so that humans are subject to alert fatigue
+   -- is real, and Context Farming is the countermeasure by which a team
+   keeps human attention on the messages that require human judgment.
+
+6.  Managing Your Agent
 
    An Agent acts on the Context it is given.  A manager who does not
    tell their Agent who they are and what they are accountable for
@@ -715,7 +760,7 @@ Table of Contents
    extends it, by making the Agent a more faithful and more responsible
    extension of the manager within the organization.
 
-6.  Managing Your People
+7.  Managing Your People
 
    The previous section addressed a manager's relationship with their
    own Agent.  This section addresses the harder problem: leading people
@@ -800,7 +845,7 @@ Table of Contents
    rewarded openly, so that those who thrive are recognized and those
    who do not are given an honest account rather than a surprise.
 
-7.  Starting a New Project
+8.  Starting a New Project
 
    Starting a new project in an agentic setting begins before any Task
    is assigned.  The team first stands up the environment its Agents
@@ -810,7 +855,7 @@ Table of Contents
    Agent inherits the strengths and the weaknesses of the environment it
    is given.
 
-7.1.  Establishing the Agent Harness
+8.1.  Establishing the Agent Harness
 
    The first step is to set up the Agent Harness the team will share.
    The harness determines which LLMs, Agent Tools, and Agent Skills are
@@ -832,7 +877,7 @@ Table of Contents
    how stale material is retired -- because a Knowledge Base that is set
    once and then neglected becomes a source of Context Rot.
 
-7.2.  The Constitution
+8.2.  The Constitution
 
    Before assigning Tasks, the team should give its Agents a
    constitution: a small set of rules that must not be violated in
@@ -848,11 +893,11 @@ Table of Contents
    Task will, absent such rules, treat almost anything as permissible if
    it appears to help; the constitution is the standing boundary a Task
    cannot override.  It belongs in the persistent Context of every Agent
-   Session, and, as Section 8.1 and the surrounding considerations note,
+   Session, and, as Section 9.1 and the surrounding considerations note,
    its most important rules should also be enforced outside the LLM
    rather than trusted to the Agent's compliance alone.
 
-7.3.  Specifying the MVP
+8.3.  Specifying the MVP
 
    With the environment and the constitution in place, the team builds
    the Spec for a minimum viable product (MVP).  The aim is not to
@@ -870,7 +915,7 @@ Table of Contents
    definition of done invites an Agent either to stop too early or to
    continue elaborating past the point of value.
 
-7.4.  Breaking Work into Steerable Chunks
+8.4.  Breaking Work into Steerable Chunks
 
    Finally, the work must be broken into chunks small enough that human
    review can steer it.  An Agent Team coordinated by a Management
@@ -887,7 +932,7 @@ Table of Contents
    is not to slow the Agents down but to keep humans in a position to
    steer while steering is still cheap.
 
-8.  Security Considerations
+9.  Security Considerations
 
    The techniques described in this document introduce security risks
    that follow from the way Agents assemble, retain, and act on Context.
@@ -897,7 +942,7 @@ Table of Contents
    section describes significant risks and corresponding mitigations for
    organizations adopting agentic product delivery.
 
-8.1.  Mixing Information of Differing Sensitivity
+9.1.  Mixing Information of Differing Sensitivity
 
    An Agent may assemble Context from files, Agent Tool results, an
    Issue Tracker, a Shared Message Bus, a Knowledge Base, and prior
@@ -932,7 +977,7 @@ Table of Contents
    that the intended audience is authorized for all included
    information.
 
-8.2.  Excessive Delegation Without Attenuation
+9.2.  Excessive Delegation Without Attenuation
 
    Delegation to an Agent is often implemented by granting the Agent the
    same credentials, access, and authority held by the delegating human.
@@ -964,7 +1009,7 @@ Table of Contents
    and recovery of changes made by a compromised or malfunctioning
    Agent.
 
-8.3.  Credential Leakage in Trajectories
+9.3.  Credential Leakage in Trajectories
 
    A Trajectory can record Prompts, model output, Agent Tool
    invocations, Tool output, and observations from an Agent Session.
@@ -991,12 +1036,12 @@ Table of Contents
 
    Trajectories that might contain secrets MUST be treated as sensitive
    artifacts, subject to the classification and handling described in
-   Section 8.1.  Access SHOULD be limited, retention periods SHOULD be
+   Section 9.1.  Access SHOULD be limited, retention periods SHOULD be
    minimized, and sharing for debugging or Eval SHOULD use sanitized
    copies.  Short-lived, scoped credentials and effective revocation
    reduce the impact of any credential that escapes these controls.
 
-8.4.  Indirect Prompt Injection from Untrusted Content
+9.4.  Indirect Prompt Injection from Untrusted Content
 
    Content retrieved from an Issue Tracker, Knowledge Base, repository,
    document, web page, or Agent Tool can contain instructions directed
@@ -1027,7 +1072,7 @@ Table of Contents
    Evals SHOULD include representative indirect Prompt injection cases
    for each Agent Skill and Agent Tool combination.
 
-8.5.  Supply Chain of Agent Tools and Agent Skills
+9.5.  Supply Chain of Agent Tools and Agent Skills
 
    An Agent Tool or Agent Skill can influence an Agent's behavior,
    access organizational data, or execute actions on behalf of an Agent
@@ -1057,7 +1102,7 @@ Table of Contents
    provide a rapid disablement mechanism for compromised Tools and
    Skills.
 
-8.6.  Auditability and Accountability of Agent Actions
+9.6.  Auditability and Accountability of Agent Actions
 
    Agentic product delivery can distribute a Task across multiple
    Agents, human reviewers, Agent Tools, and a Shared Message Bus.
@@ -1084,7 +1129,7 @@ Table of Contents
    reconstruction of events without indiscriminate retention of
    sensitive Prompt content or credentials.
 
-8.7.  Impersonation
+9.7.  Impersonation
 
    An Agent can produce fluent and confident content in the voice of a
    specific person.  On a Shared Message Bus, where humans and Agents
@@ -1113,13 +1158,13 @@ Table of Contents
    suspected impersonation, unmarked model-generated content, or misuse
    of an Agent identity.
 
-9.  IANA Considerations
+10.  IANA Considerations
 
    This document has no IANA actions.
 
-10.  References
+11.  References
 
-10.1.  Normative References
+11.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1130,7 +1175,7 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
-10.2.  Informative References
+11.2.  Informative References
 
    [DDD]      Evans, E., "Domain-Driven Design: Tackling Complexity in
               the Heart of Software", 2003.
