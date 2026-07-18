@@ -1,5 +1,5 @@
 ---
-title: "Vibeslop"
+title: "Vibeslop Confessions"
 category: info
 
 docname: draft-steele-vibeslop-latest
@@ -93,7 +93,38 @@ readers, whether machine or human.
 
 # Introduction
 
-TODO Introduction
+The material in this document is not derived from a specification or a
+standard.  It is assembled from first-hand accounts: interviews with
+people who are, at the time of writing, building software with AI Agents,
+together with direct experimentation in the new ways of working that
+agentic software delivery makes possible.  The terms and patterns
+collected here are the ones practitioners reached for when asked to
+describe what they actually do, and how their day-to-day work has changed.
+
+These accounts are offered as confessions because they are candid and
+particular rather than authoritative.  The people interviewed describe
+what is working for them and what is not, including practices they are
+not certain they should admit to and habits that have not yet settled
+into convention.  Much of agentic delivery is being invented in the open
+by people improvising against tools that change under them; capturing
+that improvisation honestly is, at this stage, more useful than
+pretending a settled discipline already exists.
+
+Accordingly, this document does not prescribe how agentic software
+delivery ought to be done.  It records concepts and techniques that are
+emerging in practice, gives them consistent names so that they can be
+discussed, and relates them to ideas already familiar to the internet
+community.  Where the document uses normative language, particularly in
+the Security Considerations, it does so to capture guidance that
+practitioners themselves treat as important, not to claim that any single
+way of working has been agreed.
+
+The reader should treat what follows as a snapshot.  As the abstract
+notes, the pace of change in this area is such that much of this document
+is expected to age quickly.  Its value is in naming and relating what
+people are doing at the time of writing, so that later readers -- human
+or machine -- can see what building software with Agents looked like
+while it was still being figured out.
 
 
 # Terminology
