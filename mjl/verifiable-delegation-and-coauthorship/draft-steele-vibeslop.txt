@@ -94,7 +94,7 @@ Table of Contents
      9.4.  Indirect Prompt Injection from Untrusted Content
      9.5.  Supply Chain of Agent Tools and Agent Skills
      9.6.  Auditability and Accountability of Agent Actions
-     9.7.  Verifiable Delegation and Attributable Action
+     9.7.  Acting Beyond an Operator's Authority
      9.8.  Impersonation
    10. IANA Considerations
    11. References
@@ -341,17 +341,6 @@ Table of Contents
       Agent against a defined set of inputs and expected outcomes.
       Evals are used to assess quality, detect regressions, and compare
       alternative models or Agent configurations.
-
-   Transparency Log:  An append-only, tamper-evident record of events
-      that any party can verify without trusting the party that
-      maintains it.  Each entry carries a receipt, a proof that the
-      entry is included in the log at a stated position, and the log can
-      be shown to be consistent over time, so that entries cannot be
-      removed or reordered after the fact.  Transparency Logs are
-      established internet infrastructure, used for example to make the
-      issuance of web certificates publicly auditable, and in an agentic
-      setting they are applied to record Agent actions in a form that
-      any participant can check.
 
    Shared Message Bus:  A communications channel in which both humans
       and their Agents participate to address a Task or set of Tasks.  A
@@ -1169,11 +1158,6 @@ Table of Contents
    Evals SHOULD include representative indirect Prompt injection cases
    for each Agent Skill and Agent Tool combination.
 
-   Because these measures reduce but cannot eliminate the risk, they are
-   most effective when paired with the containment and attribution
-   described in Section 9.7, which bound what a manipulated Agent can do
-   and make every attempt it makes attributable.
-
 9.5.  Supply Chain of Agent Tools and Agent Skills
 
    An Agent Tool or Agent Skill can influence an Agent's behavior,
@@ -1231,57 +1215,41 @@ Table of Contents
    reconstruction of events without indiscriminate retention of
    sensitive Prompt content or credentials.
 
-9.7.  Verifiable Delegation and Attributable Action
+9.7.  Acting Beyond an Operator's Authority
 
-   The considerations above call for least-privilege delegation and for
-   an auditable binding between an action, the identity that authorized
-   it, and the Agent that performed it.  A technique emerging in
-   practice is to make both of these properties verifiable rather than
-   only recorded, by composing established internet building blocks:
-   identifiers that resolve to public keys for identity, object-
-   capability tokens for authority, and a Transparency Log for the
-   record.
+   An Agent frequently operates with more authority than the person
+   directing it can personally exercise or oversee.  A Management
+   Session may hold access across many systems, a worker Agent may run
+   with credentials broader than its Task strictly requires, and, as
+   noted above, an Agent pursues its goal with initiative and will reach
+   for whatever authority is within its Bounded Context.  The risk is
+   not only a compromised Agent but an ordinary one that quietly carries
+   its operator past the limits of what that operator is qualified, or
+   permitted, to do unaided.
 
-   Under this approach each Agent and each human is named by an identity
-   that resolves to a public key, so that anything it emits can be
-   attributed to it and cannot be repudiated afterward.  Authority is
-   carried by capability tokens that a holder may narrow but never widen
-   when delegating, so that a sub-delegation is least-authority by
-   construction rather than by policy alone: an Agent that holds a
-   capability for one resource cannot confer authority it does not
-   itself hold, which is the confused-deputy failure that broad
-   delegation invites.  Each consequential action is recorded on a
-   Transparency Log as an entry naming the acting identity, the
-   capability under which it acted, and the effect, together with a
-   receipt that lets any party confirm the entry offline.
+   The control practitioners reach for first is not a new enforcement
+   mechanism but voluntary scope management through Context engineering.
+   As described in Managing Your Agent, an Agent that is told its
+   operator's role, how they are measured, and where they sit in the
+   organization can recognize when a Task falls outside its operator's
+   remit.  Given the organization's reporting structure and its
+   operator's role as durable Context, the Agent can reason about
+   authority the way a conscientious colleague would: it declines to
+   take actions its operator could not themselves get reviewed, and it
+   asks for the human approval or expert review the work warrants rather
+   than proceeding.  This keeps the Agent in bounds at the point where
+   it is cheapest to do so, in the Prompt, without slowing delivery.
 
-   Because the record is append-only and its entries are signed and
-   capability-bound, an independent observer can decide, from the log
-   alone, whether each participant acted within its authority, without
-   access to any Agent's internal reasoning and without trusting the
-   party that maintains the log.  This is the verifiable form of the
-   auditable binding urged above, built on the same attenuation
-   principle urged above.  Revocation SHOULD cascade: withdrawing a
-   capability SHOULD invalidate the authority it conferred on any
-   delegation derived from it, so that containing a compromised Agent
-   does not depend on tracing re-delegations by hand.
-
-   The guarantee this technique provides is deliberately bounded.  A
-   verifiable record does not prevent an Agent from being fooled by the
-   indirect Prompt injection described above; rather, it confines a
-   fooled or compromised Agent to the authority its capabilities carry,
-   and makes every action it attempts attributable after the fact.
-   Containment and attribution, not prevention, are what it adds, and
-   they are most valuable precisely where prevention cannot be assured.
-
-   The building blocks are ratified or widely deployed: decentralized
-   identifiers [DID-CORE], object-capability tokens such as [UCAN], COSE
-   signed messages and receipts [RFC9052] [RFC9942], and transparency
-   services of the kind standardized for supply chain integrity
-   [RFC9943].  An organization need not adopt all of them at once; even
-   recording capability-bound actions on an append-only log that
-   participants can read is a meaningful step toward the Auditability
-   and Accountability this section calls for.
+   Because it rests on the Agent's cooperation, voluntary scope
+   management has the limits of any Prompt-level rule: it aids honest
+   operation but is not proof against an adversary and is subject to
+   Context Rot, as Section 9.1 and Section 9.8 observe of their own
+   controls.  Where the authority at stake is high enough that voluntary
+   compliance is not sufficient, the least-privilege and separate-
+   approval measures of the preceding considerations apply.  For the
+   common case, however, giving an Agent enough Context about its
+   operator's role to keep itself within that operator's authority is
+   among the most effective and least disruptive controls available.
 
 9.8.  Impersonation
 
@@ -1334,9 +1302,6 @@ Table of Contents
    [DDD]      Evans, E., "Domain-Driven Design: Tackling Complexity in
               the Heart of Software", 2003.
 
-   [DID-CORE] W3C, "Decentralized Identifiers (DIDs) v1.0", 2022,
-              <https://www.w3.org/TR/did-core/>.
-
    [DISC]     Marston, W. M., "Emotions of Normal People", 1928.
 
    [INSIGHTS-DISCOVERY]
@@ -1352,22 +1317,6 @@ Table of Contents
               (MBTI)", <https://www.themyersbriggs.com/en-US/Products-
               and-Services/Myers-Briggs>.
 
-   [RFC9052]  Schaad, J., "CBOR Object Signing and Encryption (COSE):
-              Structures and Process", STD 96, RFC 9052,
-              DOI 10.17487/RFC9052, August 2022,
-              <https://www.rfc-editor.org/rfc/rfc9052>.
-
-   [RFC9942]  Steele, O., Birkholz, H., Delignat-Lavaud, A., and C.
-              Fournet, "CBOR Object Signing and Encryption (COSE)
-              Receipts", RFC 9942, DOI 10.17487/RFC9942, June 2026,
-              <https://www.rfc-editor.org/rfc/rfc9942>.
-
-   [RFC9943]  Birkholz, H., Delignat-Lavaud, A., Fournet, C., Deshpande,
-              Y., and S. Lasker, "An Architecture for Trustworthy and
-              Transparent Digital Supply Chains", RFC 9943,
-              DOI 10.17487/RFC9943, June 2026,
-              <https://www.rfc-editor.org/rfc/rfc9943>.
-
    [SHAPE-UP] Singer, R., "Shape Up: Stop Running in Circles and Ship
               Work that Matters", 2019, <https://basecamp.com/shapeup>.
 
@@ -1376,10 +1325,6 @@ Table of Contents
               <https://en.wikipedia.org/wiki/Shibboleth>.
 
    [SPEC-KIT] GitHub, "Spec Kit", <https://github.com/github/spec-kit>.
-
-   [UCAN]     UCAN Working Group, "User Controlled Authorization
-              Networks (UCAN) Specification",
-              <https://github.com/ucan-wg/spec>.
 
 Acknowledgments
 

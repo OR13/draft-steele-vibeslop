@@ -1246,7 +1246,7 @@ readers, whether machine or human.<a href="#section-abstract-1" class="pilcrow">
                 <p id="section-toc.1-1.9.2.6.1"><a href="#section-9.6" class="auto internal xref">9.6</a>.  <a href="#name-auditability-and-accountabi" class="internal xref">Auditability and Accountability of Agent Actions</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.7">
-                <p id="section-toc.1-1.9.2.7.1"><a href="#section-9.7" class="auto internal xref">9.7</a>.  <a href="#name-verifiable-delegation-and-a" class="internal xref">Verifiable Delegation and Attributable Action</a></p>
+                <p id="section-toc.1-1.9.2.7.1"><a href="#section-9.7" class="auto internal xref">9.7</a>.  <a href="#name-acting-beyond-an-operators-" class="internal xref">Acting Beyond an Operator's Authority</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.8">
                 <p id="section-toc.1-1.9.2.8.1"><a href="#section-9.8" class="auto internal xref">9.8</a>.  <a href="#name-impersonation" class="internal xref">Impersonation</a></p>
@@ -1570,21 +1570,9 @@ to assess quality, detect regressions, and compare alternative models
 or Agent configurations.<a href="#section-2-2.46.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.47">Transparency Log:</dt>
+<dt id="section-2-2.47">Shared Message Bus:</dt>
         <dd style="margin-left: 1.5em" id="section-2-2.48">
-          <p id="section-2-2.48.1">An append-only, tamper-evident record of events that any party can verify
-without trusting the party that maintains it.  Each entry carries a receipt,
-a proof that the entry is included in the log at a stated position, and the
-log can be shown to be consistent over time, so that entries cannot be
-removed or reordered after the fact.  Transparency Logs are established
-internet infrastructure, used for example to make the issuance of web
-certificates publicly auditable, and in an agentic setting they are applied
-to record Agent actions in a form that any participant can check.<a href="#section-2-2.48.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-2.49">Shared Message Bus:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.50">
-          <p id="section-2-2.50.1">A communications channel in which both humans and their Agents
+          <p id="section-2-2.48.1">A communications channel in which both humans and their Agents
 participate to address a Task or set of Tasks.  A Shared Message Bus is
 necessarily a venue where humans already collaborate with one another,
 such as IRC, Slack, Microsoft Teams, or other work productivity tools;
@@ -1593,12 +1581,12 @@ separate one.  Messages on a Shared Message Bus are delivered to both
 people and their Agents.  Because every participant receives every
 message, humans on a busy Shared Message Bus are subject to alert
 fatigue, where the volume of notifications reduces their ability to
-attend to the messages that require human judgment.<a href="#section-2-2.50.1" class="pilcrow">¶</a></p>
+attend to the messages that require human judgment.<a href="#section-2-2.48.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.51">Proxy Dictation:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.52">
-          <p id="section-2-2.52.1">A communication pattern in which a participant addresses another party's
+<dt id="section-2-2.49">Proxy Dictation:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.50">
+          <p id="section-2-2.50.1">A communication pattern in which a participant addresses another party's
 Agent directly, in a register deliberately less human-centric than
 ordinary conversation -- terse, imperative, and to the point of being
 offensive by human standards.  The register is chosen precisely because
@@ -1606,45 +1594,45 @@ the target of the language is not the human but their assistant; the
 same speaker would address the human very differently.  Because Proxy
 Dictation typically occurs on a Shared Message Bus, where the human can
 see it, the bluntness may read as offensive to onlookers even though no
-offense is directed at any person.<a href="#section-2-2.52.1" class="pilcrow">¶</a></p>
+offense is directed at any person.<a href="#section-2-2.50.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.53">Issue Tracker:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.54">
-          <p id="section-2-2.54.1">A system that records work to be done as a set of issues, each
+<dt id="section-2-2.51">Issue Tracker:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.52">
+          <p id="section-2-2.52.1">A system that records work to be done as a set of issues, each
 describing a Task and its status.  Issues can be assigned to a specific
 person or Agent, which establishes ownership and prevents double work
 when several participants might otherwise act on the same Task.  Whereas
 a Shared Message Bus broadcasts every message to every participant, an Issue
 Tracker directs work to an assigned owner; the two are often used
 together, with Shared Message Bus messages referencing issues and updates to
-issues announced on the Shared Message Bus.<a href="#section-2-2.54.1" class="pilcrow">¶</a></p>
+issues announced on the Shared Message Bus.<a href="#section-2-2.52.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.55">Context Farming:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.56">
-          <p id="section-2-2.56.1">The process of engineering ways to extract feedback, review, and
+<dt id="section-2-2.53">Context Farming:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.54">
+          <p id="section-2-2.54.1">The process of engineering ways to extract feedback, review, and
 criticism from humans without overwhelming them.  Context Farming seeks
 to gather the human judgment an Agent needs while respecting the limits
 of human attention, for example by batching requests, summarizing what
 is at stake, and asking for input only at the points where it changes
 the outcome.  It is a countermeasure to the alert fatigue that arises on
-a Shared Message Bus.<a href="#section-2-2.56.1" class="pilcrow">¶</a></p>
+a Shared Message Bus.<a href="#section-2-2.54.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.57">Design Review Link:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.58">
-          <p id="section-2-2.58.1">A URL surfaced to a human to facilitate Context Farming.  A Design
+<dt id="section-2-2.55">Design Review Link:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.56">
+          <p id="section-2-2.56.1">A URL surfaced to a human to facilitate Context Farming.  A Design
 Review Link presents the artifact under consideration -- such as a
 rendered document, a proposed change, or a running interface -- in a
 form the human can inspect and respond to, so that their feedback can be
 captured and fed back into an Agent Session's Context with minimal
-disruption.<a href="#section-2-2.58.1" class="pilcrow">¶</a></p>
+disruption.<a href="#section-2-2.56.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.59">Walkthrough:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.60">
-          <p id="section-2-2.60.1">A structured Context Farming technique in which a driver and a navigator
+<dt id="section-2-2.57">Walkthrough:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.58">
+          <p id="section-2-2.58.1">A structured Context Farming technique in which a driver and a navigator
 collaborate to elicit feedback from humans by completing a set of
 well-defined steps in an application while commenting on the quality of
 the product experience.  The driver performs the steps and the navigator
@@ -1652,12 +1640,12 @@ observes and narrates, and the running commentary -- what worked, what
 was confusing, what should change -- becomes Context that is fed back
 into subsequent Agent Sessions.  A Walkthrough is often initiated from a
 Design Review Link so that the steps are exercised against the actual
-artifact under review.<a href="#section-2-2.60.1" class="pilcrow">¶</a></p>
+artifact under review.<a href="#section-2-2.58.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.61">Management Session:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.62">
-          <p id="section-2-2.62.1">An Agent Session whose Task is to help a human manage many parallel Agent
+<dt id="section-2-2.59">Management Session:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.60">
+          <p id="section-2-2.60.1">An Agent Session whose Task is to help a human manage many parallel Agent
 Sessions rather than to perform the underlying work itself.  A Management
 Session applies a command-and-control (C2) pattern, borrowed from
 operational settings where one node directs many others: it decomposes
@@ -1665,56 +1653,56 @@ work into Tasks, assigns them to worker Agent Sessions -- for example by
 assigning issues from an Issue Tracker -- and dispatches work that can be
 progressed in parallel.  It tracks the status of the sessions it manages
 and integrates their results, and may communicate with humans and other
-Agents over a Shared Message Bus.<a href="#section-2-2.62.1" class="pilcrow">¶</a></p>
+Agents over a Shared Message Bus.<a href="#section-2-2.60.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.63">Product Development Wheel:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.64">
-          <p id="section-2-2.64.1">An iterative, cyclical model of product development in which the stages
+<dt id="section-2-2.61">Product Development Wheel:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.62">
+          <p id="section-2-2.62.1">An iterative, cyclical model of product development in which the stages
 of the work -- such as discovery, definition, design, delivery, and
 learning -- feed continuously back into one another rather than
 proceeding as a single linear pass.  The wheel emphasizes that what is
 learned from a shipped product informs the next turn of the cycle, so
 that development is understood as ongoing rounds of building and learning
-rather than a project with a fixed end.<a href="#section-2-2.64.1" class="pilcrow">¶</a></p>
+rather than a project with a fixed end.<a href="#section-2-2.62.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.65">Jobs to Be Done:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.66">
-          <p id="section-2-2.66.1">A framework for understanding customer motivation, which holds that
+<dt id="section-2-2.63">Jobs to Be Done:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.64">
+          <p id="section-2-2.64.1">A framework for understanding customer motivation, which holds that
 customers "hire" a product to make progress on a job -- a goal they are
 trying to accomplish in a particular circumstance <span>[<a href="#JTBD" class="cite xref">JTBD</a>]</span>.  Jobs to Be
 Done directs design and prioritization toward the underlying job the
 customer is trying to get done, rather than toward customer demographics
 or a product's existing features, so that the outcome a customer seeks
-drives what is built.<a href="#section-2-2.66.1" class="pilcrow">¶</a></p>
+drives what is built.<a href="#section-2-2.64.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.67">Shape Up:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.68">
-          <p id="section-2-2.68.1">A product development framework articulated by Basecamp <span>[<a href="#SHAPE-UP" class="cite xref">SHAPE-UP</a>]</span>
+<dt id="section-2-2.65">Shape Up:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.66">
+          <p id="section-2-2.66.1">A product development framework articulated by Basecamp <span>[<a href="#SHAPE-UP" class="cite xref">SHAPE-UP</a>]</span>
 that organizes work into fixed-length cycles with variable scope.  Work
 is shaped at an appropriate level of abstraction before it is committed
 to; an appetite -- how much time the work is worth -- is set in place of
 an estimate; responsible parties then bet on shaped work and are given
 full responsibility to deliver it within the fixed time.  Shape Up is
 cited here as one concrete, well-documented methodology for scoping and
-committing to product work.<a href="#section-2-2.68.1" class="pilcrow">¶</a></p>
+committing to product work.<a href="#section-2-2.66.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.69">Iteration (Sprint):</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.70">
-          <p id="section-2-2.70.1">A fixed-length cycle of product delivery work, also commonly called a
+<dt id="section-2-2.67">Iteration (Sprint):</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.68">
+          <p id="section-2-2.68.1">A fixed-length cycle of product delivery work, also commonly called a
 sprint, at the end of which progress is reviewed and the next cycle is
 planned.  An Iteration gives the organization a regular cadence for
 planning, delivering, and measuring work, and in this document it is the
 natural interval over which the cost of agentic delivery, including Token
-consumption, is aggregated.<a href="#section-2-2.70.1" class="pilcrow">¶</a></p>
+consumption, is aggregated.<a href="#section-2-2.68.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.71">Psychometric Profile:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.72">
-          <p id="section-2-2.72.1">A structured description of a person's disposition, communication style,
+<dt id="section-2-2.69">Psychometric Profile:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.70">
+          <p id="section-2-2.70.1">A structured description of a person's disposition, communication style,
 and preferences derived from a standardized instrument.  Examples in
 scope here are type-based instruments that sort individuals into discrete
 categories, such as Insights Discovery <span>[<a href="#INSIGHTS-DISCOVERY" class="cite xref">INSIGHTS-DISCOVERY</a>]</span>,
@@ -1723,12 +1711,12 @@ Psychometric Profile is to a human roughly what a configured persona or
 system prompt is to an Agent: a durable, portable summary of disposition
 that helps collaborators anticipate how a party will behave and
 communicate.  Within an Agent Team, profiles of the human participants
-can inform how work and Context are addressed to them.<a href="#section-2-2.72.1" class="pilcrow">¶</a></p>
+can inform how work and Context are addressed to them.<a href="#section-2-2.70.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.73">Vibeslop:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.74">
-          <p id="section-2-2.74.1">Output produced quickly by an Agent from loosely specified intent,
+<dt id="section-2-2.71">Vibeslop:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.72">
+          <p id="section-2-2.72.1">Output produced quickly by an Agent from loosely specified intent,
 favoring speed over precision.  The term is deliberately dual-valued and
 its connotation depends on context.  Used negatively, Vibeslop describes
 low-quality, under-specified output offered where clarity and detail were
@@ -1738,7 +1726,7 @@ reaction and elicit feedback, where the goal is momentum and shared
 understanding rather than finished detail; in this sense it is a
 legitimate Context Farming device.  The same artifact may be Vibeslop in
 the pejorative sense or the approving sense depending only on whether the
-situation calls for speed and a strawman or for clarity and detail.<a href="#section-2-2.74.1" class="pilcrow">¶</a></p>
+situation calls for speed and a strawman or for clarity and detail.<a href="#section-2-2.72.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
@@ -2436,10 +2424,6 @@ additional confirmation for consequential actions.<a href="#section-9.4-3" class
 authority solely because a retrieved artifact requests it. Evals <span class="bcp14">SHOULD</span>
 include representative indirect Prompt injection cases for each Agent Skill
 and Agent Tool combination.<a href="#section-9.4-4" class="pilcrow">¶</a></p>
-<p id="section-9.4-5">Because these measures reduce but cannot eliminate the risk, they are most
-effective when paired with the containment and attribution described in
-<a href="#verifiable-delegation" class="auto internal xref">Section 9.7</a>, which bound what a manipulated Agent can do and make
-every attempt it makes attributable.<a href="#section-9.4-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="supply-chain-of-agent-tools-and-agent-skills">
@@ -2498,52 +2482,39 @@ Audit records <span class="bcp14">SHOULD</span> support reconstruction of events
 retention of sensitive Prompt content or credentials.<a href="#section-9.6-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="verifiable-delegation">
+<div id="scope-management">
 <section id="section-9.7">
-        <h3 id="name-verifiable-delegation-and-a">
-<a href="#section-9.7" class="section-number selfRef">9.7. </a><a href="#name-verifiable-delegation-and-a" class="section-name selfRef">Verifiable Delegation and Attributable Action</a>
+        <h3 id="name-acting-beyond-an-operators-">
+<a href="#section-9.7" class="section-number selfRef">9.7. </a><a href="#name-acting-beyond-an-operators-" class="section-name selfRef">Acting Beyond an Operator's Authority</a>
         </h3>
-<p id="section-9.7-1">The considerations above call for least-privilege delegation and for an
-auditable binding between an action, the identity that authorized it, and the
-Agent that performed it.  A technique emerging in practice is to make both of
-these properties verifiable rather than only recorded, by composing
-established internet building blocks: identifiers that resolve to public keys
-for identity, object-capability tokens for authority, and a Transparency Log
-for the record.<a href="#section-9.7-1" class="pilcrow">¶</a></p>
-<p id="section-9.7-2">Under this approach each Agent and each human is named by an identity that
-resolves to a public key, so that anything it emits can be attributed to it
-and cannot be repudiated afterward.  Authority is carried by capability tokens
-that a holder may narrow but never widen when delegating, so that a
-sub-delegation is least-authority by construction rather than by policy alone:
-an Agent that holds a capability for one resource cannot confer authority it
-does not itself hold, which is the confused-deputy failure that broad
-delegation invites.  Each consequential action is recorded on a Transparency
-Log as an entry naming the acting identity, the capability under which it
-acted, and the effect, together with a receipt that lets any party confirm the
-entry offline.<a href="#section-9.7-2" class="pilcrow">¶</a></p>
-<p id="section-9.7-3">Because the record is append-only and its entries are signed and
-capability-bound, an independent observer can decide, from the log alone,
-whether each participant acted within its authority, without access to any
-Agent's internal reasoning and without trusting the party that maintains the
-log.  This is the verifiable form of the auditable binding urged above, built
-on the same attenuation principle urged above.  Revocation <span class="bcp14">SHOULD</span> cascade:
-withdrawing a capability <span class="bcp14">SHOULD</span> invalidate the authority it conferred on any
-delegation derived from it, so that containing a compromised Agent does not
-depend on tracing re-delegations by hand.<a href="#section-9.7-3" class="pilcrow">¶</a></p>
-<p id="section-9.7-4">The guarantee this technique provides is deliberately bounded.  A verifiable
-record does not prevent an Agent from being fooled by the indirect Prompt
-injection described above; rather, it confines a fooled or compromised Agent
-to the authority its capabilities carry, and makes every action it attempts
-attributable after the fact.  Containment and attribution, not prevention, are
-what it adds, and they are most valuable precisely where prevention cannot be
-assured.<a href="#section-9.7-4" class="pilcrow">¶</a></p>
-<p id="section-9.7-5">The building blocks are ratified or widely deployed: decentralized identifiers
-<span>[<a href="#DID-CORE" class="cite xref">DID-CORE</a>]</span>, object-capability tokens such as <span>[<a href="#UCAN" class="cite xref">UCAN</a>]</span>, COSE signed messages
-and receipts <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span> <span>[<a href="#RFC9942" class="cite xref">RFC9942</a>]</span>, and transparency services of the kind
-standardized for supply chain integrity <span>[<a href="#RFC9943" class="cite xref">RFC9943</a>]</span>.  An organization need not
-adopt all of them at once; even recording capability-bound actions on an
-append-only log that participants can read is a meaningful step toward the
-Auditability and Accountability this section calls for.<a href="#section-9.7-5" class="pilcrow">¶</a></p>
+<p id="section-9.7-1">An Agent frequently operates with more authority than the person directing it
+can personally exercise or oversee.  A Management Session may hold access
+across many systems, a worker Agent may run with credentials broader than its
+Task strictly requires, and, as noted above, an Agent pursues its goal with
+initiative and will reach for whatever authority is within its Bounded
+Context.  The risk is not only a compromised Agent but an ordinary one that
+quietly carries its operator past the limits of what that operator is
+qualified, or permitted, to do unaided.<a href="#section-9.7-1" class="pilcrow">¶</a></p>
+<p id="section-9.7-2">The control practitioners reach for first is not a new enforcement mechanism
+but voluntary scope management through Context engineering.  As described in
+Managing Your Agent, an Agent that is told its operator's role, how they are
+measured, and where they sit in the organization can recognize when a Task
+falls outside its operator's remit.  Given the organization's reporting
+structure and its operator's role as durable Context, the Agent can reason
+about authority the way a conscientious colleague would: it declines to take
+actions its operator could not themselves get reviewed, and it asks for the
+human approval or expert review the work warrants rather than proceeding.
+This keeps the Agent in bounds at the point where it is cheapest to do so, in
+the Prompt, without slowing delivery.<a href="#section-9.7-2" class="pilcrow">¶</a></p>
+<p id="section-9.7-3">Because it rests on the Agent's cooperation, voluntary scope management has the
+limits of any Prompt-level rule: it aids honest operation but is not proof
+against an adversary and is subject to Context Rot, as <a href="#mixing-sensitivity" class="auto internal xref">Section 9.1</a>
+and <a href="#impersonation" class="auto internal xref">Section 9.8</a> observe of their own controls.  Where the authority at
+stake is high enough that voluntary compliance is not sufficient, the
+least-privilege and separate-approval measures of the preceding considerations
+apply.  For the common case, however, giving an Agent enough Context about its
+operator's role to keep itself within that operator's authority is among the
+most effective and least disruptive controls available.<a href="#section-9.7-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="impersonation">
@@ -2616,10 +2587,6 @@ Agent identity.<a href="#section-9.8-4" class="pilcrow">¶</a></p>
         <dd>
 <span class="refAuthor">Evans, E.</span>, <span class="refTitle">"Domain-Driven Design: Tackling Complexity in the Heart of Software"</span>, <time datetime="2003" class="refDate">2003</time>. </dd>
 <dd class="break"></dd>
-<dt id="DID-CORE">[DID-CORE]</dt>
-        <dd>
-<span class="refAuthor">W3C</span>, <span class="refTitle">"Decentralized Identifiers (DIDs) v1.0"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://www.w3.org/TR/did-core/">https://www.w3.org/TR/did-core/</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="DISC">[DISC]</dt>
         <dd>
 <span class="refAuthor">Marston, W. M.</span>, <span class="refTitle">"Emotions of Normal People"</span>, <time datetime="1928" class="refDate">1928</time>. </dd>
@@ -2636,18 +2603,6 @@ Agent identity.<a href="#section-9.8-4" class="pilcrow">¶</a></p>
         <dd>
 <span class="refAuthor">The Myers-Briggs Company</span>, <span class="refTitle">"The Myers-Briggs Type Indicator (MBTI)"</span>, <span>&lt;<a href="https://www.themyersbriggs.com/en-US/Products-and-Services/Myers-Briggs">https://www.themyersbriggs.com/en-US/Products-and-Services/Myers-Briggs</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC9052">[RFC9052]</dt>
-        <dd>
-<span class="refAuthor">Schaad, J.</span>, <span class="refTitle">"CBOR Object Signing and Encryption (COSE): Structures and Process"</span>, <span class="seriesInfo">STD 96</span>, <span class="seriesInfo">RFC 9052</span>, <span class="seriesInfo">DOI 10.17487/RFC9052</span>, <time datetime="2022-08" class="refDate">August 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9052">https://www.rfc-editor.org/rfc/rfc9052</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC9942">[RFC9942]</dt>
-        <dd>
-<span class="refAuthor">Steele, O.</span>, <span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Delignat-Lavaud, A.</span>, and <span class="refAuthor">C. Fournet</span>, <span class="refTitle">"CBOR Object Signing and Encryption (COSE) Receipts"</span>, <span class="seriesInfo">RFC 9942</span>, <span class="seriesInfo">DOI 10.17487/RFC9942</span>, <time datetime="2026-06" class="refDate">June 2026</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9942">https://www.rfc-editor.org/rfc/rfc9942</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC9943">[RFC9943]</dt>
-        <dd>
-<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Delignat-Lavaud, A.</span>, <span class="refAuthor">Fournet, C.</span>, <span class="refAuthor">Deshpande, Y.</span>, and <span class="refAuthor">S. Lasker</span>, <span class="refTitle">"An Architecture for Trustworthy and Transparent Digital Supply Chains"</span>, <span class="seriesInfo">RFC 9943</span>, <span class="seriesInfo">DOI 10.17487/RFC9943</span>, <time datetime="2026-06" class="refDate">June 2026</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9943">https://www.rfc-editor.org/rfc/rfc9943</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="SHAPE-UP">[SHAPE-UP]</dt>
         <dd>
 <span class="refAuthor">Singer, R.</span>, <span class="refTitle">"Shape Up: Stop Running in Circles and Ship Work that Matters"</span>, <time datetime="2019" class="refDate">2019</time>, <span>&lt;<a href="https://basecamp.com/shapeup">https://basecamp.com/shapeup</a>&gt;</span>. </dd>
@@ -2657,12 +2612,8 @@ Agent identity.<a href="#section-9.8-4" class="pilcrow">¶</a></p>
 <span class="refAuthor">Wikipedia</span>, <span class="refTitle">"Shibboleth"</span>, <span>&lt;<a href="https://en.wikipedia.org/wiki/Shibboleth">https://en.wikipedia.org/wiki/Shibboleth</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="SPEC-KIT">[SPEC-KIT]</dt>
-        <dd>
-<span class="refAuthor">GitHub</span>, <span class="refTitle">"Spec Kit"</span>, <span>&lt;<a href="https://github.com/github/spec-kit">https://github.com/github/spec-kit</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="UCAN">[UCAN]</dt>
       <dd>
-<span class="refAuthor">UCAN Working Group</span>, <span class="refTitle">"User Controlled Authorization Networks (UCAN) Specification"</span>, <span>&lt;<a href="https://github.com/ucan-wg/spec">https://github.com/ucan-wg/spec</a>&gt;</span>. </dd>
+<span class="refAuthor">GitHub</span>, <span class="refTitle">"Spec Kit"</span>, <span>&lt;<a href="https://github.com/github/spec-kit">https://github.com/github/spec-kit</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
