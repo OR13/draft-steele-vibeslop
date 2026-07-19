@@ -27,6 +27,10 @@ author:
     fullname: "Orie Steele"
     organization: Tradeverifyd
     email: "orie@or13.io"
+ -
+    fullname: "Michael Lavelle"
+    organization: Tradeverifyd
+    email: "michael.lavelle@tradeverifyd.com"
 
 normative:
 
@@ -1171,6 +1175,39 @@ it. Human approval, where required, SHOULD identify the specific proposed
 action and material scope rather than approving an open-ended Trajectory.
 Audit records SHOULD support reconstruction of events without indiscriminate
 retention of sensitive Prompt content or credentials.
+
+## Acting Beyond an Operator's Authority {#scope-management}
+
+An Agent frequently operates with more authority than the person directing it
+can personally exercise or oversee.  A Management Session may hold access
+across many systems, a worker Agent may run with credentials broader than its
+Task strictly requires, and, as noted above, an Agent pursues its goal with
+initiative and will reach for whatever authority is within its Bounded
+Context.  The risk is not only a compromised Agent but an ordinary one that
+quietly carries its operator past the limits of what that operator is
+qualified, or permitted, to do unaided.
+
+The control practitioners reach for first is not a new enforcement mechanism
+but voluntary scope management through Context engineering.  As described in
+Managing Your Agent, an Agent that is told its operator's role, how they are
+measured, and where they sit in the organization can recognize when a Task
+falls outside its operator's remit.  Given the organization's reporting
+structure and its operator's role as durable Context, the Agent can reason
+about authority the way a conscientious colleague would: it declines to take
+actions its operator could not themselves get reviewed, and it asks for the
+human approval or expert review the work warrants rather than proceeding.
+This keeps the Agent in bounds at the point where it is cheapest to do so, in
+the Prompt, without slowing delivery.
+
+Because it rests on the Agent's cooperation, voluntary scope management has the
+limits of any Prompt-level rule: it aids honest operation but is not proof
+against an adversary and is subject to Context Rot, as {{mixing-sensitivity}}
+and {{impersonation}} observe of their own controls.  Where the authority at
+stake is high enough that voluntary compliance is not sufficient, the
+least-privilege and separate-approval measures of the preceding considerations
+apply.  For the common case, however, giving an Agent enough Context about its
+operator's role to keep itself within that operator's authority is among the
+most effective and least disruptive controls available.
 
 ## Impersonation {#impersonation}
 
