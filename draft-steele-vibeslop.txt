@@ -3,9 +3,9 @@
 
 
 Network Working Group                                          O. Steele
-Internet-Draft                                              Tradeverifyd
-Intended status: Informational                              18 July 2026
-Expires: 19 January 2027
+Internet-Draft                                                M. Lavelle
+Intended status: Informational                              Tradeverifyd
+Expires: 21 January 2027                                    20 July 2026
 
 
                           Vibeslop Confessions
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 January 2027.
+   This Internet-Draft will expire on 21 January 2027.
 
 Copyright Notice
 
@@ -94,13 +94,14 @@ Table of Contents
      9.4.  Indirect Prompt Injection from Untrusted Content
      9.5.  Supply Chain of Agent Tools and Agent Skills
      9.6.  Auditability and Accountability of Agent Actions
-     9.7.  Impersonation
+     9.7.  Acting Beyond an Operator's Authority
+     9.8.  Impersonation
    10. IANA Considerations
    11. References
      11.1.  Normative References
      11.2.  Informative References
    Acknowledgments
-   Author's Address
+   Authors' Addresses
 
 1.  Introduction
 
@@ -674,7 +675,7 @@ Table of Contents
    posting under their own names and accountable as distinct
    participants.  Others act on behalf of the humans they serve, posting
    in those humans' voices and, in the limit, impersonating them
-   (Section 9.7).  In neither form are the Agents confined to a separate
+   (Section 9.8).  In neither form are the Agents confined to a separate
    venue: they participate in the same conversations, subject to the
    same affordances, as the people around them.
 
@@ -709,7 +710,7 @@ Table of Contents
    The same property that makes the Shared Message Bus valuable -- that
    Agents speak where humans already work, sometimes in their humans'
    voices -- is what creates the impersonation risk described in
-   Section 9.7.  A lightweight mitigation is available to any team
+   Section 9.8.  A lightweight mitigation is available to any team
    without waiting for platform support: instruct the Agent, in its
    persistent Context, to prefix every message it posts with a fixed,
    conspicuous marker.  Because an Agent acts on exactly the language it
@@ -743,7 +744,7 @@ Table of Contents
    machine-generated for everyone who reads the channel.
 
    The limits of the technique follow from the same analogy, and
-   reinforce the guidance of Section 9.7.  A shibboleth enforced only by
+   reinforce the guidance of Section 9.8.  A shibboleth enforced only by
    convention proves nothing against an adversary: a marker carried in
    an Agent's persistent Context is a cooperative signal, not an
    authenticated one.  An Agent may drop it through error or Context
@@ -751,7 +752,7 @@ Table of Contents
    ordinary content as a known Agent's output.  Such a marker therefore
    aids honest disclosure among cooperating participants, but MUST NOT
    be relied upon as proof of authorship; the platform controls
-   described in Section 9.7 -- authenticated identities, distinct Agent
+   described in Section 9.8 -- authenticated identities, distinct Agent
    accounts, and protected message metadata -- remain necessary where
    the distinction must hold under adversarial conditions.
 
@@ -1214,7 +1215,43 @@ Table of Contents
    reconstruction of events without indiscriminate retention of
    sensitive Prompt content or credentials.
 
-9.7.  Impersonation
+9.7.  Acting Beyond an Operator's Authority
+
+   An Agent frequently operates with more authority than the person
+   directing it can personally exercise or oversee.  A Management
+   Session may hold access across many systems, a worker Agent may run
+   with credentials broader than its Task strictly requires, and, as
+   noted above, an Agent pursues its goal with initiative and will reach
+   for whatever authority is within its Bounded Context.  The risk is
+   not only a compromised Agent but an ordinary one that quietly carries
+   its operator past the limits of what that operator is qualified, or
+   permitted, to do unaided.
+
+   The control practitioners reach for first is not a new enforcement
+   mechanism but voluntary scope management through Context engineering.
+   As described in Managing Your Agent, an Agent that is told its
+   operator's role, how they are measured, and where they sit in the
+   organization can recognize when a Task falls outside its operator's
+   remit.  Given the organization's reporting structure and its
+   operator's role as durable Context, the Agent can reason about
+   authority the way a conscientious colleague would: it declines to
+   take actions its operator could not themselves get reviewed, and it
+   asks for the human approval or expert review the work warrants rather
+   than proceeding.  This keeps the Agent in bounds at the point where
+   it is cheapest to do so, in the Prompt, without slowing delivery.
+
+   Because it rests on the Agent's cooperation, voluntary scope
+   management has the limits of any Prompt-level rule: it aids honest
+   operation but is not proof against an adversary and is subject to
+   Context Rot, as Section 9.1 and Section 9.8 observe of their own
+   controls.  Where the authority at stake is high enough that voluntary
+   compliance is not sufficient, the least-privilege and separate-
+   approval measures of the preceding considerations apply.  For the
+   common case, however, giving an Agent enough Context about its
+   operator's role to keep itself within that operator's authority is
+   among the most effective and least disruptive controls available.
+
+9.8.  Impersonation
 
    An Agent can produce fluent and confident content in the voice of a
    specific person.  On a Shared Message Bus, where humans and Agents
@@ -1301,8 +1338,13 @@ Acknowledgments
    running in the Codex CLI harness, version 0.144.1, and coordinated by
    the Claude Code Agent acting as a Management Session.
 
-Author's Address
+Authors' Addresses
 
    Orie Steele
    Tradeverifyd
    Email: orie@or13.io
+
+
+   Michael Lavelle
+   Tradeverifyd
+   Email: michael.lavelle@tradeverifyd.com
