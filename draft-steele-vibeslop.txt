@@ -1299,10 +1299,24 @@ Table of Contents
 
 11.2.  Informative References
 
+   [CLAUDE-CODE]
+              Anthropic, "Claude Code",
+              <https://www.anthropic.com/claude-code>.
+
+   [CLAUDE-OPUS]
+              Anthropic, "Claude Opus",
+              <https://www.anthropic.com/claude>.
+
+   [CODEX-CLI]
+              OpenAI, "Codex CLI", <https://github.com/openai/codex>.
+
    [DDD]      Evans, E., "Domain-Driven Design: Tackling Complexity in
               the Heart of Software", 2003.
 
    [DISC]     Marston, W. M., "Emotions of Normal People", 1928.
+
+   [GPT-TERRA]
+              OpenAI, "GPT", <https://openai.com>.
 
    [INSIGHTS-DISCOVERY]
               The Insights Group Ltd., "Insights Discovery",
@@ -1330,13 +1344,14 @@ Acknowledgments
 
    Portions of this document were drafted with the assistance of an AI
    Agent.  The Agent used Anthropic's Claude Opus 4.8 (1M context) model
-   (claude-opus-4-8[1m]), running in the Claude Code harness, version
-   2.1.207.
+   [CLAUDE-OPUS] (claude-opus-4-8[1m]), running in the Claude Code
+   [CLAUDE-CODE] harness, version 2.1.207.
 
    The Security Considerations were expanded and refined with the
    assistance of a second Agent, using OpenAI's gpt-5.6-terra model
-   running in the Codex CLI harness, version 0.144.1, and coordinated by
-   the Claude Code Agent acting as a Management Session.
+   [GPT-TERRA] running in the Codex CLI [CODEX-CLI] harness, version
+   0.144.1, and coordinated by the Claude Code Agent acting as a
+   Management Session.
 
 Authors' Addresses
 
