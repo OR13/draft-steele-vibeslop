@@ -84,6 +84,30 @@ informative:
     author:
       - org: Wikipedia
     date: false
+  CLAUDE-OPUS:
+    title: "Claude Opus"
+    target: https://www.anthropic.com/claude
+    author:
+      - org: Anthropic
+    date: false
+  CLAUDE-CODE:
+    title: "Claude Code"
+    target: https://www.anthropic.com/claude-code
+    author:
+      - org: Anthropic
+    date: false
+  GPT-TERRA:
+    title: "GPT"
+    target: https://openai.com
+    author:
+      - org: OpenAI
+    date: false
+  CODEX-CLI:
+    title: "Codex CLI"
+    target: https://github.com/openai/codex
+    author:
+      - org: OpenAI
+    date: false
 
 ...
 
@@ -1249,9 +1273,10 @@ This document has no IANA actions.
 
 Portions of this document were drafted with the assistance of an AI Agent.
 The Agent used Anthropic's Claude Opus 4.8 (1M context) model
-(claude-opus-4-8[1m]), running in the Claude Code harness, version 2.1.207.
+{{CLAUDE-OPUS}} (claude-opus-4-8\[1m\]), running in the Claude Code
+{{CLAUDE-CODE}} harness, version 2.1.207.
 
 The Security Considerations were expanded and refined with the assistance
-of a second Agent, using OpenAI's gpt-5.6-terra model running in the Codex
-CLI harness, version 0.144.1, and coordinated by the Claude Code Agent
-acting as a Management Session.
+of a second Agent, using OpenAI's gpt-5.6-terra model {{GPT-TERRA}}
+running in the Codex CLI {{CODEX-CLI}} harness, version 0.144.1, and
+coordinated by the Claude Code Agent acting as a Management Session.
