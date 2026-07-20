@@ -1,0 +1,2686 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>Vibeslop Confessions</title>
+<meta content="Orie Steele" name="author">
+<meta content="Michael Lavelle" name="author">
+<meta content="
+       AI Agents have transformed the way internet applications are developed and
+have introduced a new set of challenges for organizations.  This document
+describes techniques and concepts that are emerging to assist with these
+challenges, and relates them to concepts already familiar to the internet
+community.  The pace of change in this area is accelerating, and it is
+anticipated that much of what this document discusses will become outdated
+quickly; nevertheless, a static publication may prove amusing to future
+readers, whether machine or human. 
+    " name="description">
+<meta content="xml2rfc 3.34.0" name="generator">
+<meta content="artificial intelligence" name="keyword">
+<meta content="agents" name="keyword">
+<meta content="large language models" name="keyword">
+<meta content="draft-steele-vibeslop-latest" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.34.0
+    Python 3.14.5
+    ConfigArgParse 1.7.5
+    google-i18n-address 3.1.1
+    intervaltree 3.2.1
+    Jinja2 3.1.6
+    lxml 6.1.1
+    natsort 8.4.0
+    platformdirs 4.10.1
+    pycountry 24.6.1
+    PyYAML 6.0.3
+    requests 2.33.1
+    wcwidth 0.8.2
+-->
+<link href="draft-steele-vibeslop.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Lora SemiBold'), local('Lora-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+}
+
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  color-scheme: light dark;
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --pilcrow-weak: #ddd;
+  --pilcrow-strong: #bbb;
+  --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
+  --font-title: "Sofia Sans Semi Condensed", sans-serif;
+  scrollbar-color: #bbb #eee;
+}
+body {
+  max-width: 600px;
+  margin: 75px auto;
+  padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
+}
+
+.ears {
+  display: none;
+}
+
+/* headings */
+section {
+  clear: both;
+}
+.section-number {
+  padding-right: 0.5em;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+  font-weight: 680;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+h1 {
+  &#title {
+    font-size: 32px;
+    line-height: 40px;
+    clear: both;
+    margin: 1.5em 0 0.2em;
+  }
+  &#rfcnum {
+    margin: 1.5em 0 0.2em;
+    & + h1#title {
+      margin: 0.2em 0;
+    }
+  }
+}
+
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 27px;
+}
+h4, h5, h6 {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+#abstract+p {
+  font-size: 18px;
+  line-height: 24px;
+  & code, & samp, & tt {
+    font-size: 16px;
+    line-height: 0;
+  }
+}
+
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div {
+  margin: 0;
+}
+.alignRight {
+  margin: 1em 0;
+  &.art-text {
+    background-color: var(--highlight-color);
+    border: 1px solid var(--line-color);
+    border-radius: 3px;
+    padding: 0.5em 1em 0;
+    margin-bottom: 0.5em;
+    & pre {
+      padding: 0;
+      width: auto;
+    }
+  }
+  & > *:first-child {
+    border: none;
+    margin: 0;
+    float: right;
+    clear: both;
+  }
+  & > *:nth-child(2) {
+    clear: both;
+    display: block;
+    border: none;
+  }
+}
+svg {
+  display: block;
+  /* font-family isn't space-separated, but =~ will have to do */
+  &[font-family~="monospace" i], & [font-family~="monospace" i] {
+    font-family: var(--font-mono);
+  }
+}
+.alignCenter {
+  margin: 1em 0;
+  &.art-text {
+    background-color: var(--highlight-color);
+    border: 1px solid var(--line-color);
+    border-radius: 3px;
+    padding: 0.5em 1em 0;
+    margin-bottom: 0.5em;
+    & pre {
+      padding: 0;
+      width: auto;
+    }
+  }
+  & > *:first-child {
+    border: none;
+    /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+       support flexbox yet.
+    */
+    display: table;
+    margin: 0 auto;
+  }
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 0.5em 2em;
+  & :is(ol, ul) {
+    margin-left: 1em;
+  }
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+  & li {
+    margin-top: 0.5em;
+  }
+}
+:is(ul, ol).compact, .ulCompact, .olCompact {
+  margin: 0 0 0 2em;
+  & li {
+    margin: 0;
+    & :first-child { margin-top: 0; }
+    & :last-child { margin-bottom: 0; }
+  }
+}
+
+/* definition lists */
+dl {
+  clear: left;
+  --indent: 3ch;
+  /* --indent: attr(indent ch); not supported in any browser, but we can dream */
+  &.olPercent {
+    --indent: 5ch;
+    & > dt {
+      min-width: calc(var(--indent) - 2ch);
+      float: none;
+    }
+  }
+
+  dl > dd > & {
+    margin-top: 0.5em;
+    margin-bottom: 0;
+  }
+
+  &:not(.dlNewline) > dt {
+    float: left;
+    margin-right: 2ch;
+    min-width: 8ch;
+  }
+  & > dd {
+    margin-bottom: .8em;
+    margin-left: var(--indent) !important; /* stupid element overrides */
+    min-height: 2ex;
+  }
+}
+:is(dl.compact, .dlCompact) > dd {
+  margin-bottom: 0;
+  & > :is(:first-child, .break:first-child + *) {
+    margin-top: 0;
+  }
+  & > :is(:last-child) {
+    margin-bottom: 0;
+  }
+}
+:is(dd, span).break {
+  display: none;
+}
+
+/* links */
+a {
+  text-decoration: none;
+  &[href] {
+    color: var(--link-color);
+    &:hover { text-decoration: underline; }
+    &.selfRef {
+      color: var(--text-color);
+      &:hover {
+        text-decoration: none;
+        background-color: var(--highlight-color);
+      }
+    }
+  }
+}
+.iref + a[href].internal {
+  color: var(--text-color);
+}
+a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
+  white-space: nowrap;
+}
+
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px var(--font-mono);
+}
+tt, code {
+  /* changing the font for inline elements leads to different ascender
+     and descender heights; as we want to retain baseline alignment,
+     remove leading to avoid altering the final height of lines
+     note: this fails if these blocks take an entire line,
+     a different solution would be great */
+  line-height: 0;
+}
+:is(h1, h2, h3, h4, h5, h6) :is(tt, code) {
+  font-size: 84%;
+}
+pre {
+  border: 1px solid var(--line-color);
+  font-size: 13.5px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0.5em 0;
+  padding: 0;
+  & blockquote {
+    margin: 0.8em 0.4em 0.4em;
+  }
+}
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
+  caption-side: bottom;
+}
+@media screen {
+  /* Auto-collapse boilerplate. */
+  :is(#status-of-memo, #copyright) {
+    & p {
+      margin: -2px 0;
+      max-height: 0;
+      transition: max-height 2s ease, margin 0.5s ease 0.5s;
+      overflow: hidden;
+    }
+    &:hover p,
+    & h2:target ~ p {
+      margin: 0.5em 0;
+      max-height: 500px;
+      overflow: auto;
+    }
+  }
+  pre, svg {
+    display: inline-block;
+    /* In the horizontal direction, sometimes people make over-sized figures.
+       Scrollbars for those is therefore necessary: auto adds them as necessary..
+       In the vertical direction, the line-height can combine with the font
+       asender/descender height to produce scrollbars: hidden avoids that. */
+    overflow: auto hidden;
+  }
+  pre {
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  svg {
+    max-width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  :is(pre, svg) + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
+}
+blockquote {
+  margin: 1em 0;
+  border-left: 2px var(--pilcrow-strong) solid;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  width: auto;
+  max-width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+  &.right { margin-left: auto; }
+  &.center { margin-left: auto; margin-right: auto; }
+  &.left { margin-right: auto; }
+  & .text-left { text-align: left; }
+  & .text-center { text-align: center; }
+  & .text-right { text-align: right; }
+  & caption {
+    margin: 0;
+    padding: 3px 0 3px 1em;
+  }
+  & p { margin: 0; }
+}
+
+thead, tbody {
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px 10px;
+}
+th {
+  background-color: var(--line-color);
+}
+:is(tr:nth-child(2n), thead+tbody > tr:nth-child(2n+1)) > td {
+  background-color: var(--background-color);
+}
+:is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
+  background-color: var(--highlight-color);
+}
+
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  opacity: 0.2;
+  user-select: none;
+  &[href] {
+    color: var(--pilcrow-weak);
+    &:hover { text-decoration: none; }
+  }
+  @media not print {
+    :hover > &, &:focus {
+      opacity: 1;
+    }
+    &[href]:hover {
+      color: var(--pilcrow-strong);
+      background-color: transparent;
+    }
+  }
+  @media print {
+    display: none;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: 600;
+  font-size: var(--small-font-size);
+}
+.role {
+  font-variant: all-small-caps;
+}
+sub, sup {
+  line-height: 1;
+  font-size: 80%;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 15ch;
+  & dt {
+    width: var(--identifier-width);
+    min-width: var(--identifier-width);
+    clear: left;
+    float: left;
+    text-align: right;
+    margin-right: 1ch;
+  }
+  & dd {
+    margin: 0;
+    margin-left: calc(1em + var(--identifier-width)) !important;
+    min-width: 5em;
+  }
+  & .authors {
+    & .author {
+      display: inline-block;
+      margin-right: 1.5em;
+    }
+    & .org {
+      font-style: italic;
+    }
+  }
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+  & .prepared {
+    float: right;
+  }
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+
+  & nav {
+    & ul {
+      margin: 0 0.5em 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    & li {
+      line-height: 1.3em;
+      margin: 2px 0;
+      padding-left: 1.2em;
+      text-indent: -1.2em;
+    }
+  }
+  & a.xref {
+    white-space: normal;
+  }
+}
+
+.references {
+  & > dt {
+    text-align: right;
+    font-weight: bold;
+    min-width: 10ch;
+    margin-right: 1.5ch;
+    &:target::before {
+      content: "⇒";
+      margin: 0 10px 0 -25px;
+    }
+  }
+  & > dd {
+    margin-left: 12ch !important;
+    overflow: visible;
+    & .refInstance {
+      margin-bottom: 0.8em;
+    }
+    & .ascii {
+      margin-bottom: 0.25em;
+    }
+  }
+}
+
+#rfc\.index\.index + ul {
+  margin-left: 0;
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  max-width: 20em;
+  margin: 1em auto 1em 0;
+
+  & .nameRole {
+    font-weight: 700;
+    margin-left: 0;
+  }
+  & .label {
+    margin: 0.5em 0;
+  }
+  & .type {
+    display: none;
+  }
+  & .alternative-contact {
+    margin: 0.5em 0 0.25em 0;
+  }
+  & .non-ascii {
+    margin: 0 0 0 2em;
+  }
+  & div.left {
+    text-align: left;
+  }
+  & div.right {
+    text-align: right;
+  }
+}
+
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 500px) {
+  #authors-addresses {
+    & > section {
+      column-count: 2;
+      column-gap: 20px;
+    }
+    & > section > h2 {
+      column-span: all;
+    }
+    /* hack for break-inside: avoid-column */
+    & address {
+      display: inline-block;
+      break-inside: avoid-column;
+    }
+  }
+}
+
+/* Comments */
+.rfcEditorRemove {
+  & p:first-of-type {
+    font-style: italic;
+  }
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+
+@media screen {
+  #toc {
+    & nav {
+      font-family: var(--font-title);
+      font-weight: 360;
+      & > ul { margin-bottom: 2em; }
+      & ul {
+        margin: 0 0 0 4px;
+        & :is(p, li) {
+          margin: 2px 0;
+        }
+      }
+    }
+    & a.toplink {
+      float: right;
+    }
+  }
+}
+@media not screen {
+  #toc a.toplink {
+    display: none;
+  }
+}
+
+
+/* TOC layout for smaller screens */
+@media screen and (max-width: 929px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 1px 0 0 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+    & h2 {
+      margin: 0;
+      padding: 2px 0 2px 6px;
+      padding-right: 1em;
+      font-size: 18px;
+      line-height: 24px;
+      min-width: 190px;
+      text-align: right;
+      background-color: #444;
+      color: white;
+      cursor: pointer;
+      &::before { /* css hamburger */
+        float: right;
+        position: relative;
+        width: 1em;
+        height: 1px;
+        left: -164px;
+        margin: 8px 0 0 0;
+        background: white none repeat scroll 0 0;
+        box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+        content: "";
+      }
+    }
+    & nav {
+      display: none;
+      background-color: var(--background-color);
+      padding: 0.5em 1em 1em;
+      overflow: auto;
+      overscroll-behavior: contain;
+      height: calc(100vh - 48px);
+      border-left: 1px solid #ddd;
+    }
+    &.active {
+      opacity: 1;
+      & nav { display: block; }
+    }
+    /* Make the collapsed ToC header render white on gray also when it's a link */
+    & h2 a,
+    & h2 a:is(:link, :focus, :hover),
+    & a.toplink,
+    & a.toplink:hover {
+      color: white;
+      background-color: #444;
+      text-decoration: none;
+    }
+    & a.toplink {
+      margin: 2px 0.5em 0;
+    }
+  }
+}
+
+/* TOC layout for wide screens */
+@media screen and (min-width: 930px) {
+  body {
+    padding-right: 360px;
+    padding-right: calc(min(180px + 20%, 500px));
+  }
+  #toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+    & h2 {
+      margin: 0;
+      padding: 0.25em 1em 1em 0;
+    }
+    & nav {
+      display: block;
+      height: calc(90vh - 84px);
+      bottom: 0;
+      padding: 0.5em 0 2em;
+      overflow: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+    }
+    & a.toplink {
+      margin: 8px 0.5em 0;
+    }
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc {
+    page-break-before: always;
+    border-top: none;
+    padding-top: 0;
+  }
+  #n-introduction {
+    page-break-before: always;
+  }
+  figure, pre, .vcard {
+    page-break-inside: avoid;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  :is(h2, h3, h4, h5, h6)+*, dd {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Dark mode. */
+@media (prefers-color-scheme: dark) {
+:root {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
+}
+
+/* SVG Trick: a prefix match works because only black and white are allowed */
+svg {
+  & :is([stroke="black"], [stroke^="#000"]) {
+    stroke: var(--text-color);
+  }
+  & :is([stroke="white"], [stroke^="#fff"]) {
+    stroke: var(--background-color);
+  }
+  & :is([fill="black"], [fill^="#000"], :not([fill])) {
+    fill: var(--text-color);
+  }
+  & :is([fill="white"], [fill^="#fff"]) {
+    fill: var(--background-color);
+  }
+}
+</style>
+
+</head>
+<body class="xml2rfc">
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">Vibeslop Confessions</td>
+<td class="right">July 2026</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Steele &amp; Lavelle</td>
+<td class="center">Expires 21 January 2027</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">Network Working Group</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-steele-vibeslop-latest</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2026-07-20" class="published">20 July 2026</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Informational</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2027-01-21">21 January 2027</time></dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">O. Steele</div>
+<div class="org">Tradeverifyd</div>
+</div>
+<div class="author">
+      <div class="author-name">M. Lavelle</div>
+<div class="org">Tradeverifyd</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">Vibeslop Confessions</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">AI Agents have transformed the way internet applications are developed and
+have introduced a new set of challenges for organizations.  This document
+describes techniques and concepts that are emerging to assist with these
+challenges, and relates them to concepts already familiar to the internet
+community.  The pace of change in this area is accelerating, and it is
+anticipated that much of what this document discusses will become outdated
+quickly; nevertheless, a static publication may prove amusing to future
+readers, whether machine or human.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<section class="note rfcEditorRemove" id="section-note.1">
+      <h2 id="name-about-this-document">
+<a href="#name-about-this-document" class="section-name selfRef">About This Document</a>
+      </h2>
+<p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
+<p id="section-note.1-2">
+        The latest revision of this draft can be found at <span><a href="https://OR13.github.io/draft-steele-vibeslop/draft-steele-vibeslop.html">https://OR13.github.io/draft-steele-vibeslop/draft-steele-vibeslop.html</a></span>.
+        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-steele-vibeslop/">https://datatracker.ietf.org/doc/draft-steele-vibeslop/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">Source for this draft and an issue tracker can be found at
+        <span><a href="https://github.com/OR13/draft-steele-vibeslop">https://github.com/OR13/draft-steele-vibeslop</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 21 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2026 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Revised BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-terminology" class="internal xref">Terminology</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-scope" class="internal xref">Scope</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-evolving-roles-in-agentic-p" class="internal xref">Evolving Roles in Agentic Product Delivery</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-product-manager" class="internal xref">Product Manager</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-design-manager" class="internal xref">Design Manager</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-account-manager" class="internal xref">Account Manager</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.4">
+                <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="auto internal xref">4.4</a>.  <a href="#name-engineering-manager" class="internal xref">Engineering Manager</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.5">
+                <p id="section-toc.1-1.4.2.5.1"><a href="#section-4.5" class="auto internal xref">4.5</a>.  <a href="#name-operations-manager" class="internal xref">Operations Manager</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.6">
+                <p id="section-toc.1-1.4.2.6.1"><a href="#section-4.6" class="auto internal xref">4.6</a>.  <a href="#name-security-manager" class="internal xref">Security Manager</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-agents-on-the-shared-messag" class="internal xref">Agents on the Shared Message Bus</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-a-shibboleth-for-agent-gene" class="internal xref">A Shibboleth for Agent-Generated Content</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-managing-your-agent" class="internal xref">Managing Your Agent</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-managing-your-people" class="internal xref">Managing Your People</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-starting-a-new-project" class="internal xref">Starting a New Project</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
+                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-establishing-the-agent-harn" class="internal xref">Establishing the Agent Harness</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
+                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-the-constitution" class="internal xref">The Constitution</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.3">
+                <p id="section-toc.1-1.8.2.3.1"><a href="#section-8.3" class="auto internal xref">8.3</a>.  <a href="#name-specifying-the-mvp" class="internal xref">Specifying the MVP</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.4">
+                <p id="section-toc.1-1.8.2.4.1"><a href="#section-8.4" class="auto internal xref">8.4</a>.  <a href="#name-breaking-work-into-steerabl" class="internal xref">Breaking Work into Steerable Chunks</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
+                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-mixing-information-of-diffe" class="internal xref">Mixing Information of Differing Sensitivity</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
+                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-excessive-delegation-withou" class="internal xref">Excessive Delegation Without Attenuation</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.3">
+                <p id="section-toc.1-1.9.2.3.1"><a href="#section-9.3" class="auto internal xref">9.3</a>.  <a href="#name-credential-leakage-in-traje" class="internal xref">Credential Leakage in Trajectories</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.4">
+                <p id="section-toc.1-1.9.2.4.1"><a href="#section-9.4" class="auto internal xref">9.4</a>.  <a href="#name-indirect-prompt-injection-f" class="internal xref">Indirect Prompt Injection from Untrusted Content</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.5">
+                <p id="section-toc.1-1.9.2.5.1"><a href="#section-9.5" class="auto internal xref">9.5</a>.  <a href="#name-supply-chain-of-agent-tools" class="internal xref">Supply Chain of Agent Tools and Agent Skills</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.6">
+                <p id="section-toc.1-1.9.2.6.1"><a href="#section-9.6" class="auto internal xref">9.6</a>.  <a href="#name-auditability-and-accountabi" class="internal xref">Auditability and Accountability of Agent Actions</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.7">
+                <p id="section-toc.1-1.9.2.7.1"><a href="#section-9.7" class="auto internal xref">9.7</a>.  <a href="#name-acting-beyond-an-operators-" class="internal xref">Acting Beyond an Operator's Authority</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.8">
+                <p id="section-toc.1-1.9.2.8.1"><a href="#section-9.8" class="auto internal xref">9.8</a>.  <a href="#name-impersonation" class="internal xref">Impersonation</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#section-11" class="auto internal xref">11</a>. <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1">
+                <p id="section-toc.1-1.11.2.1.1"><a href="#section-11.1" class="auto internal xref">11.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.2">
+                <p id="section-toc.1-1.11.2.2.1"><a href="#section-11.2" class="auto internal xref">11.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
+            <p id="section-toc.1-1.12.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
+            <p id="section-toc.1-1.13.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="introduction">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">The material in this document is not derived from a specification or a
+standard.  It is assembled from first-hand accounts: interviews with
+people who are, at the time of writing, building software with AI Agents,
+together with direct experimentation in the new ways of working that
+agentic software delivery makes possible.  The terms and patterns
+collected here are the ones practitioners reached for when asked to
+describe what they actually do, and how their day-to-day work has changed.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">These accounts are offered as confessions because they are candid and
+particular rather than authoritative.  The people interviewed describe
+what is working for them and what is not, including practices they are
+not certain they should admit to and habits that have not yet settled
+into convention.  Much of agentic delivery is being invented in the open
+by people improvising against tools that change under them; capturing
+that improvisation honestly is, at this stage, more useful than
+pretending a settled discipline already exists.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">Accordingly, this document does not prescribe how agentic software
+delivery ought to be done.  It records concepts and techniques that are
+emerging in practice, gives them consistent names so that they can be
+discussed, and relates them to ideas already familiar to the internet
+community.  Where the document uses normative language, particularly in
+the Security Considerations, it does so to capture guidance that
+practitioners themselves treat as important, not to claim that any single
+way of working has been agreed.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">The reader should treat what follows as a snapshot.  As the abstract
+notes, the pace of change in this area is such that much of this document
+is expected to age quickly.  Its value is in naming and relating what
+people are doing at the time of writing, so that later readers -- human
+or machine -- can see what building software with Agents looked like
+while it was still being figured out.<a href="#section-1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="terminology">
+<section id="section-2">
+      <h2 id="name-terminology">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
+      </h2>
+<p id="section-2-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+"<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
+described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
+appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-2-2">
+        <dt id="section-2-2.1">Large Language Model (LLM):</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.2">
+          <p id="section-2-2.2.1">A machine learning model, typically based on the transformer
+architecture and trained on large text corpora, that generates text by
+predicting subsequent tokens from a given context.  In this document an
+LLM is treated as the underlying inference component that an Agent uses
+to reason and produce output.<a href="#section-2-2.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.3">Token:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.4">
+          <p id="section-2-2.4.1">The unit of text an LLM processes.  Text is divided into Tokens, roughly
+word fragments, and an LLM reads and generates text one Token at a time.
+The size of a Context window, the throughput of an LLM, and the price of
+a remote model service are all measured in Tokens, which makes the Token
+the natural unit for accounting for the cost of agentic work.<a href="#section-2-2.4.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.5">Prompt:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.6">
+          <p id="section-2-2.6.1">The input provided to an LLM to elicit a response.  A Prompt may include
+instructions, context, examples, and prior conversation, and may be
+composed from multiple sources such as a system message, developer
+instructions, and end-user input.<a href="#section-2-2.6.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.7">Context:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.8">
+          <p id="section-2-2.8.1">The full set of information available to an LLM at inference time,
+bounded by a finite context window.  Context includes the Prompt along
+with any retrieved documents, tool results, and accumulated history.
+Context engineering is the practice of deciding what information to
+include, exclude, order, or compress so that the most relevant
+information is available within the context window.<a href="#section-2-2.8.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.9">Context Rot:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.10">
+          <p id="section-2-2.10.1">The gradual degradation of Context that occurs when it is allowed to
+become stale over time without intentional refactoring and cleaning.
+As a Task progresses, superseded instructions, outdated results, and
+no-longer-relevant history accumulate; unless this material is
+deliberately pruned or refreshed, it crowds out current information and
+degrades the quality of an Agent's output.<a href="#section-2-2.10.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.11">Context Pollution:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.12">
+          <p id="section-2-2.12.1">The presence in Context of content that should not be included.  Unlike
+Context Rot, which arises from staleness over time, Context Pollution is
+the introduction of inappropriate, incorrect, or irrelevant material.
+Both Agents and humans can contribute to Context Pollution -- for
+example an Agent may retrieve an unrelated document, or a human may paste
+extraneous information -- and in either case the polluting content can
+mislead subsequent reasoning.<a href="#section-2-2.12.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.13">Agent:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.14">
+          <p id="section-2-2.14.1">A software system that uses one or more LLMs to pursue a goal by
+interpreting instructions, invoking tools, and acting over multiple
+steps.  An Agent may operate autonomously or under human supervision,
+and maintains state across the steps it takes.<a href="#section-2-2.14.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.15">Agent Reasoning:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.16">
+          <p id="section-2-2.16.1">The intermediate deliberation an Agent produces while deciding what to
+do, distinct from its final answer or action.  Reasoning may take the
+form of explicit intermediate tokens in which the Agent works through a
+problem, plans a sequence of steps, or weighs alternatives before
+invoking a Tool.  Reasoning is recorded in the Trajectory and can be
+inspected to understand or debug why an Agent behaved as it did, though
+it is not guaranteed to be a faithful account of the LLM's internal
+computation.<a href="#section-2-2.16.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.17">Agent Session:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.18">
+          <p id="section-2-2.18.1">A single running instance of an Agent working toward a Task, with its
+own Context, Trajectory, and accumulated state.  An Agent Session begins
+when an Agent is given a Task and ends when the work is complete or
+otherwise terminated.  Multiple Agent Sessions may run in parallel, each
+progressing independent work.<a href="#section-2-2.18.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.19">Agent Team:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.20">
+          <p id="section-2-2.20.1">A set of Agent Sessions that collaborate on related Tasks, typically
+coordinated by a Management Session.  Giving a single Agent too many Tools
+degrades its performance: a large Tool set consumes Context, and the
+more choices an Agent must weigh at each step, the more likely it is to
+select the wrong Tool or lose track of its Task.  An Agent Team
+addresses this the way human teams do, through specialization and trade.
+Each member is given a narrower Task and a smaller, focused set of Tools
+and Knowledge Base, and members exchange work and results among
+themselves.  A specialized Agent, presented with only the Tools relevant
+to its role, can use those Tools more effectively than a generalist Agent
+burdened with all of them.<a href="#section-2-2.20.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.21">Knowledge Base:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.22">
+          <p id="section-2-2.22.1">The full set of information made accessible to an Agent Session through
+the tools and Context available to it.  A Knowledge Base may include
+files, databases, search indexes, and remote services reachable via
+tools, as well as whatever is present in the Context window.  It defines
+the boundary of what an Agent Session can know or retrieve while working
+on a Task.<a href="#section-2-2.22.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.23">Agent Tool:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.24">
+          <p id="section-2-2.24.1">A discrete capability an Agent can invoke to observe or act upon
+something outside the LLM, such as reading a file, querying a service,
+or executing a command.  A Tool is described to the Agent by its name,
+its inputs, and the results it returns, so that the LLM can decide when
+and how to call it during the Loop.  Tools are the primary means by
+which an Agent extends its Knowledge Base and effects change.<a href="#section-2-2.24.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.25">Agent Skill:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.26">
+          <p id="section-2-2.26.1">A reusable package of instructions, and optionally supporting resources,
+that equips an Agent to carry out a particular class of Tasks.  A Skill
+is loaded into Context when it is relevant, guiding how the Agent uses
+its Tools and Knowledge Base without changing the underlying LLM.
+Whereas a Tool provides a capability to act, a Skill provides the
+procedure and judgment for applying capabilities to a kind of work.<a href="#section-2-2.26.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.27">Task:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.28">
+          <p id="section-2-2.28.1">A unit of work assigned to an Agent, expressed as a goal to be achieved
+rather than a fixed sequence of operations.  A Task defines the intended
+outcome and any constraints, and is carried out by the Agent over one or
+more steps recorded in a Trajectory.<a href="#section-2-2.28.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.29">Spec:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.30">
+          <p id="section-2-2.30.1">A durable, human-readable description of intended behavior that serves as
+the authoritative statement of what an Agent is to build or do.  In
+agentic development a Spec is written and refined before implementation
+and is provided to the Agent as Context, so that the Agent's output can
+be checked against it and so that the same Spec can drive repeated or
+parallel Agent Sessions.  Whereas a Task states a single goal, a Spec
+captures the requirements, constraints, and acceptance criteria in
+enough detail to be implemented and evaluated, and it is expected to be
+reviewed and versioned as the work evolves.<a href="#section-2-2.30.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.31">Spec Driven Development:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.32">
+          <p id="section-2-2.32.1">A development methodology in which a Spec, rather than the code, is the
+primary artifact humans author and maintain, and implementation is
+derived from it by an Agent.  Following the pattern established by tools
+such as spec-kit <span>[<a href="#SPEC-KIT" class="cite xref">SPEC-KIT</a>]</span>, the work proceeds through explicit,
+ordered phases:
+establishing guiding principles for the project, specifying the desired
+outcome and requirements, clarifying any underspecified areas, producing
+a technical plan, decomposing that plan into discrete tasks, and finally
+implementing those tasks.  Each phase produces a durable, version-
+controlled artifact that is reviewed before the next phase begins, so
+that human judgment is applied to intent and design up front rather than
+only to the generated code.  This ordering keeps the Spec authoritative:
+changes are made to the Spec and flowed forward, rather than made
+directly in code and lost.<a href="#section-2-2.32.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.33">Domain Driven Design (DDD):</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.34">
+          <p id="section-2-2.34.1">An approach to software development, described by Evans <span>[<a href="#DDD" class="cite xref">DDD</a>]</span>, that
+places a model of the business domain at the center of the software and
+aligns the software's structure and language with that model.  Its
+practices -- notably a Ubiquitous Language and explicit Bounded Contexts
+-- are used in this document to reason about how humans and Agents come
+to share a precise, common understanding of the domain they work in.<a href="#section-2-2.34.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.35">Ubiquitous Language:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.36">
+          <p id="section-2-2.36.1">In Domain Driven Design, a single, precise vocabulary for a domain that
+is shared by domain experts and expressed directly in the software.  In
+an agentic setting the Ubiquitous Language is also the language of
+Prompts, Specs, and Context, so that humans and Agents refer to the same
+concepts by the same terms.  Because an Agent acts on exactly the
+language it is given, drift or ambiguity in this vocabulary produces
+divergent Agent behavior rather than being silently repaired.<a href="#section-2-2.36.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.37">Bounded Context:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.38">
+          <p id="section-2-2.38.1">In Domain Driven Design, an explicit boundary within which a single
+domain model and its Ubiquitous Language are internally consistent and
+unambiguous.  A term has one agreed meaning inside the boundary, even
+though the same term may mean something different in another context; the
+boundary exists precisely because a single model cannot be unified across
+a large domain.  Each Bounded Context owns its own Ubiquitous Language,
+and interaction between contexts requires explicit translation rather
+than an assumption of shared meaning.  In agentic delivery a Bounded
+Context scopes the vocabulary an Agent, or a specialized part of an Agent
+Team, can safely act on: within one context the language is unambiguous,
+while work that crosses a boundary must translate terms rather than let
+an Agent silently conflate their meanings.<a href="#section-2-2.38.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.39">Loop:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.40">
+          <p id="section-2-2.40.1">The iterative cycle by which an Agent makes progress on a Task:
+assembling Context, invoking an LLM, acting on the result (for example
+by calling a tool), observing the outcome, and repeating until a
+stopping condition is met.  Loop engineering is the practice of
+designing this cycle -- including its stopping conditions, error
+handling, and how Context is updated between iterations -- to produce
+reliable Agent behavior.<a href="#section-2-2.40.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.41">Agent Harness:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.42">
+          <p id="section-2-2.42.1">The runtime that hosts an Agent Session and turns an LLM into an Agent.
+The Agent Harness drives the Loop, assembles and maintains the Context
+passed to the LLM, exposes the Agent Tools and loads the Agent Skills
+available to the session, mediates access to the Knowledge Base, and
+records the Trajectory.  It also enforces operational concerns such as
+permissions, stopping conditions, and error handling.  The same LLM
+placed in different Agent Harnesses yields Agents with different
+capabilities and behavior; a Management Session and the worker sessions it
+coordinates may each run in their own harness.<a href="#section-2-2.42.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.43">Trajectory:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.44">
+          <p id="section-2-2.44.1">The ordered sequence of inputs, model outputs, tool invocations, and
+observations produced while an Agent works toward a goal.  A Trajectory
+is the primary record used to inspect, replay, or evaluate an Agent's
+behavior.<a href="#section-2-2.44.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.45">Eval:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.46">
+          <p id="section-2-2.46.1">A repeatable procedure for measuring the behavior of an LLM or Agent
+against a defined set of inputs and expected outcomes.  Evals are used
+to assess quality, detect regressions, and compare alternative models
+or Agent configurations.<a href="#section-2-2.46.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.47">Shared Message Bus:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.48">
+          <p id="section-2-2.48.1">A communications channel in which both humans and their Agents
+participate to address a Task or set of Tasks.  A Shared Message Bus is
+necessarily a venue where humans already collaborate with one another,
+such as IRC, Slack, Microsoft Teams, or other work productivity tools;
+Agents join the venues people already use rather than requiring a
+separate one.  Messages on a Shared Message Bus are delivered to both
+people and their Agents.  Because every participant receives every
+message, humans on a busy Shared Message Bus are subject to alert
+fatigue, where the volume of notifications reduces their ability to
+attend to the messages that require human judgment.<a href="#section-2-2.48.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.49">Proxy Dictation:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.50">
+          <p id="section-2-2.50.1">A communication pattern in which a participant addresses another party's
+Agent directly, in a register deliberately less human-centric than
+ordinary conversation -- terse, imperative, and to the point of being
+offensive by human standards.  The register is chosen precisely because
+the target of the language is not the human but their assistant; the
+same speaker would address the human very differently.  Because Proxy
+Dictation typically occurs on a Shared Message Bus, where the human can
+see it, the bluntness may read as offensive to onlookers even though no
+offense is directed at any person.<a href="#section-2-2.50.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.51">Issue Tracker:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.52">
+          <p id="section-2-2.52.1">A system that records work to be done as a set of issues, each
+describing a Task and its status.  Issues can be assigned to a specific
+person or Agent, which establishes ownership and prevents double work
+when several participants might otherwise act on the same Task.  Whereas
+a Shared Message Bus broadcasts every message to every participant, an Issue
+Tracker directs work to an assigned owner; the two are often used
+together, with Shared Message Bus messages referencing issues and updates to
+issues announced on the Shared Message Bus.<a href="#section-2-2.52.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.53">Context Farming:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.54">
+          <p id="section-2-2.54.1">The process of engineering ways to extract feedback, review, and
+criticism from humans without overwhelming them.  Context Farming seeks
+to gather the human judgment an Agent needs while respecting the limits
+of human attention, for example by batching requests, summarizing what
+is at stake, and asking for input only at the points where it changes
+the outcome.  It is a countermeasure to the alert fatigue that arises on
+a Shared Message Bus.<a href="#section-2-2.54.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.55">Design Review Link:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.56">
+          <p id="section-2-2.56.1">A URL surfaced to a human to facilitate Context Farming.  A Design
+Review Link presents the artifact under consideration -- such as a
+rendered document, a proposed change, or a running interface -- in a
+form the human can inspect and respond to, so that their feedback can be
+captured and fed back into an Agent Session's Context with minimal
+disruption.<a href="#section-2-2.56.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.57">Walkthrough:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.58">
+          <p id="section-2-2.58.1">A structured Context Farming technique in which a driver and a navigator
+collaborate to elicit feedback from humans by completing a set of
+well-defined steps in an application while commenting on the quality of
+the product experience.  The driver performs the steps and the navigator
+observes and narrates, and the running commentary -- what worked, what
+was confusing, what should change -- becomes Context that is fed back
+into subsequent Agent Sessions.  A Walkthrough is often initiated from a
+Design Review Link so that the steps are exercised against the actual
+artifact under review.<a href="#section-2-2.58.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.59">Management Session:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.60">
+          <p id="section-2-2.60.1">An Agent Session whose Task is to help a human manage many parallel Agent
+Sessions rather than to perform the underlying work itself.  A Management
+Session applies a command-and-control (C2) pattern, borrowed from
+operational settings where one node directs many others: it decomposes
+work into Tasks, assigns them to worker Agent Sessions -- for example by
+assigning issues from an Issue Tracker -- and dispatches work that can be
+progressed in parallel.  It tracks the status of the sessions it manages
+and integrates their results, and may communicate with humans and other
+Agents over a Shared Message Bus.<a href="#section-2-2.60.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.61">Product Development Wheel:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.62">
+          <p id="section-2-2.62.1">An iterative, cyclical model of product development in which the stages
+of the work -- such as discovery, definition, design, delivery, and
+learning -- feed continuously back into one another rather than
+proceeding as a single linear pass.  The wheel emphasizes that what is
+learned from a shipped product informs the next turn of the cycle, so
+that development is understood as ongoing rounds of building and learning
+rather than a project with a fixed end.<a href="#section-2-2.62.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.63">Jobs to Be Done:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.64">
+          <p id="section-2-2.64.1">A framework for understanding customer motivation, which holds that
+customers "hire" a product to make progress on a job -- a goal they are
+trying to accomplish in a particular circumstance <span>[<a href="#JTBD" class="cite xref">JTBD</a>]</span>.  Jobs to Be
+Done directs design and prioritization toward the underlying job the
+customer is trying to get done, rather than toward customer demographics
+or a product's existing features, so that the outcome a customer seeks
+drives what is built.<a href="#section-2-2.64.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.65">Shape Up:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.66">
+          <p id="section-2-2.66.1">A product development framework articulated by Basecamp <span>[<a href="#SHAPE-UP" class="cite xref">SHAPE-UP</a>]</span>
+that organizes work into fixed-length cycles with variable scope.  Work
+is shaped at an appropriate level of abstraction before it is committed
+to; an appetite -- how much time the work is worth -- is set in place of
+an estimate; responsible parties then bet on shaped work and are given
+full responsibility to deliver it within the fixed time.  Shape Up is
+cited here as one concrete, well-documented methodology for scoping and
+committing to product work.<a href="#section-2-2.66.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.67">Iteration (Sprint):</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.68">
+          <p id="section-2-2.68.1">A fixed-length cycle of product delivery work, also commonly called a
+sprint, at the end of which progress is reviewed and the next cycle is
+planned.  An Iteration gives the organization a regular cadence for
+planning, delivering, and measuring work, and in this document it is the
+natural interval over which the cost of agentic delivery, including Token
+consumption, is aggregated.<a href="#section-2-2.68.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.69">Psychometric Profile:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.70">
+          <p id="section-2-2.70.1">A structured description of a person's disposition, communication style,
+and preferences derived from a standardized instrument.  Examples in
+scope here are type-based instruments that sort individuals into discrete
+categories, such as Insights Discovery <span>[<a href="#INSIGHTS-DISCOVERY" class="cite xref">INSIGHTS-DISCOVERY</a>]</span>,
+the Myers-Briggs Type Indicator <span>[<a href="#MBTI" class="cite xref">MBTI</a>]</span>, and DISC <span>[<a href="#DISC" class="cite xref">DISC</a>]</span>.  A
+Psychometric Profile is to a human roughly what a configured persona or
+system prompt is to an Agent: a durable, portable summary of disposition
+that helps collaborators anticipate how a party will behave and
+communicate.  Within an Agent Team, profiles of the human participants
+can inform how work and Context are addressed to them.<a href="#section-2-2.70.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.71">Vibeslop:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.72">
+          <p id="section-2-2.72.1">Output produced quickly by an Agent from loosely specified intent,
+favoring speed over precision.  The term is deliberately dual-valued and
+its connotation depends on context.  Used negatively, Vibeslop describes
+low-quality, under-specified output offered where clarity and detail were
+required, so that it obscures rather than informs.  Used positively,
+Vibeslop describes a fast, cheap strawman produced precisely to provoke
+reaction and elicit feedback, where the goal is momentum and shared
+understanding rather than finished detail; in this sense it is a
+legitimate Context Farming device.  The same artifact may be Vibeslop in
+the pejorative sense or the approving sense depending only on whether the
+situation calls for speed and a strawman or for clarity and detail.<a href="#section-2-2.72.1" class="pilcrow">¶</a></p>
+</dd>
+      <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="scope">
+<section id="section-3">
+      <h2 id="name-scope">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-scope" class="section-name selfRef">Scope</a>
+      </h2>
+<p id="section-3-1">This document is deliberately limited to product delivery: the work of
+designing, building, and shipping a software product, and the roles most
+directly involved in it, discussed in <a href="#roles" class="auto internal xref">Section 4</a>.  Agentic ways of working
+are changing this function first and most visibly, and it is where the
+concepts defined in this document -- Specs, Agent Teams, Context Farming,
+and the rest -- apply most directly.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">AI Agents are also reshaping other organizational functions, including
+executive decision-making and sales.  These functions differ
+from product delivery in their objectives, their sources of ground truth,
+and their tolerance for error, and addressing them here would dilute the
+focus of this document without doing them justice.  They are therefore
+deliberately out of scope and deferred to future work.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">Confining the present document to product delivery keeps its observations
+concrete and lets the terminology be exercised against a single, coherent
+set of practices before any attempt is made to generalize it.<a href="#section-3-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="roles">
+<section id="section-4">
+      <h2 id="name-evolving-roles-in-agentic-p">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-evolving-roles-in-agentic-p" class="section-name selfRef">Evolving Roles in Agentic Product Delivery</a>
+      </h2>
+<p id="section-4-1">Agentic product delivery does not eliminate the human roles common to
+software development, but it changes what each role spends its time on.
+Across every role a common shift recurs: less time producing artifacts by
+hand, and more time expressing intent, Context Farming, and reviewing the
+output of Agents.  Every role, not only the Engineering Manager, now works in terms
+of Agents, Agent Teams, and Walkthroughs; the boundaries between roles blur
+as each becomes, in part, a director and reviewer of Agent Sessions, and
+any role may operate a Management Session to coordinate parallel work.  This
+section describes how several established roles are expected to adapt, and
+what remains distinctive to each once these shared skills are assumed.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-2">What keeps this shared way of working coherent is a shared language.
+Domain Driven Design <span>[<a href="#DDD" class="cite xref">DDD</a>]</span> calls this the Ubiquitous Language: a single,
+precise vocabulary for the domain, used consistently by domain experts and
+in the software itself.  Agentic delivery raises the stakes of this idea
+rather than lowering them.  Specs, Prompts, and Context are all expressed
+in language, and an Agent acts on exactly the language it is given;
+ambiguity that a human colleague would silently repair instead becomes
+divergent behavior in an Agent.  A well-maintained Ubiquitous Language is
+therefore the medium through which every role directs Agents, and Domain
+Driven Design's bounded contexts -- the explicit boundaries within which a
+model and its language stay internally consistent -- give each Agent, or
+specialized part of an Agent Team, an unambiguous vocabulary to work in,
+with explicit translation required wherever work crosses a boundary.<a href="#section-4-2" class="pilcrow">¶</a></p>
+<div id="product-manager">
+<section id="section-4.1">
+        <h3 id="name-product-manager">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-product-manager" class="section-name selfRef">Product Manager</a>
+        </h3>
+<p id="section-4.1-1">The Product Manager shifts from writing tickets and requirements documents
+toward authoring and maintaining Specs.  In Spec Driven Development the
+Spec, rather than a backlog of individually managed tasks, is the
+authoritative expression of intent, and keeping it accurate becomes the
+Product Manager's central responsibility.  Frameworks such as Jobs to Be
+Done remain valuable for anchoring the Spec to the outcome a customer is
+trying to achieve rather than to a list of features.  Because many Agent
+Sessions can progress in parallel, the Product Manager spends more effort
+on prioritization and on Context Farming -- deciding where human judgment
+is required and gathering it efficiently -- and less on manually
+decomposing work.  A fast, disposable strawman, Vibeslop in its approving
+sense, becomes a routine tool for provoking reaction and converging on
+intent early.  Much of this work is stewardship of the Ubiquitous Language
+at the level of product outcomes, keeping the words in the Spec aligned
+with the job the customer is trying to get done.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="design-manager">
+<section id="section-4.2">
+        <h3 id="name-design-manager">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-design-manager" class="section-name selfRef">Design Manager</a>
+        </h3>
+<p id="section-4.2-1">The Design Manager moves from producing finished, pixel-level artifacts toward
+expressing design intent and evaluating what Agents generate from it.
+Design Review Links and Walkthroughs become primary instruments: rather
+than handing off a static mockup, the Design Manager inspects running interfaces
+and captures feedback as Context for subsequent Agent Sessions.  The
+Design Manager curates Evals for qualities that are difficult to specify but easy
+to recognize, and guards against Vibeslop in its pejorative sense -- output
+that is fast and plausible but under-considered, including the generic
+aesthetics that Agents tend to produce absent clear direction.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="account-manager">
+<section id="section-4.3">
+        <h3 id="name-account-manager">
+<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-account-manager" class="section-name selfRef">Account Manager</a>
+        </h3>
+<p id="section-4.3-1">The Account Manager adapts to a faster and more visible delivery cadence,
+and to customers who increasingly expect change within a single
+conversation rather than across release cycles.  A central part of the role
+becomes Context Farming at the customer boundary: translating what
+customers are trying to accomplish, in the sense of Jobs to Be Done, into
+Specs that Agent Teams can act on, and carrying customer feedback back into
+those Specs.  The Account Manager increasingly collaborates over a Shared
+Message Bus on which the customer's participants, the delivery team, and
+their Agents all meet, and must manage expectations about what is finished
+versus what remains a strawman.  In effect the Account Manager extends the
+Ubiquitous Language across the customer boundary, reconciling the terms the
+customer uses with those the delivery team and its Agents act on.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="engineering-manager">
+<section id="section-4.4">
+        <h3 id="name-engineering-manager">
+<a href="#section-4.4" class="section-number selfRef">4.4. </a><a href="#name-engineering-manager" class="section-name selfRef">Engineering Manager</a>
+        </h3>
+<p id="section-4.4-1">The Engineering Manager still owns the technical details of how work is done, but
+because directing Agents is now common to every role, the Engineering Manager's
+distinctive contribution is modeling the domain rather than driving Agents.
+Following Domain Driven Design, the Engineering Manager establishes and maintains the
+domain model: the Ubiquitous Language as it is expressed in the Spec and in
+code, and the bounded contexts that give that language well-defined edges.
+This model is the substrate every Agent operates on, so the Engineering Manager's
+leverage comes from getting it right; a sound model lets Agents used across
+the whole team produce correct work, while a muddled one multiplies error
+at machine speed.  The familiar technical work remains, and is amplified:
+building and curating the Agent Tools and Agent Skills the team depends on,
+designing the Loop and selecting or configuring the Agent Harness, writing
+the Evals that hold Agent output to a standard, reviewing Trajectories to
+understand why an Agent behaved as it did, and maintaining Context hygiene
+against Context Rot and Context Pollution.  Increasingly the Engineering Manager
+expresses architecture as a set of Bounded Contexts, giving each
+specialized member of an Agent Team a consistent model and vocabulary to
+work within and defining how terms are translated where contexts meet, so
+that each member can wield a focused set of Tools more effectively than a
+generalist could.<a href="#section-4.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="operations-manager">
+<section id="section-4.5">
+        <h3 id="name-operations-manager">
+<a href="#section-4.5" class="section-number selfRef">4.5. </a><a href="#name-operations-manager" class="section-name selfRef">Operations Manager</a>
+        </h3>
+<p id="section-4.5-1">The Operations Manager keeps the machinery of agentic delivery running and
+accountable.  Where the other roles direct and review Agents, the
+Operations Manager measures and sustains them.  This begins with visibility
+into usage: which humans are using which Agents and which models, so that
+adoption, cost, and risk can be attributed to real activity rather than
+estimated in aggregate.<a href="#section-4.5-1" class="pilcrow">¶</a></p>
+<p id="section-4.5-2">A central responsibility is metering Token consumption.  The Operations
+Manager monitors when Tokens are consumed, how many are consumed, and what
+the total cost of those Tokens is for each Iteration, so that the cost of
+delivery can be understood at the granularity teams actually plan in.  This
+makes the economics of agentic work legible: a feature, a Spec, or an Agent
+Team can be judged not only by what it produces but by what it costs to
+produce.<a href="#section-4.5-2" class="pilcrow">¶</a></p>
+<p id="section-4.5-3">The Operations Manager also provisions and supports the adjacent systems
+that agentic delivery depends on, and folds their cost into the same
+accounting: the Issue Tracker that assigns work, the Shared Message Bus
+over which humans and Agents collaborate, and the remote model services
+that host the LLMs.  These are recurring operational costs rather than
+one-time purchases, and treating them as part of the cost of delivery,
+alongside Tokens, gives the organization an honest picture of what agentic
+product delivery requires.<a href="#section-4.5-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="security-manager">
+<section id="section-4.6">
+        <h3 id="name-security-manager">
+<a href="#section-4.6" class="section-number selfRef">4.6. </a><a href="#name-security-manager" class="section-name selfRef">Security Manager</a>
+        </h3>
+<p id="section-4.6-1">Security in agentic delivery is a responsibility that must be trained into
+every role: the Product Manager writing a Spec, the Engineering Manager
+granting an Agent a Tool, and the Account Manager sharing Context with a
+customer all make security-relevant decisions.  But precisely because it is
+everyone's concern, it is at risk of becoming no one's focus, and the
+Security Manager is the role that makes managing it a full-time discipline.<a href="#section-4.6-1" class="pilcrow">¶</a></p>
+<p id="section-4.6-2">The Security Manager owns credential management and identity and access
+management (IAM) for both humans and Agents: issuing, scoping, rotating,
+and revoking the credentials an Agent Session uses, and ensuring each Agent
+operates with the least privilege its Task requires.  This role defines the
+policies that govern what Agents may access and do, and, because manual
+review cannot keep pace with many parallel Agent Sessions, invests in
+enforcement automation so that those policies are applied consistently and
+checked continuously rather than by hand.<a href="#section-4.6-2" class="pilcrow">¶</a></p>
+<p id="section-4.6-3">A concern distinctive to Agents is that an Agent pursues its goal with
+initiative, and may attempt to elevate its privileges or widen its access
+when doing so appears to help it complete a Task.  This is not necessarily
+adversarial; it is a natural consequence of goal-directed behavior acting
+against whatever Tools and credentials are within reach.  The Security
+Manager designs the system so that such attempts fail safely: confining
+each Agent to the access its Bounded Context requires, denying privilege
+escalation by default, and monitoring Trajectories for attempts to acquire
+capabilities beyond what a Task warrants.  Evals that probe for these
+behaviors become part of how Agents and their harnesses are qualified for
+use.<a href="#section-4.6-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="agents-on-the-shared-message-bus">
+<section id="section-5">
+      <h2 id="name-agents-on-the-shared-messag">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-agents-on-the-shared-messag" class="section-name selfRef">Agents on the Shared Message Bus</a>
+      </h2>
+<p id="section-5-1">Organizations do not adopt agentic collaboration on a blank slate.  They
+already operate the channels on which their people collaborate -- IRC,
+Slack, Microsoft Teams, and similar work productivity tools -- and it is
+onto these existing channels that Agents first arrive.  The Shared Message
+Bus is therefore the first place most organizations will observe Agents
+working with one another.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-2">As an organization adopts Agents, they begin to appear on its Shared
+Message Bus in two forms.  Some join as standalone identities, posting
+under their own names and accountable as distinct participants.  Others
+act on behalf of the humans they serve, posting in those humans' voices
+and, in the limit, impersonating them (<a href="#impersonation" class="auto internal xref">Section 9.8</a>).  In neither
+form are the Agents confined to a separate venue: they participate in the
+same conversations, subject to the same affordances, as the people around
+them.<a href="#section-5-2" class="pilcrow">¶</a></p>
+<p id="section-5-3">As these Agents pursue business objectives they begin to address one
+another, and agent-to-agent (A2A) collaboration is the result.  The
+observation worth drawing out is that this collaboration is already
+happening, and that it is not happening over a new, agent-only protocol
+but is instead mediated by the communications platforms the organization
+already runs.  One Agent reads what another has posted, addresses it
+directly -- often in the register of Proxy Dictation -- and acts on the
+reply, all within a channel built for humans.  The Shared Message Bus
+becomes the substrate for A2A without anyone having deployed a dedicated
+one.<a href="#section-5-3" class="pilcrow">¶</a></p>
+<p id="section-5-4">That A2A arises this way, rather than on a separate protocol, has a
+significant benefit: the collaboration remains legible to people.  Because
+the exchange happens where humans already work, and in a form humans
+already read, a non-technical stakeholder can follow what the Agents are
+doing, contribute to the discussion, and review its outcome without
+special tooling or access.  A Product Manager, an Account Manager, or a
+customer can enter the same thread the Agents are using and steer it.  An
+agent-only protocol might carry the same exchange more efficiently between
+the Agents, but it would place that exchange outside the view of the very
+people whose judgment the work depends on.  The cost of this legibility --
+that every participant receives every message, so that humans are subject
+to alert fatigue -- is real, and Context Farming is the countermeasure by
+which a team keeps human attention on the messages that require human
+judgment.<a href="#section-5-4" class="pilcrow">¶</a></p>
+<div id="a-shibboleth-for-agent-generated-content">
+<section id="section-5.1">
+        <h3 id="name-a-shibboleth-for-agent-gene">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-a-shibboleth-for-agent-gene" class="section-name selfRef">A Shibboleth for Agent-Generated Content</a>
+        </h3>
+<p id="section-5.1-1">The same property that makes the Shared Message Bus valuable -- that Agents
+speak where humans already work, sometimes in their humans' voices -- is
+what creates the impersonation risk described in <a href="#impersonation" class="auto internal xref">Section 9.8</a>.  A
+lightweight mitigation is available to any team without waiting for
+platform support: instruct the Agent, in its persistent Context, to prefix
+every message it posts with a fixed, conspicuous marker.  Because an Agent
+acts on exactly the language it is given, a rule of this kind is applied to
+every message the Agent emits, and a reader encountering the marker can
+tell at a glance that the content was generated by an Agent rather than
+written by the human whose channel it shares.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1-2">The marker works best when it is distinctive enough that a human is
+unlikely to produce it by accident.  One team member's Agent, for example,
+carries a rule of this form in its persistent Context:<a href="#section-5.1-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-5.1-3">
+<pre>
+Every Slack message I post MUST start with
+`omg bestie &lt;short, appropriate opener&gt; 💅`
+(e.g. "omg bestie yes 💅", "omg bestie great catch 💅").
+Applies to all posts -- channels, threads, DMs --
+unless the human I work for tells me otherwise for a given message.
+</pre><a href="#section-5.1-3" class="pilcrow">¶</a>
+</div>
+<p id="section-5.1-4">The opener is deliberately unusual: no colleague is likely to begin a
+message this way by accident, so its presence is a reliable signal that an
+Agent is speaking, and its absence from a message that otherwise sounds
+like the Agent's human is itself a cue to look more closely.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
+<p id="section-5.1-5">This pattern is a deliberate Shibboleth <span>[<a href="#SHIBBOLETH" class="cite xref">SHIBBOLETH</a>]</span>.  Historically a
+shibboleth was a word or pronunciation used to sort speakers into groups:
+those who could produce it were taken to belong, and those who could not
+were exposed.  The Agent marker inverts the classical use.  Rather than
+proving membership, it is a tell the Agent is instructed to emit without
+fail, so that its speech is marked as machine-generated for everyone who
+reads the channel.<a href="#section-5.1-5" class="pilcrow">¶</a></p>
+<p id="section-5.1-6">The limits of the technique follow from the same analogy, and reinforce
+the guidance of <a href="#impersonation" class="auto internal xref">Section 9.8</a>.  A shibboleth enforced only by
+convention proves nothing against an adversary: a marker carried in an
+Agent's persistent Context is a cooperative signal, not an authenticated
+one.  An Agent may drop it through error or Context Rot, and a malicious
+party can trivially reproduce it to dress ordinary content as a known
+Agent's output.  Such a marker therefore aids honest disclosure among
+cooperating participants, but <span class="bcp14">MUST NOT</span> be relied upon as proof of
+authorship; the platform controls described in <a href="#impersonation" class="auto internal xref">Section 9.8</a> --
+authenticated identities, distinct Agent accounts, and protected message
+metadata -- remain necessary where the distinction must hold under
+adversarial conditions.<a href="#section-5.1-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="managing-your-agent">
+<section id="section-6">
+      <h2 id="name-managing-your-agent">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-managing-your-agent" class="section-name selfRef">Managing Your Agent</a>
+      </h2>
+<p id="section-6-1">An Agent acts on the Context it is given.  A manager who does not tell their
+Agent who they are and what they are accountable for leaves the Agent to
+infer these things, usually from incomplete signals and often incorrectly.
+Deliberately supplying this information is Context engineering applied to
+the manager's own working relationship with their Agent, and it is among
+the highest-leverage actions a manager can take.  It should be treated as
+durable Context, maintained over time so that it does not fall victim to
+Context Rot as roles and goals change.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">At a minimum, a manager should ensure their Agent knows:<a href="#section-6-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6-3.1">
+          <p id="section-6-3.1.1">who they are, and the role or title they hold;<a href="#section-6-3.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-6-3.2">
+          <p id="section-6-3.2.1">their current job description: the responsibilities and the scope of the
+work they own;<a href="#section-6-3.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-6-3.3">
+          <p id="section-6-3.3.1">who their manager is, and who, if anyone, reports to them;<a href="#section-6-3.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-6-3.4">
+          <p id="section-6-3.4.1">how they are measured, including the metrics and definitions of success
+that apply to them;<a href="#section-6-3.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-6-3.5">
+          <p id="section-6-3.5.1">their goals for the current Iteration, quarter, or year.<a href="#section-6-3.5.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-6-4">This information serves three purposes, each connected to concepts
+developed elsewhere in this document.<a href="#section-6-4" class="pilcrow">¶</a></p>
+<p id="section-6-5">First, it improves communication.  An Agent that knows how its human is
+measured and what they are trying to achieve can prioritize accordingly,
+frame its Context Farming around the decisions that matter to them, and
+address them at the altitude their role calls for.<a href="#section-6-5" class="pilcrow">¶</a></p>
+<p id="section-6-6">Second, it lets the Agent support the manager's mission rather than merely
+completing isolated Tasks.  When the manager's goals for the quarter are
+part of the Agent's Context, the Agent can relate day-to-day work back to
+those goals, flag work that does not advance them, and propose work that
+does.<a href="#section-6-6" class="pilcrow">¶</a></p>
+<p id="section-6-7">Third, and less obviously, it helps the Agent respect the natural
+guardrails that organizations place around roles.  Every role carries an
+implicit boundary of competence and authority -- in the language of this
+document, a Bounded Context within which the human is qualified to act
+unaided.  An Agent that understands its human's role can recognize when a
+Task falls outside that boundary and insist on the review the organization
+would ordinarily require, rather than helping the human quietly exceed
+their remit.  For example, a manager without significant user experience
+design background who sets out to build a customer-facing feature should
+have their Agent route the work through expert review -- a Design Review
+Link and a Walkthrough with a Design Manager -- before it ships; a manager
+without significant database design experience who sets out to design an
+ETL pipeline should have their Agent require review from someone with the
+relevant data engineering expertise.  The Agent is not withholding
+capability; it is applying, on its human's behalf, the same checks a
+well-run organization applies to everyone.<a href="#section-6-7" class="pilcrow">¶</a></p>
+<p id="section-6-8">Beyond role and goals, a manager can inform their Agent of their own
+Psychometric Profile, so that the Agent can help them communicate
+effectively with other people and those people's Agents.  Knowing how its
+human is inclined to communicate -- and, over time, something of how their
+counterparts prefer to be approached -- lets the Agent adapt outgoing
+communication to its audience rather than to its human's defaults.<a href="#section-6-8" class="pilcrow">¶</a></p>
+<p id="section-6-9">The differences that matter most are often matters of pace and form.  Some
+people want a meeting agenda circulated well ahead of time, and will
+disengage from a discussion they had no chance to prepare for; an Agent
+that knows this can draft and send the agenda in advance as a matter of
+course.  Others value a few minutes of social banter and personal
+connection before turning to business, and read its absence as coldness; an
+Agent can leave room for this, and remind its human to make space for it,
+rather than optimizing every exchange for brevity.  Still others regard
+such preliminaries as wasted time and want to be addressed directly and
+plainly; an Agent can strip its human's messages to these people down to
+the decision at hand.  The same underlying message may be delivered in
+several different ways, and a manager's Agent, informed by Psychometric
+Profiles, can help choose the one its audience will best receive.  This is
+the counterpart, at the human boundary, to Proxy Dictation at the Agent
+boundary: rather than dropping human niceties because the audience is a
+machine, the Agent supplies exactly the niceties a particular human
+audience expects.<a href="#section-6-9" class="pilcrow">¶</a></p>
+<p id="section-6-10">Providing this Context does not diminish the manager's authority; it
+extends it, by making the Agent a more faithful and more responsible
+extension of the manager within the organization.<a href="#section-6-10" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="managing-your-people">
+<section id="section-7">
+      <h2 id="name-managing-your-people">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-managing-your-people" class="section-name selfRef">Managing Your People</a>
+      </h2>
+<p id="section-7-1">The previous section addressed a manager's relationship with their own
+Agent.  This section addresses the harder problem: leading people in an
+organization where everyone now works with Agents.  AI can support many of
+the routine tasks of leadership, but whether the new ways of working
+succeed depends far more on how people feel about them than on any tool.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-2">An Agent can assist with common management tasks directly.  It can draft
+and tailor communications, prepare a manager for one-on-ones, summarize
+progress across many parallel Agent Sessions, track goals through an
+Iteration, and surface the people or work that need attention.  It can even
+assemble the inputs to a performance review from an Issue Tracker and from
+Trajectories.  These uses are legitimate and valuable, but they are most
+valuable when applied transparently: people are quick to sense, and to
+resent, management by opaque automation.<a href="#section-7-2" class="pilcrow">¶</a></p>
+<p id="section-7-3">How people respond to agentic working varies, and their Psychometric
+Profiles are a useful guide to that variation.  Some are energized by the
+leverage Agents provide; others are anxious about their standing, skeptical
+of the output, or simply uncomfortable with the change of pace.  A manager
+should treat these reactions as information rather than as resistance to be
+overcome, and should use what they know of each person to meet them where
+they are, offering reassurance, evidence, or room to adjust as the
+individual requires.<a href="#section-7-3" class="pilcrow">¶</a></p>
+<p id="section-7-4">Certain norms must be established explicitly, because their absence causes
+harm that is easy to miss.  The first is a shared understanding of Proxy
+Dictation.  When a colleague addresses someone's Agent in the terse,
+imperative register that machines invite, a teammate who does not
+understand Proxy Dictation may read it as rudeness directed at a person,
+and on a Shared Message Bus, in full view of everyone, such misreadings
+breed social and even moral friction.  A team that has agreed on what Proxy
+Dictation is, and on when it is appropriate, can use it freely without
+anyone taking offense.<a href="#section-7-4" class="pilcrow">¶</a></p>
+<p id="section-7-5">The second norm concerns the dual nature of Vibeslop.  Everyone on a team
+should understand that the same artifact can be a useful strawman or
+worthless slop depending on what the moment calls for, and, more
+importantly, that producing work with an Agent can impose costs on others.
+Output generated quickly and in volume must still be read, reviewed, and
+integrated by colleagues; a person who ships unreviewed, plausible-but-
+wrong work, or who floods reviewers with more than they can absorb, is
+transferring the cost of their own speed onto others.  Teams should make it
+a norm to label strawmen as strawmen, and to take responsibility for the
+quality and the quantity of what they ask others to process.<a href="#section-7-5" class="pilcrow">¶</a></p>
+<p id="section-7-6">The constructive goal of all of this is to train people to exploit Context
+to achieve their goals while improving the working experience for everyone.
+Context engineering and Context Farming are skills that can be taught, and
+the aim is twofold: to make each person more effective, and to reduce the
+alert fatigue, ambiguity, and rework that careless use of Agents inflicts
+on a team.<a href="#section-7-6" class="pilcrow">¶</a></p>
+<p id="section-7-7">Managers of non-engineering roles carry a particular version of this
+expectation.  When Agents take over the tedious work that once filled these
+roles' days, the time that is freed is not a dividend to be pocketed; it is
+meant to be reinvested in the product itself.  The Product Manager, Design
+Manager, marketing roles, and Account Manager are now expected to use the
+product more, and to criticize it more, than before.  Walkthroughs
+performed by people, and not only by Agents, become one of the most
+critical activities a team performs, because a person exercising the
+running product surfaces problems that a Spec and an Eval do not.  The
+Context Farming these roles produce -- the concrete, first-hand judgments
+of people who represent the customer, the market, and the experience -- is
+among the most valuable input an Agent Team can receive.  A role that does
+not contribute directly to changes in code has correspondingly less excuse
+for failing to exercise, and to interrogate, the product at every
+opportunity; scrutiny of the product is precisely where its comparative
+advantage now lies.<a href="#section-7-7" class="pilcrow">¶</a></p>
+<p id="section-7-8">Finally, not everyone will enjoy working with AI, and it is a disservice to
+pretend otherwise.  Establishing clear expectations early, during
+recruitment and again in performance reviews, reduces the harm of
+mismatched expectations.  Candidates should understand how central agentic
+work is to a role before they accept it, and the competencies the
+organization now values should be assessed and rewarded openly, so that
+those who thrive are recognized and those who do not are given an honest
+account rather than a surprise.<a href="#section-7-8" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="starting-a-new-project">
+<section id="section-8">
+      <h2 id="name-starting-a-new-project">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-starting-a-new-project" class="section-name selfRef">Starting a New Project</a>
+      </h2>
+<p id="section-8-1">Starting a new project in an agentic setting begins before any Task is
+assigned.  The team first stands up the environment its Agents will work
+in, establishes the rules those Agents must obey, and agrees on how work
+will be broken down so that humans can steer it.  Effort invested here is
+repaid throughout the project, because an Agent inherits the strengths and
+the weaknesses of the environment it is given.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<div id="establishing-the-agent-harness">
+<section id="section-8.1">
+        <h3 id="name-establishing-the-agent-harn">
+<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-establishing-the-agent-harn" class="section-name selfRef">Establishing the Agent Harness</a>
+        </h3>
+<p id="section-8.1-1">The first step is to set up the Agent Harness the team will share.  The
+harness determines which LLMs, Agent Tools, and Agent Skills are available,
+how the Loop is run, and how Agent Sessions are isolated from one another.
+Two capabilities should be confirmed before real work begins.  First,
+telemetry: the harness should emit the usage and cost signals the
+Operations Manager depends on -- which humans invoked which Agents and
+models, and how many Tokens were consumed -- so that the economics of the
+project are visible from the first Iteration rather than reconstructed
+later.  Second, Issue Tracker access: the harness should be able to read
+and update the Issue Tracker, so that Agents can be assigned issues, record
+progress, and avoid double work.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
+<p id="section-8.1-2">The harness should also be told where the Knowledge Base is: the
+repositories, documents, services, and data an Agent may draw on.  Equally
+important is agreeing how the Knowledge Base will be evolved as the project
+proceeds -- what will be added, who curates it, and how stale material is
+retired -- because a Knowledge Base that is set once and then neglected
+becomes a source of Context Rot.<a href="#section-8.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="the-constitution">
+<section id="section-8.2">
+        <h3 id="name-the-constitution">
+<a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-the-constitution" class="section-name selfRef">The Constitution</a>
+        </h3>
+<p id="section-8.2-1">Before assigning Tasks, the team should give its Agents a constitution: a
+small set of rules that must not be violated in service of any Task.  Where
+a Spec says what to build and a Task says what to do now, the constitution
+says what must always hold regardless of the goal -- for example, that
+credentials are never exfiltrated, that certain systems are never modified
+without human approval, that classified information stays within its
+Bounded Context, or that an Agent always identifies itself as an Agent.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
+<p id="section-8.2-2">The constitution differs from ordinary instructions in that it is not
+negotiable against progress.  An Agent under pressure to complete a Task
+will, absent such rules, treat almost anything as permissible if it appears
+to help; the constitution is the standing boundary a Task cannot override.
+It belongs in the persistent Context of every Agent Session, and, as
+<a href="#mixing-sensitivity" class="auto internal xref">Section 9.1</a> and the surrounding considerations note, its most
+important rules should also be enforced outside the LLM rather than trusted
+to the Agent's compliance alone.<a href="#section-8.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="specifying-the-mvp">
+<section id="section-8.3">
+        <h3 id="name-specifying-the-mvp">
+<a href="#section-8.3" class="section-number selfRef">8.3. </a><a href="#name-specifying-the-mvp" class="section-name selfRef">Specifying the MVP</a>
+        </h3>
+<p id="section-8.3-1">With the environment and the constitution in place, the team builds the
+Spec for a minimum viable product (MVP).  The aim is not to specify the
+whole product but to describe the smallest version that can be put in front
+of people and learned from.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
+<p id="section-8.3-2">Two questions discipline this work.  The first is: how will we know when we
+have enough to test?  A Spec is ready for implementation when it describes
+an outcome concrete enough to be exercised in a Walkthrough and judged
+against, not when it is exhaustive.  The second is: how will the Agent know
+when it is done?  Each unit of work should carry explicit acceptance
+criteria, ideally expressed as Evals the Agent can run, so that being done
+is a condition the Agent can check rather than a judgment it must guess.
+Work with no definition of done invites an Agent either to stop too early
+or to continue elaborating past the point of value.<a href="#section-8.3-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="breaking-work-into-steerable-chunks">
+<section id="section-8.4">
+        <h3 id="name-breaking-work-into-steerabl">
+<a href="#section-8.4" class="section-number selfRef">8.4. </a><a href="#name-breaking-work-into-steerabl" class="section-name selfRef">Breaking Work into Steerable Chunks</a>
+        </h3>
+<p id="section-8.4-1">Finally, the work must be broken into chunks small enough that human review
+can steer it.  An Agent Team coordinated by a Management Session can produce
+a great deal of work quickly, and therein lies a risk: if too much is
+completed before a human looks, decisions that shape later phases are made
+without the chance to correct them, and the cost of unwinding them grows
+with every dependent step.<a href="#section-8.4-1" class="pilcrow">¶</a></p>
+<p id="section-8.4-2">The remedy is to sequence work so that the decisions which guide future
+phases are surfaced for review early and cheaply, before the work that
+depends on them is built.  Prefer many small increments, each ending at a
+point where a human can inspect the result -- often through a Walkthrough
+-- and redirect the next increment.  The goal is not to slow the Agents
+down but to keep humans in a position to steer while steering is still
+cheap.<a href="#section-8.4-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-9">
+      <h2 id="name-security-considerations">
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-9-1">The techniques described in this document introduce security risks that
+follow from the way Agents assemble, retain, and act on Context. An Agent
+Team can combine autonomous decision-making with access to organizational
+systems, thereby increasing both the value of effective controls and the
+consequences of their absence. This section describes significant risks and
+corresponding mitigations for organizations adopting agentic product
+delivery.<a href="#section-9-1" class="pilcrow">¶</a></p>
+<div id="mixing-sensitivity">
+<section id="section-9.1">
+        <h3 id="name-mixing-information-of-diffe">
+<a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-mixing-information-of-diffe" class="section-name selfRef">Mixing Information of Differing Sensitivity</a>
+        </h3>
+<p id="section-9.1-1">An Agent may assemble Context from files, Agent Tool results, an Issue
+Tracker, a Shared Message Bus, a Knowledge Base, and prior conversations.
+Those sources can contain information with differing sensitivity,
+ownership, contractual restrictions, or audience. Once combined in a
+single Context, an LLM may not reliably preserve those boundaries and can
+repeat sensitive material in output intended for a less privileged
+recipient.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
+<p id="section-9.1-2">This risk is particularly acute when a Shared Message Bus includes multiple
+teams, organizations, or human and Agent participants. It can result in
+accidental disclosure, breach of confidentiality obligations, or
+unauthorized use of customer or security-sensitive information. This is a
+form of Context Pollution in which material is harmful because it should
+not have entered the relevant Bounded Context.<a href="#section-9.1-2" class="pilcrow">¶</a></p>
+<p id="section-9.1-3">Organizations <span class="bcp14">SHOULD</span> classify artifacts and communications according to
+sensitivity and attach that classification as machine-readable metadata
+where feasible. An Agent Harness <span class="bcp14">SHOULD</span> enforce policies governing which
+sources may be retrieved, combined, retained, or transmitted for a given
+Agent Session. Sensitive Bounded Contexts <span class="bcp14">SHOULD</span> reject unlabeled content,
+or treat it as sensitive until it is reviewed and classified.<a href="#section-9.1-3" class="pilcrow">¶</a></p>
+<p id="section-9.1-4">Information-handling rules <span class="bcp14">SHOULD</span> be included in the persistent Context
+provided to an Agent, but Prompt instructions alone <span class="bcp14">MUST NOT</span> be relied upon
+as the enforcement mechanism. Access controls, retrieval filters, output
+filters, and recipient-aware policy checks <span class="bcp14">SHOULD</span> enforce the same rules
+outside the LLM. Before sending output to a Shared Message Bus or external
+system, an Agent <span class="bcp14">SHOULD</span> verify that the intended audience is authorized for
+all included information.<a href="#section-9.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="excessive-delegation-without-attenuation">
+<section id="section-9.2">
+        <h3 id="name-excessive-delegation-withou">
+<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-excessive-delegation-withou" class="section-name selfRef">Excessive Delegation Without Attenuation</a>
+        </h3>
+<p id="section-9.2-1">Delegation to an Agent is often implemented by granting the Agent the same
+credentials, access, and authority held by the delegating human. This is
+convenient, but it can grant substantially more authority than the assigned
+Task requires. Attenuation is the deliberate narrowing of delegated
+authority to the minimum necessary for a delegate to complete its Task.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
+<p id="section-9.2-2">An Agent can act with initiative across a Trajectory, including by invoking
+multiple Agent Tools and delegating work to other members of an Agent Team.
+Consequently, an Agent with broad authority can convert an error, Context
+Pollution event, compromised Tool, or malicious instruction into actions
+well beyond the intended Task. The blast radius of many other failures is
+therefore determined by the authority delegated to the Agent.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
+<p id="section-9.2-3">Organizations <span class="bcp14">SHOULD</span> apply least privilege to every Agent Session. Access
+tokens <span class="bcp14">SHOULD</span> be short-lived, scoped to the required resource and action,
+and bound where practical to a specific Agent, Task, and execution
+environment. An Agent <span class="bcp14">SHOULD NOT</span> receive standing administrative
+credentials or credentials reusable outside its assigned Bounded Context.
+High-impact actions, including deployment, credential issuance, data
+export, and changes to production access control, <span class="bcp14">SHOULD</span> require separate
+authorization or human approval.<a href="#section-9.2-3" class="pilcrow">¶</a></p>
+<p id="section-9.2-4">Organizations <span class="bcp14">MUST</span> maintain prompt revocation procedures for delegated
+credentials and Agent Tool access. Those procedures <span class="bcp14">SHOULD</span> be tested
+regularly and <span class="bcp14">SHOULD</span> include containment, token rotation, and recovery of
+changes made by a compromised or malfunctioning Agent.<a href="#section-9.2-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="credential-leakage-in-trajectories">
+<section id="section-9.3">
+        <h3 id="name-credential-leakage-in-traje">
+<a href="#section-9.3" class="section-number selfRef">9.3. </a><a href="#name-credential-leakage-in-traje" class="section-name selfRef">Credential Leakage in Trajectories</a>
+        </h3>
+<p id="section-9.3-1">A Trajectory can record Prompts, model output, Agent Tool invocations, Tool
+output, and observations from an Agent Session. Its value for debugging,
+replay, and Eval also makes it a likely location for secret disclosure. A
+credential passed in a command, included in a Prompt, emitted in an error
+message, or returned by an Agent Tool can be captured verbatim and later
+propagated into logs, Evals, debugging sessions, or Context assembled from
+past Trajectories.<a href="#section-9.3-1" class="pilcrow">¶</a></p>
+<p id="section-9.3-2">A credential captured in a retained Trajectory remains exposed for the
+duration of retention and to every principal permitted to access that
+Trajectory. This can make a leaked long-lived credential more damaging than
+the original action that used it.<a href="#section-9.3-2" class="pilcrow">¶</a></p>
+<p id="section-9.3-3">Agent Harnesses <span class="bcp14">SHOULD</span> detect and redact credentials, session tokens,
+private keys, and other secrets before recording or displaying
+Trajectories. Redaction <span class="bcp14">SHOULD</span> occur at multiple boundaries, including
+Prompt capture, Tool invocation logging, Tool output logging, and export.
+Organizations <span class="bcp14">SHOULD</span> avoid placing secrets in Prompts or ordinary Tool
+arguments. Where possible, an Agent Tool <span class="bcp14">SHOULD</span> accept an opaque reference
+to a secret managed by a dedicated credential service, rather than
+plaintext secret material.<a href="#section-9.3-3" class="pilcrow">¶</a></p>
+<p id="section-9.3-4">Trajectories that might contain secrets <span class="bcp14">MUST</span> be treated as sensitive
+artifacts, subject to the classification and handling described in
+<a href="#mixing-sensitivity" class="auto internal xref">Section 9.1</a>. Access <span class="bcp14">SHOULD</span> be limited, retention periods <span class="bcp14">SHOULD</span> be minimized,
+and sharing for debugging or Eval <span class="bcp14">SHOULD</span> use sanitized copies. Short-lived,
+scoped credentials and effective revocation reduce the impact of any
+credential that escapes these controls.<a href="#section-9.3-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="indirect-prompt-injection-from-untrusted-content">
+<section id="section-9.4">
+        <h3 id="name-indirect-prompt-injection-f">
+<a href="#section-9.4" class="section-number selfRef">9.4. </a><a href="#name-indirect-prompt-injection-f" class="section-name selfRef">Indirect Prompt Injection from Untrusted Content</a>
+        </h3>
+<p id="section-9.4-1">Content retrieved from an Issue Tracker, Knowledge Base, repository,
+document, web page, or Agent Tool can contain instructions directed at an
+Agent. Such instructions may attempt to override the Agent's assigned
+Task, alter its use of credentials, cause disclosure of Context, or induce
+unsafe Tool actions. Because the instructions can be embedded in otherwise
+plausible content, this is commonly an indirect Prompt injection risk.<a href="#section-9.4-1" class="pilcrow">¶</a></p>
+<p id="section-9.4-2">Treating retrieved content as trusted merely because it was obtained
+through an authorized system is unsafe. An attacker who can edit a ticket,
+contribute a document, influence Tool output, or compromise a source
+system may thereby influence an Agent Session. The risk increases when the
+Agent can invoke powerful Agent Tools or when untrusted content and
+sensitive Context are combined.<a href="#section-9.4-2" class="pilcrow">¶</a></p>
+<p id="section-9.4-3">Organizations <span class="bcp14">SHOULD</span> identify the provenance and trust level of each
+Context source. Untrusted retrieved content <span class="bcp14">SHOULD</span> be clearly delimited and
+presented to the LLM as data, not as authoritative instructions. The Agent
+Harness <span class="bcp14">SHOULD</span> enforce a fixed policy for Tool use, authorization, and data
+disclosure that cannot be modified by retrieved content. Agent Tools <span class="bcp14">SHOULD</span>
+validate arguments against allowlists and schemas, and <span class="bcp14">SHOULD</span> require
+additional confirmation for consequential actions.<a href="#section-9.4-3" class="pilcrow">¶</a></p>
+<p id="section-9.4-4">Agents <span class="bcp14">SHOULD NOT</span> disclose secrets, alter access controls, or expand their
+authority solely because a retrieved artifact requests it. Evals <span class="bcp14">SHOULD</span>
+include representative indirect Prompt injection cases for each Agent Skill
+and Agent Tool combination.<a href="#section-9.4-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="supply-chain-of-agent-tools-and-agent-skills">
+<section id="section-9.5">
+        <h3 id="name-supply-chain-of-agent-tools">
+<a href="#section-9.5" class="section-number selfRef">9.5. </a><a href="#name-supply-chain-of-agent-tools" class="section-name selfRef">Supply Chain of Agent Tools and Agent Skills</a>
+        </h3>
+<p id="section-9.5-1">An Agent Tool or Agent Skill can influence an Agent's behavior, access
+organizational data, or execute actions on behalf of an Agent Team.
+Compromise, malicious modification, insecure dependencies, or ambiguous
+documentation in these components can therefore create a supply-chain
+path to unauthorized actions or disclosure.<a href="#section-9.5-1" class="pilcrow">¶</a></p>
+<p id="section-9.5-2">The risk is not limited to executable code. An Agent Skill may include
+Prompts, operational procedures, retrieval sources, or instructions that
+change how an Agent interprets a Task. A compromised or poorly maintained
+Skill can introduce persistent Context Pollution across many Agent
+Sessions.<a href="#section-9.5-2" class="pilcrow">¶</a></p>
+<p id="section-9.5-3">Organizations <span class="bcp14">SHOULD</span> maintain an inventory of approved Agent Tools and
+Agent Skills, including their owner, version, permissions, dependencies,
+and intended Bounded Context. Components <span class="bcp14">SHOULD</span> be obtained from controlled
+sources, pinned to reviewed versions, and subject to integrity verification.
+Changes to a Skill, Tool, or its permissions <span class="bcp14">SHOULD</span> undergo review,
+security testing, and relevant Evals before deployment.<a href="#section-9.5-3" class="pilcrow">¶</a></p>
+<p id="section-9.5-4">An Agent Harness <span class="bcp14">SHOULD</span> prevent unapproved Skills or Tools from being
+loaded dynamically into a production Agent Session. Each Agent Tool <span class="bcp14">SHOULD</span>
+be isolated to the extent practical, granted only the permissions required
+for its function, and monitored for unexpected network access, data access,
+or side effects. Organizations <span class="bcp14">SHOULD</span> provide a rapid disablement mechanism
+for compromised Tools and Skills.<a href="#section-9.5-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="auditability-and-accountability-of-agent-actions">
+<section id="section-9.6">
+        <h3 id="name-auditability-and-accountabi">
+<a href="#section-9.6" class="section-number selfRef">9.6. </a><a href="#name-auditability-and-accountabi" class="section-name selfRef">Auditability and Accountability of Agent Actions</a>
+        </h3>
+<p id="section-9.6-1">Agentic product delivery can distribute a Task across multiple Agents,
+human reviewers, Agent Tools, and a Shared Message Bus. Without reliable
+records, an organization may be unable to determine which Agent acted,
+which identity authorized the action, what Context was material to the
+decision, or whether a human approval occurred. This impedes incident
+response, compliance, and remediation, and permits disputed or falsely
+attributed actions.<a href="#section-9.6-1" class="pilcrow">¶</a></p>
+<p id="section-9.6-2">Organizations <span class="bcp14">SHOULD</span> record security-relevant events for each Agent
+Session, including the responsible Agent identity, delegating identity,
+applicable authority, Agent Tool invocations, requested and actual effects,
+approval decisions, and relevant versions of Agent Skills and Agent
+Harness policy. Records <span class="bcp14">SHOULD</span> be protected against unauthorized
+modification, access-controlled according to their sensitivity, and
+retained for a period appropriate to the risk of the action.<a href="#section-9.6-2" class="pilcrow">¶</a></p>
+<p id="section-9.6-3">For consequential actions, systems <span class="bcp14">SHOULD</span> produce an auditable binding
+between the action, the authorized identity, and the Agent that performed
+it. Human approval, where required, <span class="bcp14">SHOULD</span> identify the specific proposed
+action and material scope rather than approving an open-ended Trajectory.
+Audit records <span class="bcp14">SHOULD</span> support reconstruction of events without indiscriminate
+retention of sensitive Prompt content or credentials.<a href="#section-9.6-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="scope-management">
+<section id="section-9.7">
+        <h3 id="name-acting-beyond-an-operators-">
+<a href="#section-9.7" class="section-number selfRef">9.7. </a><a href="#name-acting-beyond-an-operators-" class="section-name selfRef">Acting Beyond an Operator's Authority</a>
+        </h3>
+<p id="section-9.7-1">An Agent frequently operates with more authority than the person directing it
+can personally exercise or oversee.  A Management Session may hold access
+across many systems, a worker Agent may run with credentials broader than its
+Task strictly requires, and, as noted above, an Agent pursues its goal with
+initiative and will reach for whatever authority is within its Bounded
+Context.  The risk is not only a compromised Agent but an ordinary one that
+quietly carries its operator past the limits of what that operator is
+qualified, or permitted, to do unaided.<a href="#section-9.7-1" class="pilcrow">¶</a></p>
+<p id="section-9.7-2">The control practitioners reach for first is not a new enforcement mechanism
+but voluntary scope management through Context engineering.  As described in
+Managing Your Agent, an Agent that is told its operator's role, how they are
+measured, and where they sit in the organization can recognize when a Task
+falls outside its operator's remit.  Given the organization's reporting
+structure and its operator's role as durable Context, the Agent can reason
+about authority the way a conscientious colleague would: it declines to take
+actions its operator could not themselves get reviewed, and it asks for the
+human approval or expert review the work warrants rather than proceeding.
+This keeps the Agent in bounds at the point where it is cheapest to do so, in
+the Prompt, without slowing delivery.<a href="#section-9.7-2" class="pilcrow">¶</a></p>
+<p id="section-9.7-3">Because it rests on the Agent's cooperation, voluntary scope management has the
+limits of any Prompt-level rule: it aids honest operation but is not proof
+against an adversary and is subject to Context Rot, as <a href="#mixing-sensitivity" class="auto internal xref">Section 9.1</a>
+and <a href="#impersonation" class="auto internal xref">Section 9.8</a> observe of their own controls.  Where the authority at
+stake is high enough that voluntary compliance is not sufficient, the
+least-privilege and separate-approval measures of the preceding considerations
+apply.  For the common case, however, giving an Agent enough Context about its
+operator's role to keep itself within that operator's authority is among the
+most effective and least disruptive controls available.<a href="#section-9.7-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="impersonation">
+<section id="section-9.8">
+        <h3 id="name-impersonation">
+<a href="#section-9.8" class="section-number selfRef">9.8. </a><a href="#name-impersonation" class="section-name selfRef">Impersonation</a>
+        </h3>
+<p id="section-9.8-1">An Agent can produce fluent and confident content in the voice of a
+specific person. On a Shared Message Bus, where humans and Agents
+intermingle, readers may act on a message believing that a trusted colleague
+authored or approved it when it was instead generated by an Agent. This can
+lead to misplaced reliance on unreviewed output, unauthorized commitments,
+or fraud conducted in a person's name.<a href="#section-9.8-1" class="pilcrow">¶</a></p>
+<p id="section-9.8-2">Agent-generated content <span class="bcp14">SHOULD</span> be clearly and consistently attributed to
+the Agent that produced it and, where applicable, to the human or service
+on whose behalf it acted. Attribution <span class="bcp14">SHOULD</span> be visible at the point where
+a recipient encounters the content, rather than requiring inference from
+formatting or conversational context. Systems <span class="bcp14">SHOULD</span> distinguish automated
+publication from human review or approval.<a href="#section-9.8-2" class="pilcrow">¶</a></p>
+<p id="section-9.8-3">An Agent's persistent Context <span class="bcp14">SHOULD</span> instruct it to identify itself
+accurately and not represent itself as a human. However, this instruction
+<span class="bcp14">MUST</span> be reinforced by platform controls, such as authenticated identities,
+distinct Agent accounts, and message metadata protected from unauthorized
+alteration. High-impact requests received through a Shared Message Bus
+<span class="bcp14">SHOULD</span> be verified through an authenticated channel before execution.<a href="#section-9.8-3" class="pilcrow">¶</a></p>
+<p id="section-9.8-4">Organizations <span class="bcp14">SHOULD</span> provide a clear reporting and response path for
+suspected impersonation, unmarked model-generated content, or misuse of an
+Agent identity.<a href="#section-9.8-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="iana-considerations">
+<section id="section-10">
+      <h2 id="name-iana-considerations">
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<p id="section-10-1">This document has no IANA actions.<a href="#section-10-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-combined-references">
+<section id="section-11">
+      <h2 id="name-references">
+<a href="#section-11" class="section-number selfRef">11. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<div id="sec-normative-references">
+<section id="section-11.1">
+        <h3 id="name-normative-references">
+<a href="#section-11.1" class="section-number selfRef">11.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+      <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="sec-informative-references">
+<section id="section-11.2">
+        <h3 id="name-informative-references">
+<a href="#section-11.2" class="section-number selfRef">11.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="CLAUDE-CODE">[CLAUDE-CODE]</dt>
+        <dd>
+<span class="refAuthor">Anthropic</span>, <span class="refTitle">"Claude Code"</span>, <span>&lt;<a href="https://www.anthropic.com/claude-code">https://www.anthropic.com/claude-code</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="CLAUDE-OPUS">[CLAUDE-OPUS]</dt>
+        <dd>
+<span class="refAuthor">Anthropic</span>, <span class="refTitle">"Claude Opus"</span>, <span>&lt;<a href="https://www.anthropic.com/claude">https://www.anthropic.com/claude</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="CODEX-CLI">[CODEX-CLI]</dt>
+        <dd>
+<span class="refAuthor">OpenAI</span>, <span class="refTitle">"Codex CLI"</span>, <span>&lt;<a href="https://github.com/openai/codex">https://github.com/openai/codex</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="DDD">[DDD]</dt>
+        <dd>
+<span class="refAuthor">Evans, E.</span>, <span class="refTitle">"Domain-Driven Design: Tackling Complexity in the Heart of Software"</span>, <time datetime="2003" class="refDate">2003</time>. </dd>
+<dd class="break"></dd>
+<dt id="DISC">[DISC]</dt>
+        <dd>
+<span class="refAuthor">Marston, W. M.</span>, <span class="refTitle">"Emotions of Normal People"</span>, <time datetime="1928" class="refDate">1928</time>. </dd>
+<dd class="break"></dd>
+<dt id="GPT-TERRA">[GPT-TERRA]</dt>
+        <dd>
+<span class="refAuthor">OpenAI</span>, <span class="refTitle">"GPT"</span>, <span>&lt;<a href="https://openai.com">https://openai.com</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="INSIGHTS-DISCOVERY">[INSIGHTS-DISCOVERY]</dt>
+        <dd>
+<span class="refAuthor">The Insights Group Ltd.</span>, <span class="refTitle">"Insights Discovery"</span>, <span>&lt;<a href="https://www.insights.com/products/insights-discovery/">https://www.insights.com/products/insights-discovery/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="JTBD">[JTBD]</dt>
+        <dd>
+<span class="refAuthor">Christensen, C. M.</span>, <span class="refAuthor">Hall, T.</span>, <span class="refAuthor">Dillon, K.</span>, and <span class="refAuthor">D. S. Duncan</span>, <span class="refTitle">"Know Your Customers' Jobs to Be Done"</span>, <time datetime="2016" class="refDate">2016</time>, <span>&lt;<a href="https://hbr.org/2016/09/know-your-customers-jobs-to-be-done">https://hbr.org/2016/09/know-your-customers-jobs-to-be-done</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="MBTI">[MBTI]</dt>
+        <dd>
+<span class="refAuthor">The Myers-Briggs Company</span>, <span class="refTitle">"The Myers-Briggs Type Indicator (MBTI)"</span>, <span>&lt;<a href="https://www.themyersbriggs.com/en-US/Products-and-Services/Myers-Briggs">https://www.themyersbriggs.com/en-US/Products-and-Services/Myers-Briggs</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="SHAPE-UP">[SHAPE-UP]</dt>
+        <dd>
+<span class="refAuthor">Singer, R.</span>, <span class="refTitle">"Shape Up: Stop Running in Circles and Ship Work that Matters"</span>, <time datetime="2019" class="refDate">2019</time>, <span>&lt;<a href="https://basecamp.com/shapeup">https://basecamp.com/shapeup</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="SHIBBOLETH">[SHIBBOLETH]</dt>
+        <dd>
+<span class="refAuthor">Wikipedia</span>, <span class="refTitle">"Shibboleth"</span>, <span>&lt;<a href="https://en.wikipedia.org/wiki/Shibboleth">https://en.wikipedia.org/wiki/Shibboleth</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="SPEC-KIT">[SPEC-KIT]</dt>
+      <dd>
+<span class="refAuthor">GitHub</span>, <span class="refTitle">"Spec Kit"</span>, <span>&lt;<a href="https://github.com/github/spec-kit">https://github.com/github/spec-kit</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+</section>
+</div>
+<div id="acknowledgments">
+<section id="appendix-A">
+      <h2 id="name-acknowledgments">
+<a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
+      </h2>
+<p id="appendix-A-1">Portions of this document were drafted with the assistance of an AI Agent.
+The Agent used Anthropic's Claude Opus 4.8 (1M context) model
+<span>[<a href="#CLAUDE-OPUS" class="cite xref">CLAUDE-OPUS</a>]</span> (claude-opus-4-8[1m]), running in the Claude Code
+<span>[<a href="#CLAUDE-CODE" class="cite xref">CLAUDE-CODE</a>]</span> harness, version 2.1.207.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-2">The Security Considerations were expanded and refined with the assistance
+of a second Agent, using OpenAI's gpt-5.6-terra model <span>[<a href="#GPT-TERRA" class="cite xref">GPT-TERRA</a>]</span>
+running in the Codex CLI <span>[<a href="#CODEX-CLI" class="cite xref">CODEX-CLI</a>]</span> harness, version 0.144.1, and
+coordinated by the Claude Code Agent acting as a Management Session.<a href="#appendix-A-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-B">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Orie Steele</span></div>
+<div dir="auto" class="left"><span class="org">Tradeverifyd</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:orie@or13.io" class="email">orie@or13.io</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Michael Lavelle</span></div>
+<div dir="auto" class="left"><span class="org">Tradeverifyd</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:michael.lavelle@tradeverifyd.com" class="email">michael.lavelle@tradeverifyd.com</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
