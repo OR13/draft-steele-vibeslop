@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-19T00:20:56.514676+00:00",
+  "timestamp": "2026-07-21T00:22:15.939290+00:00",
   "repo": "OR13/draft-steele-vibeslop",
   "labels": [
     {
@@ -176,6 +176,156 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDOTVZNeM7zcVDw",
+      "title": "Verifiable delegation and attribution guidance; add Michael Lavelle as co-author",
+      "url": "https://github.com/OR13/draft-steele-vibeslop/pull/4",
+      "state": "MERGED",
+      "author": "MJL40635",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "## Summary\n\nFolds the accountable-delegation pattern from our verifiable agent coordination work into the draft, in its informational register, and proposes adding Michael Lavelle (Tradeverifyd) as a co-author.\n\nThe Security Considerations already call for least-privilege delegation and for an auditable binding between an action, the identity that authorized it, and the Agent that performed it. This PR names the emerging technique that makes those properties verifiable rather than only recorded, and points at the ratified building blocks it composes.\n\n## Changes\n\n- New Security Considerations subsection \"Verifiable Delegation and Attributable Action\": decentralized identifiers for identity, object-capability tokens for authority, and a Transparency Log for the record, so delegation is least-authority by construction and every consequential action is attributable and checkable from the record alone. Honest about the bound: containment and attribution, not prevention of a fooled Agent.\n- New Terminology entry: Transparency Log.\n- Reinforce \"Indirect Prompt Injection from Untrusted Content\" with a forward reference: model-layer injection cannot be prevented, so pair mitigation with containment and attribution.\n- Informative references for the building blocks: DID Core, COSE (RFC 9052), COSE Receipts (RFC 9942), SCITT (RFC 9943), UCAN.\n- Add Michael Lavelle to the author list (Orie first, Michael second; docname unchanged).\n\n## Notes\n\n- The added text composes only ratified or widely deployed standards. It does not cite any unpublished work.\n- Register kept informational (SHOULD / MAY), matching the rest of the document.\n- Drafted with AI assistance.\n- This is a Contribution under BCP 78/79. The co-authorship addition is proposed for @OR13 to accept on merge.\n\nOpened as a draft for review and discussion.\n",
+      "createdAt": "2026-07-19T01:11:44Z",
+      "updatedAt": "2026-07-20T07:29:28Z",
+      "baseRepository": "OR13/draft-steele-vibeslop",
+      "baseRefName": "main",
+      "baseRefOid": "f65e4bddd9752fccdd0e8b9fce2304c1d031f15d",
+      "headRepository": "OR13/draft-steele-vibeslop",
+      "headRefName": "mjl/verifiable-delegation-and-coauthorship",
+      "headRefOid": "85ec4ad4bf56a31438fe42225d1a6d5469edd3b6",
+      "closedAt": "2026-07-20T07:29:28Z",
+      "mergedAt": "2026-07-20T07:29:28Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "322eb7a91523ad660de03094b5e326f16b6623b4"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOTVZNeM8AAAABGfJQMQ",
+          "commit": {
+            "abbreviatedOid": "da4c583"
+          },
+          "author": "OR13",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-19T06:48:44Z",
+          "updatedAt": "2026-07-19T06:48:44Z",
+          "comments": [
+            {
+              "originalPosition": 107,
+              "body": "I don't think we should be citing DIDs in this document, we should focus on things we have found useful in developing software with AI.",
+              "createdAt": "2026-07-19T06:48:44Z",
+              "updatedAt": "2026-07-19T06:48:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOTVZNeM8AAAABGfJe0Q",
+          "commit": {
+            "abbreviatedOid": "da4c583"
+          },
+          "author": "OR13",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-19T06:52:12Z",
+          "updatedAt": "2026-07-19T06:52:12Z",
+          "comments": [
+            {
+              "originalPosition": 82,
+              "body": "I think this is good to comment on, but we should avoid being prescriptive of solutions... I think we should start with voluntary scope management, such as system prompts that know your role, and org chart, and guidance to the agent to not attempt to perform actions their operator won't be able to review. We should avoid talking about securing trajectories, unless we can show its impact on velocity or product dev.",
+              "createdAt": "2026-07-19T06:52:12Z",
+              "updatedAt": "2026-07-19T06:52:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOTVZNeM8AAAABGfsKQw",
+          "commit": {
+            "abbreviatedOid": "85ec4ad"
+          },
+          "author": "MJL40635",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-19T13:44:10Z",
+          "updatedAt": "2026-07-19T13:44:10Z",
+          "comments": [
+            {
+              "originalPosition": 107,
+              "body": "Agreed. Dropped the DID, object-capability, COSE, and SCITT references entirely, along with the Transparency Log term. Nothing in the revision cites or depends on that tech. It now sticks to the scope-management practice we actually use.",
+              "createdAt": "2026-07-19T13:44:10Z",
+              "updatedAt": "2026-07-19T13:44:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOTVZNeM8AAAABGfsKVw",
+          "commit": {
+            "abbreviatedOid": "85ec4ad"
+          },
+          "author": "MJL40635",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-19T13:44:11Z",
+          "updatedAt": "2026-07-19T13:44:11Z",
+          "comments": [
+            {
+              "originalPosition": 82,
+              "body": "Reworked per your steer. The subsection is now \"Acting Beyond an Operator's Authority\" and leads with voluntary scope management through context engineering: giving the Agent its operator's role and the org chart as durable Context so it declines actions its operator could not get reviewed, and asks for the approval or expert review the work warrants. Removed the prescriptive enforcement framing and anything about securing trajectories, and kept it to keeping the Agent in bounds cheaply, in the prompt, without slowing delivery.",
+              "createdAt": "2026-07-19T13:44:11Z",
+              "updatedAt": "2026-07-19T13:44:11Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOTVZNeM8AAAABGhoS2w",
+          "commit": {
+            "abbreviatedOid": "85ec4ad"
+          },
+          "author": "OR13",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-20T07:29:23Z",
+          "updatedAt": "2026-07-20T07:29:23Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDOTVZNeM7zvYew",
+      "title": "Cite AI models and agents as informative references",
+      "url": "https://github.com/OR13/draft-steele-vibeslop/pull/5",
+      "state": "MERGED",
+      "author": "OR13",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "## Summary\n\nTurns the bare-prose mentions of AI models/agents/harnesses in the Acknowledgments into proper **informative references**, and fixes a cosmetic build warning.\n\n- Adds four `informative:` reference entries and cites them with `{{...}}`:\n  - `CLAUDE-OPUS` \u2014 Anthropic, \"Claude Opus\", https://www.anthropic.com/claude\n  - `CLAUDE-CODE` \u2014 Anthropic, \"Claude Code\", https://www.anthropic.com/claude-code\n  - `GPT-TERRA` \u2014 OpenAI, \"GPT\", https://openai.com\n  - `CODEX-CLI` \u2014 OpenAI, \"Codex CLI\", https://github.com/openai/codex\n- Escapes the brackets in `claude-opus-4-8\\[1m\\]` so kramdown-rfc stops parsing `[1m]` as a dangling link ref. Rendered text is unchanged; kramdown-rfc build is now warning-free.\n\n## idnits (v3, 3.1.0)\n\nRun against the `-00` build: **no errors** \u2014 3 warnings + 1 comment, all pre-existing kramdown-rfc XML-generation artifacts (unchanged by this PR):\n- `LINE_PI` (`<?line?>` tags), `DEPRECATED_REFERENCES_TITLE` (`title` vs `<name>`), `DEPRECATED_ELEMENT` (`<list>` in \"Managing Your Agent\"), `NON_ASCII_UTF8` (comment: \ud83d\udc85 emoji + em-dashes, permitted by RFC 7997).\n\n## Note for review\n\nReference **URLs are best-effort landing pages** \u2014 please adjust in review if you'd prefer more specific targets (e.g. model/version docs pages). The prose (model names, versions, harness versions) is preserved verbatim.\n\nRequesting mutual review before merge \u2014 please do not merge without @MJL40635 sign-off.\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)",
+      "createdAt": "2026-07-20T07:54:45Z",
+      "updatedAt": "2026-07-20T08:05:29Z",
+      "baseRepository": "OR13/draft-steele-vibeslop",
+      "baseRefName": "main",
+      "baseRefOid": "322eb7a91523ad660de03094b5e326f16b6623b4",
+      "headRepository": "OR13/draft-steele-vibeslop",
+      "headRefName": "steele/model-agent-references",
+      "headRefOid": "4ee582e1767574c1d0e95dbd1e132ca4de52273e",
+      "closedAt": "2026-07-20T08:05:29Z",
+      "mergedAt": "2026-07-20T08:05:29Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "de1b63f13725ba9a871955c05566ef502b8af8e1"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }
