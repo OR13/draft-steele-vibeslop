@@ -161,7 +161,7 @@ or machine -- can see what building software with Agents looked like
 while it was still being figured out.
 
 
-# Terminology
+# Terminology {#terminology}
 
 {::boilerplate bcp14-tagged}
 
@@ -769,6 +769,97 @@ metadata -- remain necessary where the distinction must hold under
 adversarial conditions.
 
 
+# Context Flows {#context-flows}
+
+The concepts defined in {{terminology}} are easier to hold together when
+their relationships are seen at once.  {{fig-context-flows}} shows the
+paths along which Context moves in a team practicing agentic product
+delivery: between the humans and the venues they share with Agents,
+between those venues and a Management Session, and between a Management
+Session and the worker Agent Sessions it coordinates.
+
+~~~ aasvg
+    +-------------+    +-------------+    +-------------+
+    |    Human    |    |    Human    |    |    Agent    |
+    |  (Product)  |    |(Engineering)|    |(standalone) |
+    +------+------+    +------+------+    +------+------+
+           |                  |                  |
+           +---+--------------+--------------+---+
+               |                             |
+   +-----------+-----------+     +-----------+-----------+
+   |  Shared Message Bus   |     |     Issue Tracker     |
+   |   every participant   |     |  work directed to an  |<-----+
+   |  sees every message   |<--->|    assigned owner     |      |
+   +-----------+-----------+     +-----------+-----------+      |
+               ^                             ^                  |
+               |  status, Context Farming    |  assign work     |
+               v                             v                  |
+        +-------------------------------------------+           |
+        |          Management Session (C2)          |           |
+        |  decomposes work, dispatches, integrates  |           |
+        +--+------------------+------------------+--+           |
+           ^                  ^                  ^              |
+ dispatch  |                  |                  |  results     |
+           v                  v                  v              |
+      +---------+        +---------+        +---------+ updates |
+      | Worker  |        | Worker  |        | Worker  +---------+
+      |  Agent  |        |  Agent  |        |  Agent  |
+      | Session |        | Session |        | Session |
+      +---------+        +---------+        +---------+
+~~~
+{: #fig-context-flows title="Context flows among humans, the Shared Message Bus, the Issue Tracker, a Management Session, and the worker Agent Sessions it coordinates"}
+
+Read from the top, the figure makes four observations.
+
+First, humans and Agents share the same venues.  The Shared Message Bus
+and the Issue Tracker are not agent-only infrastructure; they are the
+channels and the work-tracking system the organization already ran before
+it adopted Agents.  An Agent may appear there on behalf of a human, or,
+as the third participant in the figure shows, under its own identity as a
+distinct and separately accountable party.
+
+Second, the two venues distribute Context differently, and that difference
+is why both are present.  The Shared Message Bus broadcasts: every
+participant receives every message, which is what makes the work legible
+to any human who cares to read it, and also what produces the alert
+fatigue that Context Farming exists to counter.  The Issue Tracker
+directs: an issue is assigned to one owner, human or Agent, which
+establishes responsibility and prevents two participants from acting on
+the same Task.  The two are coupled -- messages reference issues, and
+issue updates are announced on the bus -- so a reader following either
+one can find their way to the other.
+
+Third, a Management Session sits between those venues and the work.  It
+draws Tasks and status from both, decomposes work, dispatches what can be
+progressed in parallel, and integrates the results.  It is itself an
+Agent Session, so its Trajectory is subject to the same inspection as any
+other; what distinguishes it is that its Task is the coordination rather
+than the underlying work.  Because it holds the aggregate view, it is
+also the natural place to conduct Context Farming: it can batch the
+questions that require human judgment and put them on the Shared Message
+Bus once, rather than letting each worker session interrupt a human
+separately.
+
+Fourth, the worker Agent Sessions are not isolated from the shared
+venues.  A worker session records its progress against the issue it was
+assigned, so that a human can see where the work stands without asking
+the Management Session and without reading the worker's Trajectory.  This
+path matters for accountability: it means the durable record of what was
+done lives in the organization's own systems rather than only in an Agent
+Session's transient state.
+
+The figure is deliberately drawn with a single Management Session and
+three worker sessions, but neither number is normative.  A Management
+Session may itself be dispatched by another, and an Agent Team may be
+composed of specialists that trade work among themselves rather than
+reporting only upward.  What the figure fixes is the shape of the
+relationships, not the size of the deployment.  The security consequences
+of that shape -- in particular the authority a Management Session
+accumulates, and the trust a worker session places in Context it did not
+produce -- are taken up in {{scope-management}} and
+{{indirect-prompt-injection}}.
+
+
 # Managing Your Agent
 
 An Agent acts on the Context it is given.  A manager who does not tell their
@@ -1118,7 +1209,7 @@ and sharing for debugging or Eval SHOULD use sanitized copies. Short-lived,
 scoped credentials and effective revocation reduce the impact of any
 credential that escapes these controls.
 
-## Indirect Prompt Injection from Untrusted Content
+## Indirect Prompt Injection from Untrusted Content {#indirect-prompt-injection}
 
 Content retrieved from an Issue Tracker, Knowledge Base, repository,
 document, web page, or Agent Tool can contain instructions directed at an
