@@ -35,6 +35,36 @@ author:
 normative:
 
 informative:
+  MCP:
+    title: "Model Context Protocol"
+    target: https://modelcontextprotocol.io
+    author:
+      - org: Anthropic
+    date: false
+  MCP-SERVERS:
+    title: "Model Context Protocol servers: filesystem"
+    target: https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem
+    author:
+      - org: Model Context Protocol
+    date: false
+  MCP-PLAYWRIGHT:
+    title: "Playwright MCP"
+    target: https://github.com/microsoft/playwright-mcp
+    author:
+      - org: Microsoft
+    date: false
+  MCP-GITHUB:
+    title: "GitHub MCP Server"
+    target: https://github.com/github/github-mcp-server
+    author:
+      - org: GitHub
+    date: false
+  MCP-DIRECTORY:
+    title: "Top 10 Most Popular MCP Servers in 2026"
+    target: https://mcp.directory/blog/top-10-most-popular-mcp-servers
+    author:
+      - org: MCP.Directory
+    date: 2026
   SPEC-KIT:
     title: "Spec Kit"
     target: https://github.com/github/spec-kit
@@ -261,6 +291,28 @@ Agent Tool:
   its inputs, and the results it returns, so that the LLM can decide when
   and how to call it during the Loop.  Tools are the primary means by
   which an Agent extends its Knowledge Base and effects change.
+
+Model Context Protocol (MCP):
+: A protocol by which an Agent Harness obtains Agent Tools from a separate
+  process rather than implementing them itself {{MCP}}.  An MCP client,
+  running inside the Harness, connects to one or more MCP servers; each
+  server advertises a set of tools, and the client presents them to the
+  Agent alongside the Harness's own.  MCP matters to the concepts in this
+  document because it moves the boundary of what an Agent can reach
+  outside the Agent Harness: the tools an Agent holds, and therefore the
+  extent of its Knowledge Base and its capacity to act, become a
+  deployment-time choice rather than a property of the Harness.  It also
+  makes the supply chain of Agent Tools ({{supply-chain}}) an operational
+  concern rather than a theoretical one.
+
+Session Identifier:
+: An identifier assigned to an Agent Session when it begins, and recorded
+  with the Trajectory that session produces.  Because a Trajectory is
+  written incrementally while a session runs and is read later by whoever
+  inspects, replays, or Evals it, the Session Identifier is the join
+  between the two: without it, a Trajectory cannot reliably be attributed
+  to the session that produced it, and Evals cannot be aggregated across
+  sessions.
 
 Agent Skill:
 : A reusable package of instructions, and optionally supporting resources,
@@ -859,6 +911,113 @@ accumulates, and the trust a worker session places in Context it did not
 produce -- are taken up in {{scope-management}} and
 {{indirect-prompt-injection}}.
 
+## Single Agent Evals
+
+{{fig-single-agent-evals}} narrows the view from a team to one Agent
+Session, and shows how a Task, the Agent Reasoning and Agent Tools that
+serve it, the Trajectory it produces, and the Eval that judges it fit
+together.
+
+~~~ aasvg
+                  +---------------------------+
+                  |            Task           |
+                  |    goal and constraints   |
+                  +-------------+-------------+
+                                |
+                                v
+ +--------------------------------------------------------------+
+ |  Agent Session   id: aca20594-89e9-4a0b-b1a3-28e80e3e5540    |
+ |                                                              |
+ |   +-------------+                          +-------------+   |
+ |   |    Agent    |          invoke          |    Agent    |   |
+ |   |  Reasoning  +------------------------->|    Tools    |   |
+ |   |             |<-------------------------|             |   |
+ |   |             |         observe          |             |   |
+ |   +-------------+                          +------+------+   |
+ +-----------------------+---------------------------+----------+
+                         |                           |
+                         |  append every step        |  tools/call
+                         v                           v
+ +---------------------------------------+  +--------------------+
+ |              Trajectory               |  |     MCP client     |
+ |  session:                             |  +---------+----------+
+ |  aca20594-89e9-4a0b-b1a3-28e80e3e5540 |            |
+ |                                       |            v
+ |  prompt, reasoning, tool calls,       |  +--------------------+
+ |  observations -- in order             |  |     MCP server     |
+ +--------------------+------------------+  |  read_text_file    |
+                      |                     |  browser_snapshot  |
+                      |  replay and score   |  search_code       |
+                      v                     +--------------------+
+ +---------------------------------------+
+ |                 Eval                  |
+ |  fixed inputs, expected outcomes,     |
+ |  repeatable across runs               |
+ +---------------------------------------+
+~~~
+{: #fig-single-agent-evals title="single agent evals"}
+
+The Task enters at the top and the Loop runs inside the session: Agent
+Reasoning decides what to do, invokes an Agent Tool, observes the result,
+and reasons again.  Nothing in that cycle is novel; what the figure adds
+is the two paths leading out of it, because those are what make the
+session assessable rather than merely observable.
+
+The path on the right is where MCP sits.  An Agent Tool need not be
+implemented by the Agent Harness: the Harness may run an MCP client that
+connects to one or more MCP servers, each advertising tools the Agent
+then invokes as though they were native.  The consequence is that the
+Agent's reach is configured rather than built in.  Two Agents running the
+same LLM in the same Harness, differing only in which MCP servers they
+are pointed at, are for practical purposes different Agents -- they can
+observe and affect different things.  This is why an Eval that does not
+record which tools were available is incomplete: it measures the model
+and the Prompt while leaving out a variable that changes the outcome.
+
+The three tools named in the MCP server are illustrative, and are drawn
+from the servers that public directories consistently rank among the most
+installed and most viewed at the time of writing {{MCP-DIRECTORY}}: a
+filesystem server's `read_text_file` {{MCP-SERVERS}}, a browser
+automation server's `browser_snapshot` {{MCP-PLAYWRIGHT}}, and a source
+forge server's `search_code` {{MCP-GITHUB}}.  No public per-tool
+call-frequency telemetry exists, so directory installs and views are a
+proxy for use rather than a measurement of it, and this ranking should be
+expected to age faster than most of this document.  What the three have
+in common is more durable than the ranking: each reads from a source the
+Agent did not author -- a local file, a live page, a remote repository --
+which is exactly the class of tool through which the untrusted content of
+{{indirect-prompt-injection}} arrives.
+
+The path on the left is the Trajectory, and it carries the Session
+Identifier.  The session in the figure is labelled with the example UUID
+`aca20594-89e9-4a0b-b1a3-28e80e3e5540`, and the same value appears on the
+Trajectory it produces.  That repetition is the point of the figure
+rather than an incidental detail.  A single Agent Session inspected by
+hand needs no identifier; a team running many sessions in parallel, as in
+{{fig-context-flows}}, produces Trajectories that are worthless unless
+each can be attributed to the session, the Task, and the Agent
+configuration that produced it.  Assigning the identifier when the
+session begins, rather than deriving it afterwards, is what allows a
+Trajectory to be written incrementally while the session is still running
+and still be joined to its session later.
+
+The Eval reads the Trajectory, not merely the final answer.  This is the
+distinction that matters for Agents as against models: two sessions may
+reach the same output while one arrived there by a sound route and the
+other by a route that happened to work, and only the Trajectory
+distinguishes them.  Reading the Trajectory is also what lets an Eval
+assert things that the output alone cannot express -- that a Tool
+requiring authority was not invoked, that a retrieved document was not
+treated as an instruction, that the session stopped rather than
+improvising when its Context was insufficient.  The Eval's expected
+outcomes derive from the same Task that entered at the top of the figure,
+which is why a Task expressed as a Spec is easier to evaluate than one
+expressed as a conversation.
+
+The security consequences of this shape are taken up in
+{{credential-leakage}}, which concerns what a Trajectory retains, and in
+{{supply-chain}}, which concerns the MCP servers on the right-hand path.
+
 
 # Managing Your Agent
 
@@ -1178,7 +1337,7 @@ credentials and Agent Tool access. Those procedures SHOULD be tested
 regularly and SHOULD include containment, token rotation, and recovery of
 changes made by a compromised or malfunctioning Agent.
 
-## Credential Leakage in Trajectories
+## Credential Leakage in Trajectories {#credential-leakage}
 
 A Trajectory can record Prompts, model output, Agent Tool invocations, Tool
 output, and observations from an Agent Session. Its value for debugging,
@@ -1238,7 +1397,7 @@ authority solely because a retrieved artifact requests it. Evals SHOULD
 include representative indirect Prompt injection cases for each Agent Skill
 and Agent Tool combination.
 
-## Supply Chain of Agent Tools and Agent Skills
+## Supply Chain of Agent Tools and Agent Skills {#supply-chain}
 
 An Agent Tool or Agent Skill can influence an Agent's behavior, access
 organizational data, or execute actions on behalf of an Agent Team.
