@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-30T00:21:03.534897+00:00",
+  "timestamp": "2026-08-02T00:23:01.931436+00:00",
   "repo": "OR13/draft-steele-vibeslop",
   "labels": [
     {
@@ -325,6 +325,40 @@
         "oid": "de1b63f13725ba9a871955c05566ef502b8af8e1"
       },
       "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 6,
+      "id": "PR_kwDOTVZNeM74j7U6",
+      "title": "Add a Context Flows section with two diagrams",
+      "url": "https://github.com/OR13/draft-steele-vibeslop/pull/6",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Why: the draft defines the Shared Message Bus, the Issue Tracker, Management Sessions, Trajectories and Evals separately, but never shows how they relate. Two aasvg figures, in a new `# Context Flows` section placed after \"Agents on the Shared Message Bus\".\n\n## Figure 1 \u2014 team coordination (\u00a76)\n\nHumans and a standalone Agent on the shared venues; the Shared Message Bus and Issue Tracker side by side; a Management Session between those venues and the work; worker Agent Sessions below it writing progress back into the tracker.\n\nThe prose reads the figure in four moves: shared venues (an Agent may post on a human's behalf or under its own identity); broadcast vs. directed distribution, which is why both venues exist; the Management Session as the natural place to batch Context Farming rather than letting each worker interrupt a human; and worker sessions recording progress so the durable record lives in the org's systems rather than in Agent state.\n\nWorker boxes use the draft's existing term **worker Agent Session** (see the `Agent Harness` and `Management Session` entries in Terminology) rather than introducing a new one.\n\n## Figure 2 \u2014 `single agent evals` (\u00a76.1)\n\nTitled exactly `single agent evals`. Narrows to one session: Task \u2192 Agent Session (holding the Agent Reasoning \u21c4 Agent Tools loop) \u2192 two paths out, left to Trajectory \u2192 Eval, right to MCP client \u2192 MCP server.\n\n**MCP placement.** MCP hangs off Agent Tools, not off the Agent. The consequence drawn in the prose: two Agents on the same LLM in the same Harness, differing only in which MCP servers they are pointed at, are for practical purposes different Agents \u2014 so an Eval that does not record the available tools is incomplete.\n\n**Session identifier.** One example UUID `aca20594-89e9-4a0b-b1a3-28e80e3e5540` appears twice, on the Agent Session and again on the Trajectory, so the join is visible in the figure rather than only asserted. Added a `Session Identifier` Terminology entry.\n\n**The three MCP tools \u2014 the one thing worth arguing about.** `read_text_file`, `browser_snapshot` and `search_code` are each verified against the server that exposes them (note it is `read_text_file`, not `read_file` \u2014 the filesystem server renamed it). But \"most frequently used\" is **not directly measurable**: no public per-tool call-frequency telemetry exists, and directory installs, views and search volume are proxies for popularity rather than counts of use. The text says so explicitly and notes this ranking should age faster than the rest of the document. The more durable point offered alongside it: all three read from a source the Agent did not author, which is the class of tool through which indirect prompt injection arrives.\n\n## Supporting changes\n\n- New Terminology entries: `Model Context Protocol (MCP)` (MCP was not named anywhere in the draft before this) and `Session Identifier`.\n- New informative references: `MCP`, `MCP-SERVERS`, `MCP-PLAYWRIGHT`, `MCP-GITHUB`, `MCP-DIRECTORY`.\n- New anchors so the figures can cross-reference existing text: `{#terminology}`, `{#indirect-prompt-injection}`, `{#supply-chain}`, `{#credential-leakage}`.\n\n## Verification\n\n- ASCII fallbacks are 68 and 69 columns (limit 72); `xml2rfc` reports no warnings on `--text` or `--html`.\n- All cross-references resolve; captions render as `Figure 1: \u2026` and `Figure 2: single agent evals`.\n\n## Note for anyone building locally\n\nRequires **aasvg 0.4.3**. 0.5.x emits a `<style>` element with `light-dark()` CSS that the RFC 7996 SVG profile rejects (`Did not expect element style there`). Also: `kramdown-rfc` memoizes aasvg output in `.refcache/kdrfc-*-svg_tool_process-*.cache`, so figure edits appear to do nothing until that cache is cleared.\n\nSeparately, `lib/.venv` in the checkout points at a moved Python 3.13, so `make` fails; built with `kramdown-rfc | xml2rfc` directly. Unrelated to this change.\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)",
+      "createdAt": "2026-07-30T14:17:15Z",
+      "updatedAt": "2026-07-30T16:20:38Z",
+      "baseRepository": "OR13/draft-steele-vibeslop",
+      "baseRefName": "main",
+      "baseRefOid": "de1b63f13725ba9a871955c05566ef502b8af8e1",
+      "headRepository": "OR13/draft-steele-vibeslop",
+      "headRefName": "aasvg-coordination-diagram",
+      "headRefOid": "b75048acbab8bf3cb72f87fc6157b8b28b136d7e",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "OWNER",
+          "body": "## Second figure: `single agent evals` (\u00a76.1)\n\nAdds `## Single Agent Evals` under Context Flows, with Figure 2 titled exactly `single agent evals`.\n\n**MCP placement.** The figure puts MCP on the right-hand path out of Agent Tools: Agent Tools \u2192 MCP client \u2192 MCP server. The prose draws the consequence \u2014 two Agents on the same LLM and the same Harness, differing only in which MCP servers they are pointed at, are for practical purposes different Agents, so an Eval that does not record the available tools is incomplete.\n\n**Session identifier.** One example UUID `aca20594-89e9-4a0b-b1a3-28e80e3e5540` appears twice \u2014 on the Agent Session and again on the Trajectory \u2014 so the join is visible in the figure rather than only asserted in prose. Added a `Session Identifier` Terminology entry.\n\n**The three MCP tools \u2014 please check this framing.** `read_text_file`, `browser_snapshot`, and `search_code` are each verified against the actual server that exposes them (note it is `read_text_file`, not `read_file` \u2014 the filesystem server renamed it). But \"most frequently used\" is not directly measurable: **no public per-tool call-frequency telemetry exists**, and directory installs/views and search volume are proxies. The text says so explicitly and notes the ranking should be expected to age faster than the rest of the document. The durable point offered instead: all three read from a source the Agent did not author, which is the class of tool that carries indirect prompt injection.\n\n**Also added:** a `Model Context Protocol (MCP)` Terminology entry (MCP was not named anywhere in the draft before this), informative references `MCP`, `MCP-SERVERS`, `MCP-PLAYWRIGHT`, `MCP-GITHUB`, `MCP-DIRECTORY`, and anchors `{#supply-chain}` / `{#credential-leakage}`.\n\n**Build:** ASCII fallback is 69 columns (limit 72); `xml2rfc` reports no warnings on either `--text` or `--html`.",
+          "createdAt": "2026-07-30T14:36:52Z",
+          "updatedAt": "2026-07-30T14:36:52Z"
+        }
+      ],
       "reviews": []
     }
   ]
