@@ -65,6 +65,36 @@ informative:
     author:
       - org: MCP.Directory
     date: 2026
+  EFFECTIVE-AGENTS:
+    title: "Building Effective Agents"
+    target: https://www.anthropic.com/engineering/building-effective-agents
+    author:
+      - org: Anthropic
+    date: 2024
+  OUTCOMES:
+    title: "Managed Agents: Define outcomes"
+    target: https://platform.claude.com/docs/en/managed-agents/define-outcomes
+    author:
+      - org: Anthropic
+    date: false
+  ADK:
+    title: "Agent Development Kit: Sequential agents"
+    target: https://adk.dev/agents/workflow-agents/sequential-agents/
+    author:
+      - org: Google
+    date: false
+  ADK-EVAL:
+    title: "Agent Development Kit: Evaluating agents"
+    target: https://adk.dev/evaluate/
+    author:
+      - org: Google
+    date: false
+  A2A:
+    title: "Agent2Agent (A2A) Protocol Specification"
+    target: https://a2a-protocol.org/latest/specification/
+    author:
+      - org: A2A Project
+    date: false
   SPEC-KIT:
     title: "Spec Kit"
     target: https://github.com/github/spec-kit
@@ -1017,6 +1047,113 @@ expressed as a conversation.
 The security consequences of this shape are taken up in
 {{credential-leakage}}, which concerns what a Trajectory retains, and in
 {{supply-chain}}, which concerns the MCP servers on the right-hand path.
+
+## Multi Agent Evals
+
+{{fig-single-agent-evals}} showed one Agent Session holding three tools.
+{{fig-multi-agent-evals}} distributes those tools across three sessions
+invoked in sequence, and adds the Task the chain answers to.
+
+This shape is prompt chaining: each session processes the output of the
+previous one, and the order is fixed before the run rather than chosen by
+an Agent during it.  It sits ahead of fully autonomous Agents in the
+progression from fixed workflows to open-ended delegation
+{{EFFECTIVE-AGENTS}}, and an Agent Harness can implement it directly, as a
+composite that runs its sub-agents in the order they are listed {{ADK}}.
+
+~~~ aasvg
+  +--------------------------------------------------------+
+  |                          Task                          |
+  |          goal: what the chain must accomplish          |
+  |       constraints: what the result must satisfy        |
+  +----------------------------------+---------------------+
+  |                                  |
+  | goal                             | constraints
+  |                                  v
+  |            +-------------------------------------------+
+  |            |              Multi Agent Eval             |
+  |            |  replays the chain and scores it against  |
+  |            |     the Task, not just the last output    |
+  |            +-------------------------------------------+
+  |                                  ^
+  |                                  |
+  |            +---------------------+---------------------+
+  |            |                     |                     |
+  |   +--------+--------+   +--------+--------+   +--------+--------+
+  |   |    Trajectory   |   |    Trajectory   |   |    Trajectory   |
+  |   | task:    9f21c0 |   | task:    9f21c0 |   | task:    9f21c0 |
+  |   | session: 1ab4c7 |   | session: 2cd58f |   | session: 3ef69a |
+  |   | prev:    (none) |   | prev:    1ab4c7 |   | prev:    2cd58f |
+  |   +-----------------+   +-----------------+   +-----------------+
+  |            ^                     ^                     ^
+  |            |                     |                     |
+  |   +--------+--------+   +--------+--------+   +--------+--------+
+  |   |  Agent Session  |   |  Agent Session  |   |  Agent Session  |
+  +-->|                 |-->|                 |-->|                 |
+      |    id: 1ab4c7   |   |    id: 2cd58f   |   |    id: 3ef69a   |
+      +--------+--------+   +--------+--------+   +--------+--------+
+               ^                     ^                     ^
+               |                     |                     |
+               v                     v                     v
+      +--------+--------+   +--------+--------+   +--------+--------+
+      |    MCP server   |   |    MCP server   |   |    MCP server   |
+      |   search_code   |   | browser_snapshot|   |  read_text_file |
+      +-----------------+   +-----------------+   +-----------------+
+~~~
+{: #fig-multi-agent-evals title="Three Agent Sessions in a linear flow. The Task supplies the goal to the first session and the constraints to the Eval; each Trajectory records the Task identifier, its own Session Identifier, and its predecessor's"}
+
+The Task supplies two things, and they leave in different directions.  The
+goal enters the first session.  The constraints go to the Eval, which is
+why the Eval reads from the Task rather than inventing expectations of its
+own.  Written constraints take two recognizable forms.  One pairs a
+statement of the desired outcome with a required rubric of gradeable
+criteria, scored by a grader running in its own context window so that the
+Agent's implementation choices cannot influence the score {{OUTCOMES}}.
+The other pairs the input with an expected tool-use trajectory and a
+reference response, so that the route and the result are checked
+separately {{ADK-EVAL}}.  A Task whose constraints are written down can be
+evaluated; one that exists only as a conversation cannot.
+
+Each Trajectory carries three identifiers:
+
+- `task` is the same in all three, and is what makes them one run rather
+  than three unrelated sessions.  A2A calls it the `contextId` {{A2A}}.
+  The same grouping can be obtained implicitly, by passing one invocation
+  context, and so one shared session state, to every sub-agent {{ADK}}.
+- `session` is the Session Identifier of {{terminology}}, assigned by the
+  Agent Harness when the session begins and not derived from model
+  behavior, the Prompt, or the Task.  An identifier an Agent can influence
+  is one an Agent can forge ({{impersonation}}).
+- `prev` records the session this one received work from, making the set an
+  ordered chain rather than an unordered bag.  A2A carries this as
+  `referenceTaskIds` {{A2A}}.  The same property allows the branching
+  arrangement of {{fig-context-flows}} to be reconstructed as a tree.
+
+These identifiers SHOULD also appear in whatever external record a session
+touches: the issue it was assigned, the commit it authored, the message it
+posted.  The organization's durable records and an Agent Session's
+transient state can then be read as one account.
+
+Reading Trajectories rather than only the final artifact is established
+practice.  Eval tooling already scores the tool-call trajectory as an exact
+match against an expected sequence, averaged over the cases in a set and
+reported alongside response-matching metrics {{ADK-EVAL}}.  The chain is
+what lets an Eval assert what no single
+Trajectory can: that a session was not given a Tool its stage did not
+require ({{scope-management}}); that a third-stage failure originates in
+Context dropped at the second handoff; that untrusted content read by one
+session did not become an instruction followed by the next
+({{indirect-prompt-injection}}).
+
+The figure simplifies in two respects.  The handoff arrows denote a
+dependency rather than necessarily a message: a sub-agent may instead write
+its result into shared session state under an agreed key, from which the
+next sub-agent reads it {{ADK}}.  And nothing sits on those arrows,
+where the pattern as described places a programmatic gate between steps to
+confirm the process is still on track {{EFFECTIVE-AGENTS}}.  A gate is
+where a flow can be stopped before a bad intermediate result propagates,
+which makes it something an Eval should score.
+
 
 
 # Managing Your Agent
