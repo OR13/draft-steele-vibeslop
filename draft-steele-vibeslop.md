@@ -1658,12 +1658,7 @@ This document has no IANA actions.
 # Acknowledgments
 {:numbered="false"}
 
-Portions of this document were drafted with the assistance of an AI Agent.
-The Agent used Anthropic's Claude Opus 4.8 (1M context) model
-{{CLAUDE-OPUS}} (claude-opus-4-8\[1m\]), running in the Claude Code
-{{CLAUDE-CODE}} harness, version 2.1.207.
-
-The Security Considerations were expanded and refined with the assistance
-of a second Agent, using OpenAI's gpt-5.6-terra model {{GPT-TERRA}}
-running in the Codex CLI {{CODEX-CLI}} harness, version 0.144.1, and
-coordinated by the Claude Code Agent acting as a Management Session.
+Orie Steele drafted portions of this document using Anthropic's Claude Opus
+{{CLAUDE-OPUS}} (claude-opus-4-8\[1m\] and claude-opus-5\[1m\]) in the
+Claude Code {{CLAUDE-CODE}} harness, and OpenAI's gpt-5.6-terra
+{{GPT-TERRA}} in the Codex CLI {{CODEX-CLI}} harness.
