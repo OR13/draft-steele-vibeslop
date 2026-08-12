@@ -35,6 +35,66 @@ author:
 normative:
 
 informative:
+  MCP:
+    title: "Model Context Protocol"
+    target: https://modelcontextprotocol.io
+    author:
+      - org: Anthropic
+    date: false
+  MCP-SERVERS:
+    title: "Model Context Protocol servers: filesystem"
+    target: https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem
+    author:
+      - org: Model Context Protocol
+    date: false
+  MCP-PLAYWRIGHT:
+    title: "Playwright MCP"
+    target: https://github.com/microsoft/playwright-mcp
+    author:
+      - org: Microsoft
+    date: false
+  MCP-GITHUB:
+    title: "GitHub MCP Server"
+    target: https://github.com/github/github-mcp-server
+    author:
+      - org: GitHub
+    date: false
+  MCP-DIRECTORY:
+    title: "Top 10 Most Popular MCP Servers in 2026"
+    target: https://mcp.directory/blog/top-10-most-popular-mcp-servers
+    author:
+      - org: MCP.Directory
+    date: 2026
+  EFFECTIVE-AGENTS:
+    title: "Building Effective Agents"
+    target: https://www.anthropic.com/engineering/building-effective-agents
+    author:
+      - org: Anthropic
+    date: 2024
+  OUTCOMES:
+    title: "Managed Agents: Define outcomes"
+    target: https://platform.claude.com/docs/en/managed-agents/define-outcomes
+    author:
+      - org: Anthropic
+    date: false
+  ADK:
+    title: "Agent Development Kit: Sequential agents"
+    target: https://adk.dev/agents/workflow-agents/sequential-agents/
+    author:
+      - org: Google
+    date: false
+  ADK-EVAL:
+    title: "Agent Development Kit: Evaluating agents"
+    target: https://adk.dev/evaluate/
+    author:
+      - org: Google
+    date: false
+  A2A:
+    title: "Agent2Agent (A2A) Protocol Specification"
+    target: https://a2a-protocol.org/latest/specification/
+    author:
+      - org: A2A Project
+    date: false
   SPEC-KIT:
     title: "Spec Kit"
     target: https://github.com/github/spec-kit
@@ -161,7 +221,7 @@ or machine -- can see what building software with Agents looked like
 while it was still being figured out.
 
 
-# Terminology
+# Terminology {#terminology}
 
 {::boilerplate bcp14-tagged}
 
@@ -261,6 +321,28 @@ Agent Tool:
   its inputs, and the results it returns, so that the LLM can decide when
   and how to call it during the Loop.  Tools are the primary means by
   which an Agent extends its Knowledge Base and effects change.
+
+Model Context Protocol (MCP):
+: A protocol by which an Agent Harness obtains Agent Tools from a separate
+  process rather than implementing them itself {{MCP}}.  An MCP client,
+  running inside the Harness, connects to one or more MCP servers; each
+  server advertises a set of tools, and the client presents them to the
+  Agent alongside the Harness's own.  MCP matters to the concepts in this
+  document because it moves the boundary of what an Agent can reach
+  outside the Agent Harness: the tools an Agent holds, and therefore the
+  extent of its Knowledge Base and its capacity to act, become a
+  deployment-time choice rather than a property of the Harness.  It also
+  makes the supply chain of Agent Tools ({{supply-chain}}) an operational
+  concern rather than a theoretical one.
+
+Session Identifier:
+: An identifier assigned to an Agent Session when it begins, and recorded
+  with the Trajectory that session produces.  Because a Trajectory is
+  written incrementally while a session runs and is read later by whoever
+  inspects, replays, or Evals it, the Session Identifier is the join
+  between the two: without it, a Trajectory cannot reliably be attributed
+  to the session that produced it, and Evals cannot be aggregated across
+  sessions.
 
 Agent Skill:
 : A reusable package of instructions, and optionally supporting resources,
@@ -769,6 +851,311 @@ metadata -- remain necessary where the distinction must hold under
 adversarial conditions.
 
 
+# Context Flows {#context-flows}
+
+The concepts defined in {{terminology}} are easier to hold together when
+their relationships are seen at once.  {{fig-context-flows}} shows the
+paths along which Context moves in a team practicing agentic product
+delivery: between the humans and the venues they share with Agents,
+between those venues and a Management Session, and between a Management
+Session and the worker Agent Sessions it coordinates.
+
+~~~ aasvg
+    +-------------+    +-------------+    +-------------+
+    |    Human    |    |    Human    |    |    Agent    |
+    |  (Product)  |    |(Engineering)|    |(standalone) |
+    +------+------+    +------+------+    +------+------+
+           |                  |                  |
+           +---+--------------+--------------+---+
+               |                             |
+   +-----------+-----------+     +-----------+-----------+
+   |  Shared Message Bus   |     |     Issue Tracker     |
+   |   every participant   |     |  work directed to an  |<-----+
+   |  sees every message   |<--->|    assigned owner     |      |
+   +-----------+-----------+     +-----------+-----------+      |
+               ^                             ^                  |
+               |  status, Context Farming    |  assign work     |
+               v                             v                  |
+        +-------------------------------------------+           |
+        |          Management Session (C2)          |           |
+        |  decomposes work, dispatches, integrates  |           |
+        +--+------------------+------------------+--+           |
+           ^                  ^                  ^              |
+ dispatch  |                  |                  |  results     |
+           v                  v                  v              |
+      +---------+        +---------+        +---------+ updates |
+      | Worker  |        | Worker  |        | Worker  +---------+
+      |  Agent  |        |  Agent  |        |  Agent  |
+      | Session |        | Session |        | Session |
+      +---------+        +---------+        +---------+
+~~~
+{: #fig-context-flows title="Context flows among humans, the Shared Message Bus, the Issue Tracker, a Management Session, and the worker Agent Sessions it coordinates"}
+
+Read from the top, the figure makes four observations.
+
+First, humans and Agents share the same venues.  The Shared Message Bus
+and the Issue Tracker are not agent-only infrastructure; they are the
+channels and the work-tracking system the organization already ran before
+it adopted Agents.  An Agent may appear there on behalf of a human, or,
+as the third participant in the figure shows, under its own identity as a
+distinct and separately accountable party.
+
+Second, the two venues distribute Context differently, and that difference
+is why both are present.  The Shared Message Bus broadcasts: every
+participant receives every message, which is what makes the work legible
+to any human who cares to read it, and also what produces the alert
+fatigue that Context Farming exists to counter.  The Issue Tracker
+directs: an issue is assigned to one owner, human or Agent, which
+establishes responsibility and prevents two participants from acting on
+the same Task.  The two are coupled -- messages reference issues, and
+issue updates are announced on the bus -- so a reader following either
+one can find their way to the other.
+
+Third, a Management Session sits between those venues and the work.  It
+draws Tasks and status from both, decomposes work, dispatches what can be
+progressed in parallel, and integrates the results.  It is itself an
+Agent Session, so its Trajectory is subject to the same inspection as any
+other; what distinguishes it is that its Task is the coordination rather
+than the underlying work.  Because it holds the aggregate view, it is
+also the natural place to conduct Context Farming: it can batch the
+questions that require human judgment and put them on the Shared Message
+Bus once, rather than letting each worker session interrupt a human
+separately.
+
+Fourth, the worker Agent Sessions are not isolated from the shared
+venues.  A worker session records its progress against the issue it was
+assigned, so that a human can see where the work stands without asking
+the Management Session and without reading the worker's Trajectory.  This
+path matters for accountability: it means the durable record of what was
+done lives in the organization's own systems rather than only in an Agent
+Session's transient state.
+
+The figure is deliberately drawn with a single Management Session and
+three worker sessions, but neither number is normative.  A Management
+Session may itself be dispatched by another, and an Agent Team may be
+composed of specialists that trade work among themselves rather than
+reporting only upward.  What the figure fixes is the shape of the
+relationships, not the size of the deployment.  The security consequences
+of that shape -- in particular the authority a Management Session
+accumulates, and the trust a worker session places in Context it did not
+produce -- are taken up in {{scope-management}} and
+{{indirect-prompt-injection}}.
+
+## Single Agent Evals
+
+{{fig-single-agent-evals}} narrows the view from a team to one Agent
+Session, and shows how a Task, the Agent Reasoning and Agent Tools that
+serve it, the Trajectory it produces, and the Eval that judges it fit
+together.
+
+~~~ aasvg
+                  +---------------------------+
+                  |            Task           |
+                  |    goal and constraints   |
+                  +-------------+-------------+
+                                |
+                                v
+ +--------------------------------------------------------------+
+ |  Agent Session   id: aca20594-89e9-4a0b-b1a3-28e80e3e5540    |
+ |                                                              |
+ |   +-------------+                          +-------------+   |
+ |   |    Agent    |          invoke          |    Agent    |   |
+ |   |  Reasoning  +------------------------->|    Tools    |   |
+ |   |             |<-------------------------|             |   |
+ |   |             |         observe          |             |   |
+ |   +-------------+                          +------+------+   |
+ +-----------------------+---------------------------+----------+
+                         |                           |
+                         |  append every step        |  tools/call
+                         v                           v
+ +---------------------------------------+  +--------------------+
+ |              Trajectory               |  |     MCP client     |
+ |  session:                             |  +---------+----------+
+ |  aca20594-89e9-4a0b-b1a3-28e80e3e5540 |            |
+ |                                       |            v
+ |  prompt, reasoning, tool calls,       |  +--------------------+
+ |  observations -- in order             |  |     MCP server     |
+ +--------------------+------------------+  |  read_text_file    |
+                      |                     |  browser_snapshot  |
+                      |  replay and score   |  search_code       |
+                      v                     +--------------------+
+ +---------------------------------------+
+ |                 Eval                  |
+ |  fixed inputs, expected outcomes,     |
+ |  repeatable across runs               |
+ +---------------------------------------+
+~~~
+{: #fig-single-agent-evals title="single agent evals"}
+
+The Task enters at the top and the Loop runs inside the session: Agent
+Reasoning decides what to do, invokes an Agent Tool, observes the result,
+and reasons again.  Nothing in that cycle is novel; what the figure adds
+is the two paths leading out of it, because those are what make the
+session assessable rather than merely observable.
+
+The path on the right is where MCP sits.  An Agent Tool need not be
+implemented by the Agent Harness: the Harness may run an MCP client that
+connects to one or more MCP servers, each advertising tools the Agent
+then invokes as though they were native.  The consequence is that the
+Agent's reach is configured rather than built in.  Two Agents running the
+same LLM in the same Harness, differing only in which MCP servers they
+are pointed at, are for practical purposes different Agents -- they can
+observe and affect different things.  This is why an Eval that does not
+record which tools were available is incomplete: it measures the model
+and the Prompt while leaving out a variable that changes the outcome.
+
+The three tools named in the MCP server are illustrative, and are drawn
+from the servers that public directories consistently rank among the most
+installed and most viewed at the time of writing {{MCP-DIRECTORY}}: a
+filesystem server's `read_text_file` {{MCP-SERVERS}}, a browser
+automation server's `browser_snapshot` {{MCP-PLAYWRIGHT}}, and a source
+forge server's `search_code` {{MCP-GITHUB}}.  No public per-tool
+call-frequency telemetry exists, so directory installs and views are a
+proxy for use rather than a measurement of it, and this ranking should be
+expected to age faster than most of this document.  What the three have
+in common is more durable than the ranking: each reads from a source the
+Agent did not author -- a local file, a live page, a remote repository --
+which is exactly the class of tool through which the untrusted content of
+{{indirect-prompt-injection}} arrives.
+
+The path on the left is the Trajectory, and it carries the Session
+Identifier.  The session in the figure is labelled with the example UUID
+`aca20594-89e9-4a0b-b1a3-28e80e3e5540`, and the same value appears on the
+Trajectory it produces.  That repetition is the point of the figure
+rather than an incidental detail.  A single Agent Session inspected by
+hand needs no identifier; a team running many sessions in parallel, as in
+{{fig-context-flows}}, produces Trajectories that are worthless unless
+each can be attributed to the session, the Task, and the Agent
+configuration that produced it.  Assigning the identifier when the
+session begins, rather than deriving it afterwards, is what allows a
+Trajectory to be written incrementally while the session is still running
+and still be joined to its session later.
+
+The Eval reads the Trajectory, not merely the final answer.  This is the
+distinction that matters for Agents as against models: two sessions may
+reach the same output while one arrived there by a sound route and the
+other by a route that happened to work, and only the Trajectory
+distinguishes them.  Reading the Trajectory is also what lets an Eval
+assert things that the output alone cannot express -- that a Tool
+requiring authority was not invoked, that a retrieved document was not
+treated as an instruction, that the session stopped rather than
+improvising when its Context was insufficient.  The Eval's expected
+outcomes derive from the same Task that entered at the top of the figure,
+which is why a Task expressed as a Spec is easier to evaluate than one
+expressed as a conversation.
+
+The security consequences of this shape are taken up in
+{{credential-leakage}}, which concerns what a Trajectory retains, and in
+{{supply-chain}}, which concerns the MCP servers on the right-hand path.
+
+## Multi Agent Evals
+
+{{fig-single-agent-evals}} showed one Agent Session holding three tools.
+{{fig-multi-agent-evals}} distributes those tools across three sessions
+invoked in sequence, and adds the Task the chain answers to.
+
+This shape is prompt chaining: each session processes the output of the
+previous one, and the order is fixed before the run rather than chosen by
+an Agent during it.  It sits ahead of fully autonomous Agents in the
+progression from fixed workflows to open-ended delegation
+{{EFFECTIVE-AGENTS}}, and an Agent Harness can implement it directly, as a
+composite that runs its sub-agents in the order they are listed {{ADK}}.
+
+~~~ aasvg
+  +--------------------------------------------------------+
+  |                          Task                          |
+  |          goal: what the chain must accomplish          |
+  |       constraints: what the result must satisfy        |
+  +----------------------------------+---------------------+
+  |                                  |
+  | goal                             | constraints
+  |                                  v
+  |            +-------------------------------------------+
+  |            |              Multi Agent Eval             |
+  |            |  replays the chain and scores it against  |
+  |            |     the Task, not just the last output    |
+  |            +-------------------------------------------+
+  |                                  ^
+  |                                  |
+  |            +---------------------+---------------------+
+  |            |                     |                     |
+  |   +--------+--------+   +--------+--------+   +--------+--------+
+  |   |    Trajectory   |   |    Trajectory   |   |    Trajectory   |
+  |   | task:    9f21c0 |   | task:    9f21c0 |   | task:    9f21c0 |
+  |   | session: 1ab4c7 |   | session: 2cd58f |   | session: 3ef69a |
+  |   | prev:    (none) |   | prev:    1ab4c7 |   | prev:    2cd58f |
+  |   +-----------------+   +-----------------+   +-----------------+
+  |            ^                     ^                     ^
+  |            |                     |                     |
+  |   +--------+--------+   +--------+--------+   +--------+--------+
+  |   |  Agent Session  |   |  Agent Session  |   |  Agent Session  |
+  +-->|                 |-->|                 |-->|                 |
+      |    id: 1ab4c7   |   |    id: 2cd58f   |   |    id: 3ef69a   |
+      +--------+--------+   +--------+--------+   +--------+--------+
+               ^                     ^                     ^
+               |                     |                     |
+               v                     v                     v
+      +--------+--------+   +--------+--------+   +--------+--------+
+      |    MCP server   |   |    MCP server   |   |    MCP server   |
+      |   search_code   |   | browser_snapshot|   |  read_text_file |
+      +-----------------+   +-----------------+   +-----------------+
+~~~
+{: #fig-multi-agent-evals title="Three Agent Sessions in a linear flow. The Task supplies the goal to the first session and the constraints to the Eval; each Trajectory records the Task identifier, its own Session Identifier, and its predecessor's"}
+
+The Task supplies two things, and they leave in different directions.  The
+goal enters the first session.  The constraints go to the Eval, which is
+why the Eval reads from the Task rather than inventing expectations of its
+own.  Written constraints take two recognizable forms.  One pairs a
+statement of the desired outcome with a required rubric of gradeable
+criteria, scored by a grader running in its own context window so that the
+Agent's implementation choices cannot influence the score {{OUTCOMES}}.
+The other pairs the input with an expected tool-use trajectory and a
+reference response, so that the route and the result are checked
+separately {{ADK-EVAL}}.  A Task whose constraints are written down can be
+evaluated; one that exists only as a conversation cannot.
+
+Each Trajectory carries three identifiers:
+
+- `task` is the same in all three, and is what makes them one run rather
+  than three unrelated sessions.  A2A calls it the `contextId` {{A2A}}.
+  The same grouping can be obtained implicitly, by passing one invocation
+  context, and so one shared session state, to every sub-agent {{ADK}}.
+- `session` is the Session Identifier of {{terminology}}, assigned by the
+  Agent Harness when the session begins and not derived from model
+  behavior, the Prompt, or the Task.  An identifier an Agent can influence
+  is one an Agent can forge ({{impersonation}}).
+- `prev` records the session this one received work from, making the set an
+  ordered chain rather than an unordered bag.  A2A carries this as
+  `referenceTaskIds` {{A2A}}.  The same property allows the branching
+  arrangement of {{fig-context-flows}} to be reconstructed as a tree.
+
+These identifiers SHOULD also appear in whatever external record a session
+touches: the issue it was assigned, the commit it authored, the message it
+posted.  The organization's durable records and an Agent Session's
+transient state can then be read as one account.
+
+Reading Trajectories rather than only the final artifact is established
+practice.  Eval tooling already scores the tool-call trajectory as an exact
+match against an expected sequence, averaged over the cases in a set and
+reported alongside response-matching metrics {{ADK-EVAL}}.  The chain is
+what lets an Eval assert what no single
+Trajectory can: that a session was not given a Tool its stage did not
+require ({{scope-management}}); that a third-stage failure originates in
+Context dropped at the second handoff; that untrusted content read by one
+session did not become an instruction followed by the next
+({{indirect-prompt-injection}}).
+
+The figure simplifies in two respects.  The handoff arrows denote a
+dependency rather than necessarily a message: a sub-agent may instead write
+its result into shared session state under an agreed key, from which the
+next sub-agent reads it {{ADK}}.  And nothing sits on those arrows,
+where the pattern as described places a programmatic gate between steps to
+confirm the process is still on track {{EFFECTIVE-AGENTS}}.  A gate is
+where a flow can be stopped before a bad intermediate result propagates,
+which makes it something an Eval should score.
+
+
+
 # Managing Your Agent
 
 An Agent acts on the Context it is given.  A manager who does not tell their
@@ -1087,7 +1474,7 @@ credentials and Agent Tool access. Those procedures SHOULD be tested
 regularly and SHOULD include containment, token rotation, and recovery of
 changes made by a compromised or malfunctioning Agent.
 
-## Credential Leakage in Trajectories
+## Credential Leakage in Trajectories {#credential-leakage}
 
 A Trajectory can record Prompts, model output, Agent Tool invocations, Tool
 output, and observations from an Agent Session. Its value for debugging,
@@ -1118,7 +1505,7 @@ and sharing for debugging or Eval SHOULD use sanitized copies. Short-lived,
 scoped credentials and effective revocation reduce the impact of any
 credential that escapes these controls.
 
-## Indirect Prompt Injection from Untrusted Content
+## Indirect Prompt Injection from Untrusted Content {#indirect-prompt-injection}
 
 Content retrieved from an Issue Tracker, Knowledge Base, repository,
 document, web page, or Agent Tool can contain instructions directed at an
@@ -1147,7 +1534,7 @@ authority solely because a retrieved artifact requests it. Evals SHOULD
 include representative indirect Prompt injection cases for each Agent Skill
 and Agent Tool combination.
 
-## Supply Chain of Agent Tools and Agent Skills
+## Supply Chain of Agent Tools and Agent Skills {#supply-chain}
 
 An Agent Tool or Agent Skill can influence an Agent's behavior, access
 organizational data, or execute actions on behalf of an Agent Team.
@@ -1271,12 +1658,7 @@ This document has no IANA actions.
 # Acknowledgments
 {:numbered="false"}
 
-Portions of this document were drafted with the assistance of an AI Agent.
-The Agent used Anthropic's Claude Opus 4.8 (1M context) model
-{{CLAUDE-OPUS}} (claude-opus-4-8\[1m\]), running in the Claude Code
-{{CLAUDE-CODE}} harness, version 2.1.207.
-
-The Security Considerations were expanded and refined with the assistance
-of a second Agent, using OpenAI's gpt-5.6-terra model {{GPT-TERRA}}
-running in the Codex CLI {{CODEX-CLI}} harness, version 0.144.1, and
-coordinated by the Claude Code Agent acting as a Management Session.
+Orie Steele drafted portions of this document using Anthropic's Claude Opus
+{{CLAUDE-OPUS}} (claude-opus-4-8\[1m\] and claude-opus-5\[1m\]) in the
+Claude Code {{CLAUDE-CODE}} harness, and OpenAI's gpt-5.6-terra
+{{GPT-TERRA}} in the Codex CLI {{CODEX-CLI}} harness.
