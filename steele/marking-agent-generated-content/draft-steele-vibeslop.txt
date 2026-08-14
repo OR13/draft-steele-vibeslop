@@ -3,12 +3,12 @@
 
 
 Network Working Group                                          O. Steele
-Internet-Draft                                              Tradeverifyd
-Intended status: Informational                              15 July 2026
-Expires: 16 January 2027
+Internet-Draft                                                M. Lavelle
+Intended status: Informational                              Tradeverifyd
+Expires: 15 February 2027                                 14 August 2026
 
 
-                                Vibeslop
+                          Vibeslop Confessions
                       draft-steele-vibeslop-latest
 
 Abstract
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 January 2027.
+   This Internet-Draft will expire on 15 February 2027.
 
 Copyright Notice
 
@@ -79,32 +79,69 @@ Table of Contents
      4.5.  Operations Manager
      4.6.  Security Manager
    5.  Agents on the Shared Message Bus
-     5.1.  A Shibboleth for Agent-Generated Content
-   6.  Managing Your Agent
-   7.  Managing Your People
-   8.  Starting a New Project
-     8.1.  Establishing the Agent Harness
-     8.2.  The Constitution
-     8.3.  Specifying the MVP
-     8.4.  Breaking Work into Steerable Chunks
-   9.  Security Considerations
-     9.1.  Mixing Information of Differing Sensitivity
-     9.2.  Excessive Delegation Without Attenuation
-     9.3.  Credential Leakage in Trajectories
-     9.4.  Indirect Prompt Injection from Untrusted Content
-     9.5.  Supply Chain of Agent Tools and Agent Skills
-     9.6.  Auditability and Accountability of Agent Actions
-     9.7.  Impersonation
-   10. IANA Considerations
-   11. References
-     11.1.  Normative References
-     11.2.  Informative References
+     5.1.  Marking Agent-Generated Content
+   6.  Context Flows
+     6.1.  Single Agent Evals
+     6.2.  Multi Agent Evals
+   7.  Managing Your Agent
+   8.  Managing Your People
+   9.  Starting a New Project
+     9.1.  Establishing the Agent Harness
+     9.2.  The Constitution
+     9.3.  Specifying the MVP
+     9.4.  Breaking Work into Steerable Chunks
+   10. Security Considerations
+     10.1.  Mixing Information of Differing Sensitivity
+     10.2.  Excessive Delegation Without Attenuation
+     10.3.  Credential Leakage in Trajectories
+     10.4.  Indirect Prompt Injection from Untrusted Content
+     10.5.  Supply Chain of Agent Tools and Agent Skills
+     10.6.  Auditability and Accountability of Agent Actions
+     10.7.  Acting Beyond an Operator's Authority
+     10.8.  Impersonation
+   11. IANA Considerations
+   12. References
+     12.1.  Normative References
+     12.2.  Informative References
    Acknowledgments
-   Author's Address
+   Authors' Addresses
 
 1.  Introduction
 
-   TODO Introduction
+   The material in this document is not derived from a specification or
+   a standard.  It is assembled from first-hand accounts: interviews
+   with people who are, at the time of writing, building software with
+   AI Agents, together with direct experimentation in the new ways of
+   working that agentic software delivery makes possible.  The terms and
+   patterns collected here are the ones practitioners reached for when
+   asked to describe what they actually do, and how their day-to-day
+   work has changed.
+
+   These accounts are offered as confessions because they are candid and
+   particular rather than authoritative.  The people interviewed
+   describe what is working for them and what is not, including
+   practices they are not certain they should admit to and habits that
+   have not yet settled into convention.  Much of agentic delivery is
+   being invented in the open by people improvising against tools that
+   change under them; capturing that improvisation honestly is, at this
+   stage, more useful than pretending a settled discipline already
+   exists.
+
+   Accordingly, this document does not prescribe how agentic software
+   delivery ought to be done.  It records concepts and techniques that
+   are emerging in practice, gives them consistent names so that they
+   can be discussed, and relates them to ideas already familiar to the
+   internet community.  Where the document uses normative language,
+   particularly in the Security Considerations, it does so to capture
+   guidance that practitioners themselves treat as important, not to
+   claim that any single way of working has been agreed.
+
+   The reader should treat what follows as a snapshot.  As the abstract
+   notes, the pace of change in this area is such that much of this
+   document is expected to age quickly.  Its value is in naming and
+   relating what people are doing at the time of writing, so that later
+   readers -- human or machine -- can see what building software with
+   Agents looked like while it was still being figured out.
 
 2.  Terminology
 
@@ -206,6 +243,28 @@ Table of Contents
       so that the LLM can decide when and how to call it during the
       Loop.  Tools are the primary means by which an Agent extends its
       Knowledge Base and effects change.
+
+   Model Context Protocol (MCP):  A protocol by which an Agent Harness
+      obtains Agent Tools from a separate process rather than
+      implementing them itself [MCP].  An MCP client, running inside the
+      Harness, connects to one or more MCP servers; each server
+      advertises a set of tools, and the client presents them to the
+      Agent alongside the Harness's own.  MCP matters to the concepts in
+      this document because it moves the boundary of what an Agent can
+      reach outside the Agent Harness: the tools an Agent holds, and
+      therefore the extent of its Knowledge Base and its capacity to
+      act, become a deployment-time choice rather than a property of the
+      Harness.  It also makes the supply chain of Agent Tools
+      (Section 10.5) an operational concern rather than a theoretical
+      one.
+
+   Session Identifier:  An identifier assigned to an Agent Session when
+      it begins, and recorded with the Trajectory that session produces.
+      Because a Trajectory is written incrementally while a session runs
+      and is read later by whoever inspects, replays, or Evals it, the
+      Session Identifier is the join between the two: without it, a
+      Trajectory cannot reliably be attributed to the session that
+      produced it, and Evals cannot be aggregated across sessions.
 
    Agent Skill:  A reusable package of instructions, and optionally
       supporting resources, that equips an Agent to carry out a
@@ -641,9 +700,9 @@ Table of Contents
    posting under their own names and accountable as distinct
    participants.  Others act on behalf of the humans they serve, posting
    in those humans' voices and, in the limit, impersonating them
-   (Section 9.7).  In neither form are the Agents confined to a separate
-   venue: they participate in the same conversations, subject to the
-   same affordances, as the people around them.
+   (Section 10.8).  In neither form are the Agents confined to a
+   separate venue: they participate in the same conversations, subject
+   to the same affordances, as the people around them.
 
    As these Agents pursue business objectives they begin to address one
    another, and agent-to-agent (A2A) collaboration is the result.  The
@@ -671,23 +730,23 @@ Table of Contents
    -- is real, and Context Farming is the countermeasure by which a team
    keeps human attention on the messages that require human judgment.
 
-5.1.  A Shibboleth for Agent-Generated Content
+5.1.  Marking Agent-Generated Content
 
    The same property that makes the Shared Message Bus valuable -- that
    Agents speak where humans already work, sometimes in their humans'
    voices -- is what creates the impersonation risk described in
-   Section 9.7.  A lightweight mitigation is available to any team
-   without waiting for platform support: instruct the Agent, in its
-   persistent Context, to prefix every message it posts with a fixed,
-   conspicuous marker.  Because an Agent acts on exactly the language it
-   is given, a rule of this kind is applied to every message the Agent
-   emits, and a reader encountering the marker can tell at a glance that
-   the content was generated by an Agent rather than written by the
-   human whose channel it shares.
+   Section 10.8.  The first mitigation most teams reach for needs no
+   platform support: instruct the Agent, in its persistent Context, to
+   prefix every message it posts with a fixed, conspicuous marker.
+   Because an Agent acts on exactly the language it is given, a rule of
+   this kind reaches every message the Agent emits, and a reader
+   encountering the marker can tell at a glance that the content was
+   generated by an Agent rather than written by the human whose channel
+   it shares.
 
-   The marker works best when it is distinctive enough that a human is
-   unlikely to produce it by accident.  One team member's Agent, for
-   example, carries a rule of this form in its persistent Context:
+   The marker has to be distinctive enough that a human is unlikely to
+   produce it by accident.  One team member's Agent carried a rule of
+   this form in its persistent Context:
 
    Every Slack message I post MUST start with
    `omg bestie <short, appropriate opener> 💅`
@@ -696,33 +755,377 @@ Table of Contents
    unless the human I work for tells me otherwise for a given message.
 
    The opener is deliberately unusual: no colleague is likely to begin a
-   message this way by accident, so its presence is a reliable signal
-   that an Agent is speaking, and its absence from a message that
-   otherwise sounds like the Agent's human is itself a cue to look more
-   closely.
+   message this way by accident, so its presence marks the speaker as an
+   Agent, and its absence from a message that otherwise sounds like the
+   Agent's human is itself a cue to look more closely.
 
-   This pattern is a deliberate Shibboleth [SHIBBOLETH].  Historically a
-   shibboleth was a word or pronunciation used to sort speakers into
-   groups: those who could produce it were taken to belong, and those
-   who could not were exposed.  The Agent marker inverts the classical
-   use.  Rather than proving membership, it is a tell the Agent is
-   instructed to emit without fail, so that its speech is marked as
-   machine-generated for everyone who reads the channel.
+   The technique does what it claims.  The teams that adopted it did not
+   keep it, and the reasons are worth recording, because none of them is
+   a failure of the mechanism.
 
-   The limits of the technique follow from the same analogy, and
-   reinforce the guidance of Section 9.7.  A shibboleth enforced only by
-   convention proves nothing against an adversary: a marker carried in
-   an Agent's persistent Context is a cooperative signal, not an
-   authenticated one.  An Agent may drop it through error or Context
-   Rot, and a malicious party can trivially reproduce it to dress
-   ordinary content as a known Agent's output.  Such a marker therefore
-   aids honest disclosure among cooperating participants, but MUST NOT
-   be relied upon as proof of authorship; the platform controls
-   described in Section 9.7 -- authenticated identities, distinct Agent
-   accounts, and protected message metadata -- remain necessary where
-   the distinction must hold under adversarial conditions.
+   The label became a discount rather than a calibration.  A reader who
+   knows a message was produced by an Agent does not merely adjust their
+   confidence in it: they tend to value it less, and to value its sender
+   less.  In a survey of 1,150 US full-time employees, 41% reported
+   receiving Agent-generated work in the preceding month that looked
+   finished but did not advance the task; of those, 42% judged the
+   sender less trustworthy, and around half judged them less creative,
+   capable, or reliable [WORKSLOP].  Disclosure introduced to prevent
+   misplaced reliance produces misplaced dismissal instead, and the
+   dismissal attaches to the sender rather than to the text.
 
-6.  Managing Your Agent
+   The cost also lands on the reader rather than on the writer.  The
+   same study puts the effort of resolving one such message at close to
+   two hours [WORKSLOP], but the ordinary case is smaller and more
+   corrosive: text that is verbose, hedged, and uniformly polite is more
+   work to read than text that is terse.  Readers came to prefer
+   messages that were brief, concrete, and plainly written, and a
+   conspicuous prefix on a long message advertises that cost before the
+   reader has paid it.  Marking made a message longer without making it
+   easier to act on.
+
+   Ubiquity finished it.  A label discriminates only while the thing it
+   labels is the exception.  As Agents came to touch most of what an
+   organization writes, participants began assuming that anything they
+   read might be Agent-generated, and the marker stopped carrying
+   information.  What remained was its cost: additional text announcing
+   something the reader had already assumed.  A signal that fires on
+   every message is not a signal.
+
+   None of this retires the requirement the marker was reaching for.  A
+   marker carried in an Agent's persistent Context never proved
+   authorship in the first place: an Agent may drop it through error or
+   Context Rot, and any party may reproduce it to dress ordinary content
+   as a known Agent's output.  It is a cooperative signal among
+   participants who are already cooperating, and it MUST NOT be relied
+   upon as proof of authorship.  The platform controls described in
+   Section 10.8 -- authenticated identities, distinct Agent accounts,
+   and message metadata protected from alteration -- are what have to
+   hold where the distinction must survive adversarial conditions.
+
+   What survives ubiquity is disclosure that costs the reader nothing
+   until they want it.  An attributable record -- a trailer on the
+   commit, a note on the issue, the Trajectory identifiers of Section 6
+   carried into whatever the session touched -- imposes no burden at
+   reading time and answers the question when the question is actually
+   asked.  The Acknowledgments of this document are an instance of that
+   choice.  Marking every message announces a fact the reader will soon
+   stop reading; recording what produced an artifact lets a reader
+   establish it when it matters.
+
+6.  Context Flows
+
+   The concepts defined in Section 2 are easier to hold together when
+   their relationships are seen at once.  Figure 1 shows the paths along
+   which Context moves in a team practicing agentic product delivery:
+   between the humans and the venues they share with Agents, between
+   those venues and a Management Session, and between a Management
+   Session and the worker Agent Sessions it coordinates.
+
+       +-------------+    +-------------+    +-------------+
+       |    Human    |    |    Human    |    |    Agent    |
+       |  (Product)  |    |(Engineering)|    |(standalone) |
+       +------+------+    +------+------+    +------+------+
+              |                  |                  |
+              +---+--------------+--------------+---+
+                  |                             |
+      +-----------+-----------+     +-----------+-----------+
+      |  Shared Message Bus   |     |     Issue Tracker     |
+      |   every participant   |     |  work directed to an  |<-----+
+      |  sees every message   |<--->|    assigned owner     |      |
+      +-----------+-----------+     +-----------+-----------+      |
+                  ^                             ^                  |
+                  |  status, Context Farming    |  assign work     |
+                  v                             v                  |
+           +-------------------------------------------+           |
+           |          Management Session (C2)          |           |
+           |  decomposes work, dispatches, integrates  |           |
+           +--+------------------+------------------+--+           |
+              ^                  ^                  ^              |
+    dispatch  |                  |                  |  results     |
+              v                  v                  v              |
+         +---------+        +---------+        +---------+ updates |
+         | Worker  |        | Worker  |        | Worker  +---------+
+         |  Agent  |        |  Agent  |        |  Agent  |
+         | Session |        | Session |        | Session |
+         +---------+        +---------+        +---------+
+
+     Figure 1: Context flows among humans, the Shared Message Bus, the
+         Issue Tracker, a Management Session, and the worker Agent
+                          Sessions it coordinates
+
+   Read from the top, the figure makes four observations.
+
+   First, humans and Agents share the same venues.  The Shared Message
+   Bus and the Issue Tracker are not agent-only infrastructure; they are
+   the channels and the work-tracking system the organization already
+   ran before it adopted Agents.  An Agent may appear there on behalf of
+   a human, or, as the third participant in the figure shows, under its
+   own identity as a distinct and separately accountable party.
+
+   Second, the two venues distribute Context differently, and that
+   difference is why both are present.  The Shared Message Bus
+   broadcasts: every participant receives every message, which is what
+   makes the work legible to any human who cares to read it, and also
+   what produces the alert fatigue that Context Farming exists to
+   counter.  The Issue Tracker directs: an issue is assigned to one
+   owner, human or Agent, which establishes responsibility and prevents
+   two participants from acting on the same Task.  The two are coupled
+   -- messages reference issues, and issue updates are announced on the
+   bus -- so a reader following either one can find their way to the
+   other.
+
+   Third, a Management Session sits between those venues and the work.
+   It draws Tasks and status from both, decomposes work, dispatches what
+   can be progressed in parallel, and integrates the results.  It is
+   itself an Agent Session, so its Trajectory is subject to the same
+   inspection as any other; what distinguishes it is that its Task is
+   the coordination rather than the underlying work.  Because it holds
+   the aggregate view, it is also the natural place to conduct Context
+   Farming: it can batch the questions that require human judgment and
+   put them on the Shared Message Bus once, rather than letting each
+   worker session interrupt a human separately.
+
+   Fourth, the worker Agent Sessions are not isolated from the shared
+   venues.  A worker session records its progress against the issue it
+   was assigned, so that a human can see where the work stands without
+   asking the Management Session and without reading the worker's
+   Trajectory.  This path matters for accountability: it means the
+   durable record of what was done lives in the organization's own
+   systems rather than only in an Agent Session's transient state.
+
+   The figure is deliberately drawn with a single Management Session and
+   three worker sessions, but neither number is normative.  A Management
+   Session may itself be dispatched by another, and an Agent Team may be
+   composed of specialists that trade work among themselves rather than
+   reporting only upward.  What the figure fixes is the shape of the
+   relationships, not the size of the deployment.  The security
+   consequences of that shape -- in particular the authority a
+   Management Session accumulates, and the trust a worker session places
+   in Context it did not produce -- are taken up in Section 10.7 and
+   Section 10.4.
+
+6.1.  Single Agent Evals
+
+   Figure 2 narrows the view from a team to one Agent Session, and shows
+   how a Task, the Agent Reasoning and Agent Tools that serve it, the
+   Trajectory it produces, and the Eval that judges it fit together.
+
+                     +---------------------------+
+                     |            Task           |
+                     |    goal and constraints   |
+                     +-------------+-------------+
+                                   |
+                                   v
+    +--------------------------------------------------------------+
+    |  Agent Session   id: aca20594-89e9-4a0b-b1a3-28e80e3e5540    |
+    |                                                              |
+    |   +-------------+                          +-------------+   |
+    |   |    Agent    |          invoke          |    Agent    |   |
+    |   |  Reasoning  +------------------------->|    Tools    |   |
+    |   |             |<-------------------------|             |   |
+    |   |             |         observe          |             |   |
+    |   +-------------+                          +------+------+   |
+    +-----------------------+---------------------------+----------+
+                            |                           |
+                            |  append every step        |  tools/call
+                            v                           v
+    +---------------------------------------+  +--------------------+
+    |              Trajectory               |  |     MCP client     |
+    |  session:                             |  +---------+----------+
+    |  aca20594-89e9-4a0b-b1a3-28e80e3e5540 |            |
+    |                                       |            v
+    |  prompt, reasoning, tool calls,       |  +--------------------+
+    |  observations -- in order             |  |     MCP server     |
+    +--------------------+------------------+  |  read_text_file    |
+                         |                     |  browser_snapshot  |
+                         |  replay and score   |  search_code       |
+                         v                     +--------------------+
+    +---------------------------------------+
+    |                 Eval                  |
+    |  fixed inputs, expected outcomes,     |
+    |  repeatable across runs               |
+    +---------------------------------------+
+
+                        Figure 2: single agent evals
+
+   The Task enters at the top and the Loop runs inside the session:
+   Agent Reasoning decides what to do, invokes an Agent Tool, observes
+   the result, and reasons again.  Nothing in that cycle is novel; what
+   the figure adds is the two paths leading out of it, because those are
+   what make the session assessable rather than merely observable.
+
+   The path on the right is where MCP sits.  An Agent Tool need not be
+   implemented by the Agent Harness: the Harness may run an MCP client
+   that connects to one or more MCP servers, each advertising tools the
+   Agent then invokes as though they were native.  The consequence is
+   that the Agent's reach is configured rather than built in.  Two
+   Agents running the same LLM in the same Harness, differing only in
+   which MCP servers they are pointed at, are for practical purposes
+   different Agents -- they can observe and affect different things.
+   This is why an Eval that does not record which tools were available
+   is incomplete: it measures the model and the Prompt while leaving out
+   a variable that changes the outcome.
+
+   The three tools named in the MCP server are illustrative, and are
+   drawn from the servers that public directories consistently rank
+   among the most installed and most viewed at the time of writing
+   [MCP-DIRECTORY]: a filesystem server's read_text_file [MCP-SERVERS],
+   a browser automation server's browser_snapshot [MCP-PLAYWRIGHT], and
+   a source forge server's search_code [MCP-GITHUB].  No public per-tool
+   call-frequency telemetry exists, so directory installs and views are
+   a proxy for use rather than a measurement of it, and this ranking
+   should be expected to age faster than most of this document.  What
+   the three have in common is more durable than the ranking: each reads
+   from a source the Agent did not author -- a local file, a live page,
+   a remote repository -- which is exactly the class of tool through
+   which the untrusted content of Section 10.4 arrives.
+
+   The path on the left is the Trajectory, and it carries the Session
+   Identifier.  The session in the figure is labelled with the example
+   UUID aca20594-89e9-4a0b-b1a3-28e80e3e5540, and the same value appears
+   on the Trajectory it produces.  That repetition is the point of the
+   figure rather than an incidental detail.  A single Agent Session
+   inspected by hand needs no identifier; a team running many sessions
+   in parallel, as in Figure 1, produces Trajectories that are worthless
+   unless each can be attributed to the session, the Task, and the Agent
+   configuration that produced it.  Assigning the identifier when the
+   session begins, rather than deriving it afterwards, is what allows a
+   Trajectory to be written incrementally while the session is still
+   running and still be joined to its session later.
+
+   The Eval reads the Trajectory, not merely the final answer.  This is
+   the distinction that matters for Agents as against models: two
+   sessions may reach the same output while one arrived there by a sound
+   route and the other by a route that happened to work, and only the
+   Trajectory distinguishes them.  Reading the Trajectory is also what
+   lets an Eval assert things that the output alone cannot express --
+   that a Tool requiring authority was not invoked, that a retrieved
+   document was not treated as an instruction, that the session stopped
+   rather than improvising when its Context was insufficient.  The
+   Eval's expected outcomes derive from the same Task that entered at
+   the top of the figure, which is why a Task expressed as a Spec is
+   easier to evaluate than one expressed as a conversation.
+
+   The security consequences of this shape are taken up in Section 10.3,
+   which concerns what a Trajectory retains, and in Section 10.5, which
+   concerns the MCP servers on the right-hand path.
+
+6.2.  Multi Agent Evals
+
+   Figure 2 showed one Agent Session holding three tools.  Figure 3
+   distributes those tools across three sessions invoked in sequence,
+   and adds the Task the chain answers to.
+
+   This shape is prompt chaining: each session processes the output of
+   the previous one, and the order is fixed before the run rather than
+   chosen by an Agent during it.  It sits ahead of fully autonomous
+   Agents in the progression from fixed workflows to open-ended
+   delegation [EFFECTIVE-AGENTS], and an Agent Harness can implement it
+   directly, as a composite that runs its sub-agents in the order they
+   are listed [ADK].
+
+     +--------------------------------------------------------+
+     |                          Task                          |
+     |          goal: what the chain must accomplish          |
+     |       constraints: what the result must satisfy        |
+     +----------------------------------+---------------------+
+     |                                  |
+     | goal                             | constraints
+     |                                  v
+     |            +-------------------------------------------+
+     |            |              Multi Agent Eval             |
+     |            |  replays the chain and scores it against  |
+     |            |     the Task, not just the last output    |
+     |            +-------------------------------------------+
+     |                                  ^
+     |                                  |
+     |            +---------------------+---------------------+
+     |            |                     |                     |
+     |   +--------+--------+   +--------+--------+   +--------+--------+
+     |   |    Trajectory   |   |    Trajectory   |   |    Trajectory   |
+     |   | task:    9f21c0 |   | task:    9f21c0 |   | task:    9f21c0 |
+     |   | session: 1ab4c7 |   | session: 2cd58f |   | session: 3ef69a |
+     |   | prev:    (none) |   | prev:    1ab4c7 |   | prev:    2cd58f |
+     |   +-----------------+   +-----------------+   +-----------------+
+     |            ^                     ^                     ^
+     |            |                     |                     |
+     |   +--------+--------+   +--------+--------+   +--------+--------+
+     |   |  Agent Session  |   |  Agent Session  |   |  Agent Session  |
+     +-->|                 |-->|                 |-->|                 |
+         |    id: 1ab4c7   |   |    id: 2cd58f   |   |    id: 3ef69a   |
+         +--------+--------+   +--------+--------+   +--------+--------+
+                  ^                     ^                     ^
+                  |                     |                     |
+                  v                     v                     v
+         +--------+--------+   +--------+--------+   +--------+--------+
+         |    MCP server   |   |    MCP server   |   |    MCP server   |
+         |   search_code   |   | browser_snapshot|   |  read_text_file |
+         +-----------------+   +-----------------+   +-----------------+
+
+         Figure 3: Three Agent Sessions in a linear flow.  The Task
+     supplies the goal to the first session and the constraints to the
+         Eval; each Trajectory records the Task identifier, its own
+                 Session Identifier, and its predecessor's
+
+   The Task supplies two things, and they leave in different directions.
+   The goal enters the first session.  The constraints go to the Eval,
+   which is why the Eval reads from the Task rather than inventing
+   expectations of its own.  Written constraints take two recognizable
+   forms.  One pairs a statement of the desired outcome with a required
+   rubric of gradeable criteria, scored by a grader running in its own
+   context window so that the Agent's implementation choices cannot
+   influence the score [OUTCOMES].  The other pairs the input with an
+   expected tool-use trajectory and a reference response, so that the
+   route and the result are checked separately [ADK-EVAL].  A Task whose
+   constraints are written down can be evaluated; one that exists only
+   as a conversation cannot.
+
+   Each Trajectory carries three identifiers:
+
+   *  task is the same in all three, and is what makes them one run
+      rather than three unrelated sessions.  A2A calls it the contextId
+      [A2A].  The same grouping can be obtained implicitly, by passing
+      one invocation context, and so one shared session state, to every
+      sub-agent [ADK].
+
+   *  session is the Session Identifier of Section 2, assigned by the
+      Agent Harness when the session begins and not derived from model
+      behavior, the Prompt, or the Task.  An identifier an Agent can
+      influence is one an Agent can forge (Section 10.8).
+
+   *  prev records the session this one received work from, making the
+      set an ordered chain rather than an unordered bag.  A2A carries
+      this as referenceTaskIds [A2A].  The same property allows the
+      branching arrangement of Figure 1 to be reconstructed as a tree.
+
+   These identifiers SHOULD also appear in whatever external record a
+   session touches: the issue it was assigned, the commit it authored,
+   the message it posted.  The organization's durable records and an
+   Agent Session's transient state can then be read as one account.
+
+   Reading Trajectories rather than only the final artifact is
+   established practice.  Eval tooling already scores the tool-call
+   trajectory as an exact match against an expected sequence, averaged
+   over the cases in a set and reported alongside response-matching
+   metrics [ADK-EVAL].  The chain is what lets an Eval assert what no
+   single Trajectory can: that a session was not given a Tool its stage
+   did not require (Section 10.7); that a third-stage failure originates
+   in Context dropped at the second handoff; that untrusted content read
+   by one session did not become an instruction followed by the next
+   (Section 10.4).
+
+   The figure simplifies in two respects.  The handoff arrows denote a
+   dependency rather than necessarily a message: a sub-agent may instead
+   write its result into shared session state under an agreed key, from
+   which the next sub-agent reads it [ADK].  And nothing sits on those
+   arrows, where the pattern as described places a programmatic gate
+   between steps to confirm the process is still on track
+   [EFFECTIVE-AGENTS].  A gate is where a flow can be stopped before a
+   bad intermediate result propagates, which makes it something an Eval
+   should score.
+
+7.  Managing Your Agent
 
    An Agent acts on the Context it is given.  A manager who does not
    tell their Agent who they are and what they are accountable for
@@ -812,7 +1215,7 @@ Table of Contents
    extends it, by making the Agent a more faithful and more responsible
    extension of the manager within the organization.
 
-7.  Managing Your People
+8.  Managing Your People
 
    The previous section addressed a manager's relationship with their
    own Agent.  This section addresses the harder problem: leading people
@@ -897,7 +1300,7 @@ Table of Contents
    rewarded openly, so that those who thrive are recognized and those
    who do not are given an honest account rather than a surprise.
 
-8.  Starting a New Project
+9.  Starting a New Project
 
    Starting a new project in an agentic setting begins before any Task
    is assigned.  The team first stands up the environment its Agents
@@ -907,7 +1310,7 @@ Table of Contents
    Agent inherits the strengths and the weaknesses of the environment it
    is given.
 
-8.1.  Establishing the Agent Harness
+9.1.  Establishing the Agent Harness
 
    The first step is to set up the Agent Harness the team will share.
    The harness determines which LLMs, Agent Tools, and Agent Skills are
@@ -929,7 +1332,7 @@ Table of Contents
    how stale material is retired -- because a Knowledge Base that is set
    once and then neglected becomes a source of Context Rot.
 
-8.2.  The Constitution
+9.2.  The Constitution
 
    Before assigning Tasks, the team should give its Agents a
    constitution: a small set of rules that must not be violated in
@@ -945,11 +1348,11 @@ Table of Contents
    Task will, absent such rules, treat almost anything as permissible if
    it appears to help; the constitution is the standing boundary a Task
    cannot override.  It belongs in the persistent Context of every Agent
-   Session, and, as Section 9.1 and the surrounding considerations note,
-   its most important rules should also be enforced outside the LLM
-   rather than trusted to the Agent's compliance alone.
+   Session, and, as Section 10.1 and the surrounding considerations
+   note, its most important rules should also be enforced outside the
+   LLM rather than trusted to the Agent's compliance alone.
 
-8.3.  Specifying the MVP
+9.3.  Specifying the MVP
 
    With the environment and the constitution in place, the team builds
    the Spec for a minimum viable product (MVP).  The aim is not to
@@ -967,7 +1370,7 @@ Table of Contents
    definition of done invites an Agent either to stop too early or to
    continue elaborating past the point of value.
 
-8.4.  Breaking Work into Steerable Chunks
+9.4.  Breaking Work into Steerable Chunks
 
    Finally, the work must be broken into chunks small enough that human
    review can steer it.  An Agent Team coordinated by a Management
@@ -984,7 +1387,7 @@ Table of Contents
    is not to slow the Agents down but to keep humans in a position to
    steer while steering is still cheap.
 
-9.  Security Considerations
+10.  Security Considerations
 
    The techniques described in this document introduce security risks
    that follow from the way Agents assemble, retain, and act on Context.
@@ -994,7 +1397,7 @@ Table of Contents
    section describes significant risks and corresponding mitigations for
    organizations adopting agentic product delivery.
 
-9.1.  Mixing Information of Differing Sensitivity
+10.1.  Mixing Information of Differing Sensitivity
 
    An Agent may assemble Context from files, Agent Tool results, an
    Issue Tracker, a Shared Message Bus, a Knowledge Base, and prior
@@ -1029,7 +1432,7 @@ Table of Contents
    that the intended audience is authorized for all included
    information.
 
-9.2.  Excessive Delegation Without Attenuation
+10.2.  Excessive Delegation Without Attenuation
 
    Delegation to an Agent is often implemented by granting the Agent the
    same credentials, access, and authority held by the delegating human.
@@ -1061,7 +1464,7 @@ Table of Contents
    and recovery of changes made by a compromised or malfunctioning
    Agent.
 
-9.3.  Credential Leakage in Trajectories
+10.3.  Credential Leakage in Trajectories
 
    A Trajectory can record Prompts, model output, Agent Tool
    invocations, Tool output, and observations from an Agent Session.
@@ -1088,12 +1491,12 @@ Table of Contents
 
    Trajectories that might contain secrets MUST be treated as sensitive
    artifacts, subject to the classification and handling described in
-   Section 9.1.  Access SHOULD be limited, retention periods SHOULD be
+   Section 10.1.  Access SHOULD be limited, retention periods SHOULD be
    minimized, and sharing for debugging or Eval SHOULD use sanitized
    copies.  Short-lived, scoped credentials and effective revocation
    reduce the impact of any credential that escapes these controls.
 
-9.4.  Indirect Prompt Injection from Untrusted Content
+10.4.  Indirect Prompt Injection from Untrusted Content
 
    Content retrieved from an Issue Tracker, Knowledge Base, repository,
    document, web page, or Agent Tool can contain instructions directed
@@ -1124,7 +1527,7 @@ Table of Contents
    Evals SHOULD include representative indirect Prompt injection cases
    for each Agent Skill and Agent Tool combination.
 
-9.5.  Supply Chain of Agent Tools and Agent Skills
+10.5.  Supply Chain of Agent Tools and Agent Skills
 
    An Agent Tool or Agent Skill can influence an Agent's behavior,
    access organizational data, or execute actions on behalf of an Agent
@@ -1154,7 +1557,7 @@ Table of Contents
    provide a rapid disablement mechanism for compromised Tools and
    Skills.
 
-9.6.  Auditability and Accountability of Agent Actions
+10.6.  Auditability and Accountability of Agent Actions
 
    Agentic product delivery can distribute a Task across multiple
    Agents, human reviewers, Agent Tools, and a Shared Message Bus.
@@ -1181,7 +1584,43 @@ Table of Contents
    reconstruction of events without indiscriminate retention of
    sensitive Prompt content or credentials.
 
-9.7.  Impersonation
+10.7.  Acting Beyond an Operator's Authority
+
+   An Agent frequently operates with more authority than the person
+   directing it can personally exercise or oversee.  A Management
+   Session may hold access across many systems, a worker Agent may run
+   with credentials broader than its Task strictly requires, and, as
+   noted above, an Agent pursues its goal with initiative and will reach
+   for whatever authority is within its Bounded Context.  The risk is
+   not only a compromised Agent but an ordinary one that quietly carries
+   its operator past the limits of what that operator is qualified, or
+   permitted, to do unaided.
+
+   The control practitioners reach for first is not a new enforcement
+   mechanism but voluntary scope management through Context engineering.
+   As described in Managing Your Agent, an Agent that is told its
+   operator's role, how they are measured, and where they sit in the
+   organization can recognize when a Task falls outside its operator's
+   remit.  Given the organization's reporting structure and its
+   operator's role as durable Context, the Agent can reason about
+   authority the way a conscientious colleague would: it declines to
+   take actions its operator could not themselves get reviewed, and it
+   asks for the human approval or expert review the work warrants rather
+   than proceeding.  This keeps the Agent in bounds at the point where
+   it is cheapest to do so, in the Prompt, without slowing delivery.
+
+   Because it rests on the Agent's cooperation, voluntary scope
+   management has the limits of any Prompt-level rule: it aids honest
+   operation but is not proof against an adversary and is subject to
+   Context Rot, as Section 10.1 and Section 10.8 observe of their own
+   controls.  Where the authority at stake is high enough that voluntary
+   compliance is not sufficient, the least-privilege and separate-
+   approval measures of the preceding considerations apply.  For the
+   common case, however, giving an Agent enough Context about its
+   operator's role to keep itself within that operator's authority is
+   among the most effective and least disruptive controls available.
+
+10.8.  Impersonation
 
    An Agent can produce fluent and confident content in the voice of a
    specific person.  On a Shared Message Bus, where humans and Agents
@@ -1210,13 +1649,13 @@ Table of Contents
    suspected impersonation, unmarked model-generated content, or misuse
    of an Agent identity.
 
-10.  IANA Considerations
+11.  IANA Considerations
 
    This document has no IANA actions.
 
-11.  References
+12.  References
 
-11.1.  Normative References
+12.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1227,12 +1666,41 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
-11.2.  Informative References
+12.2.  Informative References
+
+   [A2A]      A2A Project, "Agent2Agent (A2A) Protocol Specification",
+              <https://a2a-protocol.org/latest/specification/>.
+
+   [ADK]      Google, "Agent Development Kit: Sequential agents",
+              <https://adk.dev/agents/workflow-agents/sequential-
+              agents/>.
+
+   [ADK-EVAL] Google, "Agent Development Kit: Evaluating agents",
+              <https://adk.dev/evaluate/>.
+
+   [CLAUDE-CODE]
+              Anthropic, "Claude Code",
+              <https://www.anthropic.com/claude-code>.
+
+   [CLAUDE-OPUS]
+              Anthropic, "Claude Opus",
+              <https://www.anthropic.com/claude>.
+
+   [CODEX-CLI]
+              OpenAI, "Codex CLI", <https://github.com/openai/codex>.
 
    [DDD]      Evans, E., "Domain-Driven Design: Tackling Complexity in
               the Heart of Software", 2003.
 
    [DISC]     Marston, W. M., "Emotions of Normal People", 1928.
+
+   [EFFECTIVE-AGENTS]
+              Anthropic, "Building Effective Agents", 2024,
+              <https://www.anthropic.com/engineering/building-effective-
+              agents>.
+
+   [GPT-TERRA]
+              OpenAI, "GPT", <https://openai.com>.
 
    [INSIGHTS-DISCOVERY]
               The Insights Group Ltd., "Insights Discovery",
@@ -1247,29 +1715,55 @@ Table of Contents
               (MBTI)", <https://www.themyersbriggs.com/en-US/Products-
               and-Services/Myers-Briggs>.
 
+   [MCP]      Anthropic, "Model Context Protocol",
+              <https://modelcontextprotocol.io>.
+
+   [MCP-DIRECTORY]
+              MCP.Directory, "Top 10 Most Popular MCP Servers in 2026",
+              2026, <https://mcp.directory/blog/top-10-most-popular-mcp-
+              servers>.
+
+   [MCP-GITHUB]
+              GitHub, "GitHub MCP Server",
+              <https://github.com/github/github-mcp-server>.
+
+   [MCP-PLAYWRIGHT]
+              Microsoft, "Playwright MCP",
+              <https://github.com/microsoft/playwright-mcp>.
+
+   [MCP-SERVERS]
+              Model Context Protocol, "Model Context Protocol servers:
+              filesystem",
+              <https://github.com/modelcontextprotocol/servers/tree/
+              main/src/filesystem>.
+
+   [OUTCOMES] Anthropic, "Managed Agents: Define outcomes",
+              <https://platform.claude.com/docs/en/managed-agents/
+              define-outcomes>.
+
    [SHAPE-UP] Singer, R., "Shape Up: Stop Running in Circles and Ship
               Work that Matters", 2019, <https://basecamp.com/shapeup>.
 
-   [SHIBBOLETH]
-              Wikipedia, "Shibboleth",
-              <https://en.wikipedia.org/wiki/Shibboleth>.
-
    [SPEC-KIT] GitHub, "Spec Kit", <https://github.com/github/spec-kit>.
+
+   [WORKSLOP] Harvard Business Review, "AI-Generated "Workslop" Is
+              Destroying Productivity", 2025, <https://hbr.org/2025/09/
+              ai-generated-workslop-is-destroying-productivity>.
 
 Acknowledgments
 
-   Portions of this document were drafted with the assistance of an AI
-   Agent.  The Agent used Anthropic's Claude Opus 4.8 (1M context) model
-   (claude-opus-4-8[1m]), running in the Claude Code harness, version
-   2.1.207.
+   Orie Steele drafted portions of this document using Anthropic's
+   Claude Opus [CLAUDE-OPUS] (claude-opus-4-8[1m] and claude-opus-5[1m])
+   in the Claude Code [CLAUDE-CODE] harness, and OpenAI's gpt-5.6-terra
+   [GPT-TERRA] in the Codex CLI [CODEX-CLI] harness.
 
-   The Security Considerations were expanded and refined with the
-   assistance of a second Agent, using OpenAI's gpt-5.6-terra model
-   running in the Codex CLI harness, version 0.144.1, and coordinated by
-   the Claude Code Agent acting as a Management Session.
-
-Author's Address
+Authors' Addresses
 
    Orie Steele
    Tradeverifyd
    Email: orie@or13.io
+
+
+   Michael Lavelle
+   Tradeverifyd
+   Email: michael.lavelle@tradeverifyd.com
