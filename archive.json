@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-08-13T01:02:40.714603+00:00",
+  "timestamp": "2026-08-16T00:39:12.363671+00:00",
   "repo": "OR13/draft-steele-vibeslop",
   "labels": [
     {
@@ -373,6 +373,56 @@
           "body": "",
           "createdAt": "2026-08-11T21:07:47Z",
           "updatedAt": "2026-08-11T21:07:47Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "id": "PR_kwDOTVZNeM7_Vt1M",
+      "title": "Rewrite the agent-marking section around why marking decayed",
+      "url": "https://github.com/OR13/draft-steele-vibeslop/pull/7",
+      "state": "MERGED",
+      "author": "OR13",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Why: \u00a75.1 presented a per-message disclosure marker as a working practice. What the practice actually produced was readers who discounted the text, readers who discounted its *sender*, and \u2014 once Agents touched most of what the organization wrote \u2014 a label that no longer discriminated. The section recorded the mechanism and not the outcome.\n\nRefactors `A Shibboleth for Agent-Generated Content` into `Marking Agent-Generated Content`. Full rewrite of the section, not an extension.\n\n## What changed\n\n**The outcome leads.** The old order was mechanism \u2192 example \u2192 metaphor \u2192 limits, so the most important content arrived last. The new order states that teams adopted the marker and did not keep it, then explains why in three effects, none of which is a failure of the mechanism.\n\n**The shibboleth framing is gone.** A shibboleth is powerful because it is *hard to fake*. This marker is trivially fakeable and is emitted by the party it marks, so the analogy ran backwards \u2014 the old text spent a paragraph conceding that it \"inverts the classical use.\" Removing it also removes the `SHIBBOLETH` informative reference, which nothing else cited.\n\n**The `omg bestie \ud83d\udc85` marker stays**, demoted from organizing device to illustration. It is evidence the practice was lived rather than theorized, and it still carries the point that a marker has to be distinctive enough that no colleague produces it by accident.\n\n## The three effects\n\n1. **The label became a discount rather than a calibration.** A reader who knows a message came from an Agent does not merely adjust confidence in it \u2014 they value it less, and value its sender less. Disclosure introduced to prevent misplaced *reliance* produced misplaced *dismissal*, attaching to the sender rather than the text.\n2. **The cost lands on the reader, not the writer.** Verbose, hedged, uniformly polite text is more work to read than terse text. A conspicuous prefix on a long message advertises that cost before the reader has paid it.\n3. **Ubiquity finished it.** A label discriminates only while the thing it labels is the exception. Once participants assumed anything they read might be Agent-generated, the marker stopped carrying information and only its cost remained. A signal that fires on every message is not a signal.\n\n## Evidence\n\nEffect 1 was previously asserted from experience. It is now cited: the BetterUp Labs / Stanford Social Media Lab survey of **1,150 US full-time employees** found **41%** had received Agent-generated work in the preceding month that looked finished but did not advance the task; of those, **42%** judged the sender less trustworthy and around half judged them less creative, capable, or reliable. The same study puts the effort of resolving one such message at close to two hours. New informative reference: `WORKSLOP`.\n\nEffects 2 and 3 remain reported experience rather than measurement, and the section does not dress them up as anything else.\n\n**Deliberately not cited:** the current round of criticism of specific models' output style. The available write-ups are aggregation rather than original reporting, and naming a vendor's model in body prose would contradict the vendor-neutrality applied to \u00a76.2. The draft states the property \u2014 verbose, hedged, uniformly polite text is costly to read \u2014 and lets the general finding carry it.\n\n## Preserved\n\n- The normative claim: a Context-carried marker **MUST NOT** be relied upon as proof of authorship.\n- Both cross-references to Impersonation (\u00a710.8) and its platform controls \u2014 authenticated identities, distinct Agent accounts, protected message metadata.\n- The failure modes that were already right: an Agent may drop the marker through error or Context Rot, and any party may reproduce it.\n\n## Added\n\nA closing move the old section lacked: what survives ubiquity is disclosure that costs the reader nothing until they want it \u2014 a trailer on the commit, a note on the issue, the Trajectory identifiers of \u00a76 carried into whatever the session touched. This document's own Acknowledgments are an instance of that choice.\n\n## Verification\n\n- `make` clean: `kramdown-rfc`, `xml2rfc-txt`, `xml2rfc-html` all OK, no warnings.\n- No orphaned references: `SHIBBOLETH` removed from the informative block along with its only citation; `WORKSLOP` cited twice; a sweep of every informative anchor found no uncited entries.\n- Cross-references resolve \u2014 `Section 10.8` and `Section 6` render correctly.\n- Statistics verified against two independent write-ups of the study, which agree on sample size, the 41% prevalence, and the 42% trust figure.\n\n## Note\n\nBranched from `main` after #6 merged, so there is no conflict with the Context Flows work.\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n",
+      "createdAt": "2026-08-14T23:43:31Z",
+      "updatedAt": "2026-08-15T17:33:50Z",
+      "baseRepository": "OR13/draft-steele-vibeslop",
+      "baseRefName": "main",
+      "baseRefOid": "9cf40059e6273d87a36c363bfc5f007e41de2569",
+      "headRepository": "OR13/draft-steele-vibeslop",
+      "headRefName": "steele/marking-agent-generated-content",
+      "headRefOid": "e443a36ae99865bfddce465d30a48d32679ee944",
+      "closedAt": "2026-08-15T17:33:50Z",
+      "mergedAt": "2026-08-15T17:33:50Z",
+      "mergedBy": "MJL40635",
+      "mergeCommit": {
+        "oid": "5699d808254babfbdd929db2bfa43ec9a79544dc"
+      },
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "OWNER",
+          "body": "@MJL40635 we need to post process this whole doc, to address the opus 5 tone that is creeping in... I want to do that in a separate PR.",
+          "createdAt": "2026-08-15T14:32:18Z",
+          "updatedAt": "2026-08-15T14:32:18Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOTVZNeM8AAAABJrTNbw",
+          "commit": {
+            "abbreviatedOid": "e443a36"
+          },
+          "author": "MJL40635",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-08-15T17:33:46Z",
+          "updatedAt": "2026-08-15T17:33:46Z",
           "comments": []
         }
       ]
