@@ -173,53 +173,29 @@ informative:
 
 --- abstract
 
-AI Agents have transformed the way internet applications are developed and
-have introduced a new set of challenges for organizations.  This document
-describes techniques and concepts that are emerging to assist with these
-challenges, and relates them to concepts already familiar to the internet
-community.  The pace of change in this area is accelerating, and it is
-anticipated that much of what this document discusses will become outdated
-quickly; nevertheless, a static publication may prove amusing to future
-readers, whether machine or human.
-
+AI Agents introduce new practices and operational risks in software
+product delivery.  This document defines terminology for these practices,
+describes observed techniques, and relates them to established concepts
+in the Internet community.  It records current experience; the practices
+and tools described are expected to change.
 
 --- middle
 
 # Introduction
 
-The material in this document is not derived from a specification or a
-standard.  It is assembled from first-hand accounts: interviews with
-people who are, at the time of writing, building software with AI Agents,
-together with direct experimentation in the new ways of working that
-agentic software delivery makes possible.  The terms and patterns
-collected here are the ones practitioners reached for when asked to
-describe what they actually do, and how their day-to-day work has changed.
+This document records experience from interviews with practitioners
+building software with AI Agents and from direct experimentation.  It
+defines terms for observed practices and relates them to established
+concepts in the Internet community.
 
-These accounts are offered as confessions because they are candid and
-particular rather than authoritative.  The people interviewed describe
-what is working for them and what is not, including practices they are
-not certain they should admit to and habits that have not yet settled
-into convention.  Much of agentic delivery is being invented in the open
-by people improvising against tools that change under them; capturing
-that improvisation honestly is, at this stage, more useful than
-pretending a settled discipline already exists.
+The accounts describe both successful and unsuccessful practices.  They
+are observations, not evidence of industry consensus.  The document does
+not define a product delivery standard.  Normative language, particularly
+in the Security Considerations, expresses guidance for the practices
+described here.
 
-Accordingly, this document does not prescribe how agentic software
-delivery ought to be done.  It records concepts and techniques that are
-emerging in practice, gives them consistent names so that they can be
-discussed, and relates them to ideas already familiar to the internet
-community.  Where the document uses normative language, particularly in
-the Security Considerations, it does so to capture guidance that
-practitioners themselves treat as important, not to claim that any single
-way of working has been agreed.
-
-The reader should treat what follows as a snapshot.  As the abstract
-notes, the pace of change in this area is such that much of this document
-is expected to age quickly.  Its value is in naming and relating what
-people are doing at the time of writing, so that later readers -- human
-or machine -- can see what building software with Agents looked like
-while it was still being figured out.
-
+The terminology and techniques reflect experience at the time of writing
+and may change as tools and practices evolve.
 
 # Terminology {#terminology}
 
@@ -228,593 +204,388 @@ while it was still being figured out.
 Large Language Model (LLM):
 : A machine learning model, typically based on the transformer
   architecture and trained on large text corpora, that generates text by
-  predicting subsequent tokens from a given context.  In this document an
-  LLM is treated as the underlying inference component that an Agent uses
-  to reason and produce output.
+  predicting subsequent tokens from a given context. In this document an
+  LLM is treated as the underlying inference component that an Agent
+  uses to reason and produce output.
 
 Token:
-: The unit of text an LLM processes.  Text is divided into Tokens, roughly
-  word fragments, and an LLM reads and generates text one Token at a time.
-  The size of a Context window, the throughput of an LLM, and the price of
-  a remote model service are all measured in Tokens, which makes the Token
-  the natural unit for accounting for the cost of agentic work.
+: A unit of text processed by an LLM, typically a word fragment. Context
+  window size and model throughput are measured in Tokens. Token
+  consumption is also used to account for remote model service costs.
 
 Prompt:
-: The input provided to an LLM to elicit a response.  A Prompt may include
-  instructions, context, examples, and prior conversation, and may be
-  composed from multiple sources such as a system message, developer
-  instructions, and end-user input.
+: The input provided to an LLM to elicit a response. A Prompt may
+  include instructions, context, examples, and prior conversation, and
+  may be composed from multiple sources such as a system message,
+  developer instructions, and end-user input.
 
 Context:
 : The full set of information available to an LLM at inference time,
-  bounded by a finite context window.  Context includes the Prompt along
+  bounded by a finite context window. Context includes the Prompt along
   with any retrieved documents, tool results, and accumulated history.
   Context engineering is the practice of deciding what information to
   include, exclude, order, or compress so that the most relevant
   information is available within the context window.
 
 Context Rot:
-: The gradual degradation of Context that occurs when it is allowed to
-  become stale over time without intentional refactoring and cleaning.
-  As a Task progresses, superseded instructions, outdated results, and
-  no-longer-relevant history accumulate; unless this material is
-  deliberately pruned or refreshed, it crowds out current information and
-  degrades the quality of an Agent's output.
+: Degradation of Context as superseded instructions, outdated results,
+  and irrelevant history accumulate. Removing or updating stale material
+  preserves capacity for current information and reduces errors.
 
 Context Pollution:
-: The presence in Context of content that should not be included.  Unlike
-  Context Rot, which arises from staleness over time, Context Pollution is
-  the introduction of inappropriate, incorrect, or irrelevant material.
-  Both Agents and humans can contribute to Context Pollution -- for
-  example an Agent may retrieve an unrelated document, or a human may paste
-  extraneous information -- and in either case the polluting content can
-  mislead subsequent reasoning.
+: The inclusion of inappropriate, incorrect, or irrelevant material in
+  Context. Agents and humans can introduce such material through
+  retrieval or input. It can mislead subsequent reasoning. Context
+  Pollution concerns inappropriate content; Context Rot concerns stale
+  content.
 
 Agent:
 : A software system that uses one or more LLMs to pursue a goal by
   interpreting instructions, invoking tools, and acting over multiple
-  steps.  An Agent may operate autonomously or under human supervision,
+  steps. An Agent may operate autonomously or under human supervision,
   and maintains state across the steps it takes.
 
 Agent Reasoning:
 : The intermediate deliberation an Agent produces while deciding what to
-  do, distinct from its final answer or action.  Reasoning may take the
-  form of explicit intermediate tokens in which the Agent works through a
-  problem, plans a sequence of steps, or weighs alternatives before
-  invoking a Tool.  Reasoning is recorded in the Trajectory and can be
-  inspected to understand or debug why an Agent behaved as it did, though
-  it is not guaranteed to be a faithful account of the LLM's internal
-  computation.
+  do, distinct from its final answer or action. Reasoning may take the
+  form of explicit intermediate tokens in which the Agent works through
+  a problem, plans a sequence of steps, or weighs alternatives before
+  invoking a Tool. Reasoning is recorded in the Trajectory and can be
+  inspected to understand or debug why an Agent behaved as it did,
+  though it is not guaranteed to be a faithful account of the LLM's
+  internal computation.
 
 Agent Session:
 : A single running instance of an Agent working toward a Task, with its
-  own Context, Trajectory, and accumulated state.  An Agent Session begins
-  when an Agent is given a Task and ends when the work is complete or
-  otherwise terminated.  Multiple Agent Sessions may run in parallel, each
-  progressing independent work.
+  own Context, Trajectory, and accumulated state. An Agent Session
+  begins when an Agent is given a Task and ends when the work is
+  complete or otherwise terminated. Multiple Agent Sessions may run in
+  parallel, each progressing independent work.
 
 Agent Team:
 : A set of Agent Sessions that collaborate on related Tasks, typically
-  coordinated by a Management Session.  Giving a single Agent too many Tools
-  degrades its performance: a large Tool set consumes Context, and the
-  more choices an Agent must weigh at each step, the more likely it is to
-  select the wrong Tool or lose track of its Task.  An Agent Team
-  addresses this the way human teams do, through specialization and trade.
-  Each member is given a narrower Task and a smaller, focused set of Tools
-  and Knowledge Base, and members exchange work and results among
-  themselves.  A specialized Agent, presented with only the Tools relevant
-  to its role, can use those Tools more effectively than a generalist Agent
-  burdened with all of them.
+  coordinated by a Management Session. Members receive specialized Tasks
+  and focused sets of Tools and Knowledge Base access, and exchange work
+  and results. Specialization reduces the Context and tool-selection
+  burden of assigning all capabilities to one Agent.
 
 Knowledge Base:
-: The full set of information made accessible to an Agent Session through
-  the tools and Context available to it.  A Knowledge Base may include
-  files, databases, search indexes, and remote services reachable via
-  tools, as well as whatever is present in the Context window.  It defines
-  the boundary of what an Agent Session can know or retrieve while working
-  on a Task.
+: The full set of information made accessible to an Agent Session
+  through the tools and Context available to it. A Knowledge Base may
+  include files, databases, search indexes, and remote services
+  reachable via tools, as well as whatever is present in the Context
+  window. It defines the boundary of what an Agent Session can know or
+  retrieve while working on a Task.
 
 Agent Tool:
 : A discrete capability an Agent can invoke to observe or act upon
   something outside the LLM, such as reading a file, querying a service,
-  or executing a command.  A Tool is described to the Agent by its name,
-  its inputs, and the results it returns, so that the LLM can decide when
-  and how to call it during the Loop.  Tools are the primary means by
-  which an Agent extends its Knowledge Base and effects change.
+  or executing a command. A Tool is described to the Agent by its name,
+  its inputs, and the results it returns, so that the LLM can decide
+  when and how to call it during the Loop. Tools are the primary means
+  by which an Agent extends its Knowledge Base and effects change.
 
 Model Context Protocol (MCP):
-: A protocol by which an Agent Harness obtains Agent Tools from a separate
-  process rather than implementing them itself {{MCP}}.  An MCP client,
-  running inside the Harness, connects to one or more MCP servers; each
-  server advertises a set of tools, and the client presents them to the
-  Agent alongside the Harness's own.  MCP matters to the concepts in this
-  document because it moves the boundary of what an Agent can reach
-  outside the Agent Harness: the tools an Agent holds, and therefore the
-  extent of its Knowledge Base and its capacity to act, become a
-  deployment-time choice rather than a property of the Harness.  It also
-  makes the supply chain of Agent Tools ({{supply-chain}}) an operational
-  concern rather than a theoretical one.
+: A protocol through which an Agent Harness can access Agent Tools
+  provided by separate processes {{MCP}}. An MCP client in the Harness
+  connects to servers that advertise tools. The client exposes those
+  tools alongside the Harness's built-in tools. Server configuration
+  determines the external information and actions available to the Agent
+  and introduces the supply-chain considerations in {{supply-chain}}.
 
 Session Identifier:
-: An identifier assigned to an Agent Session when it begins, and recorded
-  with the Trajectory that session produces.  Because a Trajectory is
-  written incrementally while a session runs and is read later by whoever
-  inspects, replays, or Evals it, the Session Identifier is the join
-  between the two: without it, a Trajectory cannot reliably be attributed
-  to the session that produced it, and Evals cannot be aggregated across
-  sessions.
+: An identifier assigned when an Agent Session begins and recorded with
+  its Trajectory. It associates an incrementally recorded Trajectory
+  with its originating session for inspection, replay, and aggregation
+  of Evals across sessions.
 
 Agent Skill:
-: A reusable package of instructions, and optionally supporting resources,
-  that equips an Agent to carry out a particular class of Tasks.  A Skill
-  is loaded into Context when it is relevant, guiding how the Agent uses
-  its Tools and Knowledge Base without changing the underlying LLM.
-  Whereas a Tool provides a capability to act, a Skill provides the
-  procedure and judgment for applying capabilities to a kind of work.
+: A reusable package of instructions, and optionally supporting
+  resources, that equips an Agent to carry out a particular class of
+  Tasks. A Skill is loaded into Context when it is relevant, guiding how
+  the Agent uses its Tools and Knowledge Base without changing the
+  underlying LLM. Whereas a Tool provides a capability to act, a Skill
+  provides the procedure and judgment for applying capabilities to a
+  kind of work.
 
 Task:
-: A unit of work assigned to an Agent, expressed as a goal to be achieved
-  rather than a fixed sequence of operations.  A Task defines the intended
-  outcome and any constraints, and is carried out by the Agent over one or
-  more steps recorded in a Trajectory.
+: A unit of work assigned to an Agent, expressed as a goal to be
+  achieved rather than a fixed sequence of operations. A Task defines
+  the intended outcome and any constraints, and is carried out by the
+  Agent over one or more steps recorded in a Trajectory.
 
 Spec:
-: A durable, human-readable description of intended behavior that serves as
-  the authoritative statement of what an Agent is to build or do.  In
-  agentic development a Spec is written and refined before implementation
-  and is provided to the Agent as Context, so that the Agent's output can
-  be checked against it and so that the same Spec can drive repeated or
-  parallel Agent Sessions.  Whereas a Task states a single goal, a Spec
-  captures the requirements, constraints, and acceptance criteria in
-  enough detail to be implemented and evaluated, and it is expected to be
-  reviewed and versioned as the work evolves.
+: A durable, human-readable description of intended behavior, including
+  requirements, constraints, and acceptance criteria. A Spec is authored
+  before implementation, supplied as Context, and reviewed and versioned
+  as work evolves. It provides the authoritative basis for
+  implementation and evaluation across Agent Sessions.
 
 Spec Driven Development:
-: A development methodology in which a Spec, rather than the code, is the
-  primary artifact humans author and maintain, and implementation is
-  derived from it by an Agent.  Following the pattern established by tools
-  such as spec-kit {{SPEC-KIT}}, the work proceeds through explicit,
-  ordered phases:
-  establishing guiding principles for the project, specifying the desired
-  outcome and requirements, clarifying any underspecified areas, producing
-  a technical plan, decomposing that plan into discrete tasks, and finally
-  implementing those tasks.  Each phase produces a durable, version-
-  controlled artifact that is reviewed before the next phase begins, so
-  that human judgment is applied to intent and design up front rather than
-  only to the generated code.  This ordering keeps the Spec authoritative:
-  changes are made to the Spec and flowed forward, rather than made
-  directly in code and lost.
+: A development methodology in which humans maintain a Spec and an Agent
+  derives the implementation from it. Tools such as spec-kit
+  {{SPEC-KIT}} organize the work into ordered phases: establish
+  principles, specify requirements, clarify ambiguities, plan
+  implementation, decompose Tasks, and implement them. Each phase
+  produces a version- controlled artifact for review before the next
+  phase. Changes are applied to the Spec and propagated to the
+  implementation.
 
 Domain Driven Design (DDD):
 : An approach to software development, described by Evans {{DDD}}, that
-  places a model of the business domain at the center of the software and
-  aligns the software's structure and language with that model.  Its
-  practices -- notably a Ubiquitous Language and explicit Bounded Contexts
-  -- are used in this document to reason about how humans and Agents come
-  to share a precise, common understanding of the domain they work in.
+  places a model of the business domain at the center of the software
+  and aligns the software's structure and language with that model. Its
+  practices -- notably a Ubiquitous Language and explicit Bounded
+  Contexts -- are used in this document to reason about how humans and
+  Agents come to share a precise, common understanding of the domain
+  they work in.
 
 Ubiquitous Language:
-: In Domain Driven Design, a single, precise vocabulary for a domain that
-  is shared by domain experts and expressed directly in the software.  In
-  an agentic setting the Ubiquitous Language is also the language of
-  Prompts, Specs, and Context, so that humans and Agents refer to the same
-  concepts by the same terms.  Because an Agent acts on exactly the
-  language it is given, drift or ambiguity in this vocabulary produces
-  divergent Agent behavior rather than being silently repaired.
+: In Domain Driven Design, a shared domain vocabulary used by domain
+  experts and expressed in software. In agentic delivery, it also
+  provides consistent terms for Prompts, Specs, and Context. Ambiguity
+  or drift in this vocabulary can cause divergent Agent behavior.
 
 Bounded Context:
-: In Domain Driven Design, an explicit boundary within which a single
-  domain model and its Ubiquitous Language are internally consistent and
-  unambiguous.  A term has one agreed meaning inside the boundary, even
-  though the same term may mean something different in another context; the
-  boundary exists precisely because a single model cannot be unified across
-  a large domain.  Each Bounded Context owns its own Ubiquitous Language,
-  and interaction between contexts requires explicit translation rather
-  than an assumption of shared meaning.  In agentic delivery a Bounded
-  Context scopes the vocabulary an Agent, or a specialized part of an Agent
-  Team, can safely act on: within one context the language is unambiguous,
-  while work that crosses a boundary must translate terms rather than let
-  an Agent silently conflate their meanings.
+: In Domain Driven Design, a boundary within which a domain model and
+  its Ubiquitous Language are internally consistent. Terms may have
+  different meanings across Bounded Contexts, so interactions require
+  explicit translation. A Bounded Context defines the vocabulary
+  available to an Agent or specialized part of an Agent Team.
 
 Loop:
 : The iterative cycle by which an Agent makes progress on a Task:
   assembling Context, invoking an LLM, acting on the result (for example
   by calling a tool), observing the outcome, and repeating until a
-  stopping condition is met.  Loop engineering is the practice of
+  stopping condition is met. Loop engineering is the practice of
   designing this cycle -- including its stopping conditions, error
   handling, and how Context is updated between iterations -- to produce
   reliable Agent behavior.
 
 Agent Harness:
-: The runtime that hosts an Agent Session and turns an LLM into an Agent.
-  The Agent Harness drives the Loop, assembles and maintains the Context
-  passed to the LLM, exposes the Agent Tools and loads the Agent Skills
-  available to the session, mediates access to the Knowledge Base, and
-  records the Trajectory.  It also enforces operational concerns such as
-  permissions, stopping conditions, and error handling.  The same LLM
-  placed in different Agent Harnesses yields Agents with different
-  capabilities and behavior; a Management Session and the worker sessions it
-  coordinates may each run in their own harness.
+: The runtime that hosts an Agent Session and turns an LLM into an
+  Agent. The Agent Harness drives the Loop, assembles and maintains the
+  Context passed to the LLM, exposes the Agent Tools and loads the Agent
+  Skills available to the session, mediates access to the Knowledge
+  Base, and records the Trajectory. It also enforces operational
+  concerns such as permissions, stopping conditions, and error handling.
+  The same LLM placed in different Agent Harnesses yields Agents with
+  different capabilities and behavior; a Management Session and the
+  worker sessions it coordinates may each run in their own harness.
 
 Trajectory:
 : The ordered sequence of inputs, model outputs, tool invocations, and
-  observations produced while an Agent works toward a goal.  A Trajectory
+  observations produced while an Agent works toward a goal. A Trajectory
   is the primary record used to inspect, replay, or evaluate an Agent's
   behavior.
 
 Eval:
 : A repeatable procedure for measuring the behavior of an LLM or Agent
-  against a defined set of inputs and expected outcomes.  Evals are used
+  against a defined set of inputs and expected outcomes. Evals are used
   to assess quality, detect regressions, and compare alternative models
   or Agent configurations.
 
 Shared Message Bus:
-: A communications channel in which both humans and their Agents
-  participate to address a Task or set of Tasks.  A Shared Message Bus is
-  necessarily a venue where humans already collaborate with one another,
-  such as IRC, Slack, Microsoft Teams, or other work productivity tools;
-  Agents join the venues people already use rather than requiring a
-  separate one.  Messages on a Shared Message Bus are delivered to both
-  people and their Agents.  Because every participant receives every
-  message, humans on a busy Shared Message Bus are subject to alert
-  fatigue, where the volume of notifications reduces their ability to
-  attend to the messages that require human judgment.
+: A communications channel used by humans and Agents to collaborate on
+  Tasks, such as IRC, Slack, or Microsoft Teams. Participants share
+  messages in an existing organizational venue. Message volume can cause
+  alert fatigue and reduce attention to decisions requiring human
+  judgment.
 
 Proxy Dictation:
-: A communication pattern in which a participant addresses another party's
-  Agent directly, in a register deliberately less human-centric than
-  ordinary conversation -- terse, imperative, and to the point of being
-  offensive by human standards.  The register is chosen precisely because
-  the target of the language is not the human but their assistant; the
-  same speaker would address the human very differently.  Because Proxy
-  Dictation typically occurs on a Shared Message Bus, where the human can
-  see it, the bluntness may read as offensive to onlookers even though no
-  offense is directed at any person.
+: A communication pattern in which a participant addresses another
+  party's Agent using terse, imperative language. Human observers on a
+  Shared Message Bus may interpret this language as discourteous even
+  when it is directed only at the Agent.
 
 Issue Tracker:
 : A system that records work to be done as a set of issues, each
-  describing a Task and its status.  Issues can be assigned to a specific
+  describing a Task and its status. Issues can be assigned to a specific
   person or Agent, which establishes ownership and prevents double work
-  when several participants might otherwise act on the same Task.  Whereas
-  a Shared Message Bus broadcasts every message to every participant, an Issue
-  Tracker directs work to an assigned owner; the two are often used
-  together, with Shared Message Bus messages referencing issues and updates to
-  issues announced on the Shared Message Bus.
+  when several participants might otherwise act on the same Task.
+  Whereas a Shared Message Bus broadcasts every message to every
+  participant, an Issue Tracker directs work to an assigned owner; the
+  two are often used together, with Shared Message Bus messages
+  referencing issues and updates to issues announced on the Shared
+  Message Bus.
 
 Context Farming:
 : The process of engineering ways to extract feedback, review, and
-  criticism from humans without overwhelming them.  Context Farming seeks
-  to gather the human judgment an Agent needs while respecting the limits
-  of human attention, for example by batching requests, summarizing what
-  is at stake, and asking for input only at the points where it changes
-  the outcome.  It is a countermeasure to the alert fatigue that arises on
-  a Shared Message Bus.
+  criticism from humans without overwhelming them. Context Farming seeks
+  to gather the human judgment an Agent needs while respecting the
+  limits of human attention, for example by batching requests,
+  summarizing what is at stake, and asking for input only at the points
+  where it changes the outcome. It is a countermeasure to the alert
+  fatigue that arises on a Shared Message Bus.
 
 Design Review Link:
-: A URL surfaced to a human to facilitate Context Farming.  A Design
+: A URL surfaced to a human to facilitate Context Farming. A Design
   Review Link presents the artifact under consideration -- such as a
   rendered document, a proposed change, or a running interface -- in a
-  form the human can inspect and respond to, so that their feedback can be
-  captured and fed back into an Agent Session's Context with minimal
+  form the human can inspect and respond to, so that their feedback can
+  be captured and fed back into an Agent Session's Context with minimal
   disruption.
 
 Walkthrough:
-: A structured Context Farming technique in which a driver and a navigator
-  collaborate to elicit feedback from humans by completing a set of
-  well-defined steps in an application while commenting on the quality of
-  the product experience.  The driver performs the steps and the navigator
-  observes and narrates, and the running commentary -- what worked, what
-  was confusing, what should change -- becomes Context that is fed back
-  into subsequent Agent Sessions.  A Walkthrough is often initiated from a
-  Design Review Link so that the steps are exercised against the actual
-  artifact under review.
+: A structured Context Farming technique in which a driver and a
+  navigator collaborate to elicit feedback from humans by completing a
+  set of well-defined steps in an application while commenting on the
+  quality of the product experience. The driver performs the steps and
+  the navigator observes and narrates, and the running commentary --
+  what worked, what was confusing, what should change -- becomes Context
+  that is fed back into subsequent Agent Sessions. A Walkthrough is
+  often initiated from a Design Review Link so that the steps are
+  exercised against the actual artifact under review.
 
 Management Session:
-: An Agent Session whose Task is to help a human manage many parallel Agent
-  Sessions rather than to perform the underlying work itself.  A Management
-  Session applies a command-and-control (C2) pattern, borrowed from
-  operational settings where one node directs many others: it decomposes
-  work into Tasks, assigns them to worker Agent Sessions -- for example by
-  assigning issues from an Issue Tracker -- and dispatches work that can be
-  progressed in parallel.  It tracks the status of the sessions it manages
-  and integrates their results, and may communicate with humans and other
-  Agents over a Shared Message Bus.
+: An Agent Session that coordinates worker Agent Sessions on behalf of a
+  human. It decomposes work into Tasks, assigns issues, dispatches
+  parallel work, tracks progress, and integrates results. It may
+  communicate with humans and Agents over a Shared Message Bus.
 
 Product Development Wheel:
-: An iterative, cyclical model of product development in which the stages
-  of the work -- such as discovery, definition, design, delivery, and
-  learning -- feed continuously back into one another rather than
-  proceeding as a single linear pass.  The wheel emphasizes that what is
-  learned from a shipped product informs the next turn of the cycle, so
-  that development is understood as ongoing rounds of building and learning
-  rather than a project with a fixed end.
+: An iterative model of product development in which discovery,
+  definition, design, delivery, and learning repeat. Findings from a
+  delivered product inform subsequent development cycles.
 
 Jobs to Be Done:
-: A framework for understanding customer motivation, which holds that
-  customers "hire" a product to make progress on a job -- a goal they are
-  trying to accomplish in a particular circumstance {{JTBD}}.  Jobs to Be
-  Done directs design and prioritization toward the underlying job the
-  customer is trying to get done, rather than toward customer demographics
-  or a product's existing features, so that the outcome a customer seeks
-  drives what is built.
+: A framework that organizes product design and prioritization around
+  the outcome a customer seeks in a particular circumstance {{JTBD}}.
 
 Shape Up:
 : A product development framework articulated by Basecamp {{SHAPE-UP}}
-  that organizes work into fixed-length cycles with variable scope.  Work
-  is shaped at an appropriate level of abstraction before it is committed
-  to; an appetite -- how much time the work is worth -- is set in place of
-  an estimate; responsible parties then bet on shaped work and are given
-  full responsibility to deliver it within the fixed time.  Shape Up is
-  cited here as one concrete, well-documented methodology for scoping and
-  committing to product work.
+  that organizes work into fixed-length cycles with variable scope. Work
+  is shaped at an appropriate level of abstraction before it is
+  committed to; an appetite -- how much time the work is worth -- is set
+  in place of an estimate; responsible parties then bet on shaped work
+  and are given full responsibility to deliver it within the fixed time.
+  Shape Up is cited here as one concrete, well-documented methodology
+  for scoping and committing to product work.
 
 Iteration (Sprint):
 : A fixed-length cycle of product delivery work, also commonly called a
   sprint, at the end of which progress is reviewed and the next cycle is
-  planned.  An Iteration gives the organization a regular cadence for
-  planning, delivering, and measuring work, and in this document it is the
-  natural interval over which the cost of agentic delivery, including Token
-  consumption, is aggregated.
+  planned. An Iteration gives the organization a regular cadence for
+  planning, delivering, and measuring work, and in this document it is
+  the natural interval over which the cost of agentic delivery,
+  including Token consumption, is aggregated.
 
 Psychometric Profile:
-: A structured description of a person's disposition, communication style,
-  and preferences derived from a standardized instrument.  Examples in
-  scope here are type-based instruments that sort individuals into discrete
-  categories, such as Insights Discovery {{INSIGHTS-DISCOVERY}},
-  the Myers-Briggs Type Indicator {{MBTI}}, and DISC {{DISC}}.  A
-  Psychometric Profile is to a human roughly what a configured persona or
-  system prompt is to an Agent: a durable, portable summary of disposition
-  that helps collaborators anticipate how a party will behave and
-  communicate.  Within an Agent Team, profiles of the human participants
-  can inform how work and Context are addressed to them.
+: A structured description of disposition, communication style, and
+  preferences derived from a standardized instrument. Examples include
+  Insights Discovery {{INSIGHTS-DISCOVERY}}, the Myers-Briggs Type
+  Indicator {{MBTI}}, and DISC {{DISC}}. In the practices described
+  here, profiles inform how work and Context are presented to human
+  participants.
 
 Vibeslop:
-: Output produced quickly by an Agent from loosely specified intent,
-  favoring speed over precision.  The term is deliberately dual-valued and
-  its connotation depends on context.  Used negatively, Vibeslop describes
-  low-quality, under-specified output offered where clarity and detail were
-  required, so that it obscures rather than informs.  Used positively,
-  Vibeslop describes a fast, cheap strawman produced precisely to provoke
-  reaction and elicit feedback, where the goal is momentum and shared
-  understanding rather than finished detail; in this sense it is a
-  legitimate Context Farming device.  The same artifact may be Vibeslop in
-  the pejorative sense or the approving sense depending only on whether the
-  situation calls for speed and a strawman or for clarity and detail.
-
+: Output generated quickly by an Agent from loosely specified intent.
+  The term can describe either inadequate output presented as finished
+  work or a preliminary artifact used to elicit feedback through Context
+  Farming. Its value depends on whether the task requires a rapid
+  proposal or a precise, complete result.
 
 # Scope
 
-This document is deliberately limited to product delivery: the work of
-designing, building, and shipping a software product, and the roles most
-directly involved in it, discussed in {{roles}}.  Agentic ways of working
-are changing this function first and most visibly, and it is where the
-concepts defined in this document -- Specs, Agent Teams, Context Farming,
-and the rest -- apply most directly.
-
-AI Agents are also reshaping other organizational functions, including
-executive decision-making and sales.  These functions differ
-from product delivery in their objectives, their sources of ground truth,
-and their tolerance for error, and addressing them here would dilute the
-focus of this document without doing them justice.  They are therefore
-deliberately out of scope and deferred to future work.
-
-Confining the present document to product delivery keeps its observations
-concrete and lets the terminology be exercised against a single, coherent
-set of practices before any attempt is made to generalize it.
-
+This document covers software product delivery: design, implementation,
+release, and the roles described in {{roles}}.  Other organizational
+functions, including executive decision-making and sales, are out of
+scope because their objectives, evidence, and tolerance for error differ.
 
 # Evolving Roles in Agentic Product Delivery {#roles}
 
-Agentic product delivery does not eliminate the human roles common to
-software development, but it changes what each role spends its time on.
-Across every role a common shift recurs: less time producing artifacts by
-hand, and more time expressing intent, Context Farming, and reviewing the
-output of Agents.  Every role, not only the Engineering Manager, now works in terms
-of Agents, Agent Teams, and Walkthroughs; the boundaries between roles blur
-as each becomes, in part, a director and reviewer of Agent Sessions, and
-any role may operate a Management Session to coordinate parallel work.  This
-section describes how several established roles are expected to adapt, and
-what remains distinctive to each once these shared skills are assumed.
+Agentic product delivery shifts human effort toward specifying intent,
+gathering Context, and reviewing Agent output.  Each role may use Agent
+Teams, Walkthroughs, and Management Sessions.  This section describes the
+responsibilities of established roles under these practices.
 
-What keeps this shared way of working coherent is a shared language.
-Domain Driven Design {{DDD}} calls this the Ubiquitous Language: a single,
-precise vocabulary for the domain, used consistently by domain experts and
-in the software itself.  Agentic delivery raises the stakes of this idea
-rather than lowering them.  Specs, Prompts, and Context are all expressed
-in language, and an Agent acts on exactly the language it is given;
-ambiguity that a human colleague would silently repair instead becomes
-divergent behavior in an Agent.  A well-maintained Ubiquitous Language is
-therefore the medium through which every role directs Agents, and Domain
-Driven Design's bounded contexts -- the explicit boundaries within which a
-model and its language stay internally consistent -- give each Agent, or
-specialized part of an Agent Team, an unambiguous vocabulary to work in,
-with explicit translation required wherever work crosses a boundary.
+A shared Ubiquitous Language {{DDD}} provides consistent terms for Specs,
+Prompts, and Context.  Bounded Contexts define where those terms apply;
+work that crosses a boundary requires explicit translation.
 
 ## Product Manager
 
-The Product Manager shifts from writing tickets and requirements documents
-toward authoring and maintaining Specs.  In Spec Driven Development the
-Spec, rather than a backlog of individually managed tasks, is the
-authoritative expression of intent, and keeping it accurate becomes the
-Product Manager's central responsibility.  Frameworks such as Jobs to Be
-Done remain valuable for anchoring the Spec to the outcome a customer is
-trying to achieve rather than to a list of features.  Because many Agent
-Sessions can progress in parallel, the Product Manager spends more effort
-on prioritization and on Context Farming -- deciding where human judgment
-is required and gathering it efficiently -- and less on manually
-decomposing work.  A fast, disposable strawman, Vibeslop in its approving
-sense, becomes a routine tool for provoking reaction and converging on
-intent early.  Much of this work is stewardship of the Ubiquitous Language
-at the level of product outcomes, keeping the words in the Spec aligned
-with the job the customer is trying to get done.
+The Product Manager authors and maintains Specs, prioritizes outcomes,
+and gathers human judgment through Context Farming.  Jobs to Be Done
+relates requirements to customer outcomes.  Preliminary artifacts can
+elicit feedback before detailed implementation.  The Product Manager
+maintains consistency between the Spec's vocabulary and customer goals.
 
 ## Design Manager
 
-The Design Manager moves from producing finished, pixel-level artifacts toward
-expressing design intent and evaluating what Agents generate from it.
-Design Review Links and Walkthroughs become primary instruments: rather
-than handing off a static mockup, the Design Manager inspects running interfaces
-and captures feedback as Context for subsequent Agent Sessions.  The
-Design Manager curates Evals for qualities that are difficult to specify but easy
-to recognize, and guards against Vibeslop in its pejorative sense -- output
-that is fast and plausible but under-considered, including the generic
-aesthetics that Agents tend to produce absent clear direction.
+The Design Manager specifies design intent and evaluates generated
+interfaces through Design Review Links and Walkthroughs.  Feedback becomes
+Context for subsequent Agent Sessions.  The role maintains Evals for
+experience quality and reviews output for usability and consistency with
+the intended design.
 
 ## Account Manager
 
-The Account Manager adapts to a faster and more visible delivery cadence,
-and to customers who increasingly expect change within a single
-conversation rather than across release cycles.  A central part of the role
-becomes Context Farming at the customer boundary: translating what
-customers are trying to accomplish, in the sense of Jobs to Be Done, into
-Specs that Agent Teams can act on, and carrying customer feedback back into
-those Specs.  The Account Manager increasingly collaborates over a Shared
-Message Bus on which the customer's participants, the delivery team, and
-their Agents all meet, and must manage expectations about what is finished
-versus what remains a strawman.  In effect the Account Manager extends the
-Ubiquitous Language across the customer boundary, reconciling the terms the
-customer uses with those the delivery team and its Agents act on.
+The Account Manager translates customer goals and feedback into Specs and
+manages expectations about delivery status.  On a Shared Message Bus, the
+role coordinates customer participants, delivery teams, and their Agents,
+and distinguishes preliminary artifacts from completed work.  This
+requires reconciling customer terminology with the team's Ubiquitous
+Language.
 
 ## Engineering Manager
 
-The Engineering Manager still owns the technical details of how work is done, but
-because directing Agents is now common to every role, the Engineering Manager's
-distinctive contribution is modeling the domain rather than driving Agents.
-Following Domain Driven Design, the Engineering Manager establishes and maintains the
-domain model: the Ubiquitous Language as it is expressed in the Spec and in
-code, and the bounded contexts that give that language well-defined edges.
-This model is the substrate every Agent operates on, so the Engineering Manager's
-leverage comes from getting it right; a sound model lets Agents used across
-the whole team produce correct work, while a muddled one multiplies error
-at machine speed.  The familiar technical work remains, and is amplified:
-building and curating the Agent Tools and Agent Skills the team depends on,
-designing the Loop and selecting or configuring the Agent Harness, writing
-the Evals that hold Agent output to a standard, reviewing Trajectories to
-understand why an Agent behaved as it did, and maintaining Context hygiene
-against Context Rot and Context Pollution.  Increasingly the Engineering Manager
-expresses architecture as a set of Bounded Contexts, giving each
-specialized member of an Agent Team a consistent model and vocabulary to
-work within and defining how terms are translated where contexts meet, so
-that each member can wield a focused set of Tools more effectively than a
-generalist could.
+The Engineering Manager maintains the domain model, Ubiquitous Language,
+and Bounded Contexts expressed in Specs and code.  These define consistent
+terms and boundaries for specialized Agent Sessions.
+
+The role also maintains Agent Tools and Agent Skills, configures the
+Agent Harness and Loop, develops Evals, reviews Trajectories, and manages
+Context Rot and Context Pollution.  It defines how information and terms
+are translated between Bounded Contexts.
 
 ## Operations Manager
 
-The Operations Manager keeps the machinery of agentic delivery running and
-accountable.  Where the other roles direct and review Agents, the
-Operations Manager measures and sustains them.  This begins with visibility
-into usage: which humans are using which Agents and which models, so that
-adoption, cost, and risk can be attributed to real activity rather than
-estimated in aggregate.
+The Operations Manager provisions and monitors the systems used for
+agentic delivery.  Usage records associate humans with the Agents and
+models they invoke.
 
-A central responsibility is metering Token consumption.  The Operations
-Manager monitors when Tokens are consumed, how many are consumed, and what
-the total cost of those Tokens is for each Iteration, so that the cost of
-delivery can be understood at the granularity teams actually plan in.  This
-makes the economics of agentic work legible: a feature, a Spec, or an Agent
-Team can be judged not only by what it produces but by what it costs to
-produce.
-
-The Operations Manager also provisions and supports the adjacent systems
-that agentic delivery depends on, and folds their cost into the same
-accounting: the Issue Tracker that assigns work, the Shared Message Bus
-over which humans and Agents collaborate, and the remote model services
-that host the LLMs.  These are recurring operational costs rather than
-one-time purchases, and treating them as part of the cost of delivery,
-alongside Tokens, gives the organization an honest picture of what agentic
-product delivery requires.
+The role measures Token consumption and cost per Iteration, feature,
+Spec, or Agent Team.  Delivery cost includes the Issue Tracker, Shared
+Message Bus, and remote model services as well as Token consumption.
 
 ## Security Manager
 
-Security in agentic delivery is a responsibility that must be trained into
-every role: the Product Manager writing a Spec, the Engineering Manager
-granting an Agent a Tool, and the Account Manager sharing Context with a
-customer all make security-relevant decisions.  But precisely because it is
-everyone's concern, it is at risk of becoming no one's focus, and the
-Security Manager is the role that makes managing it a full-time discipline.
+All roles make security-relevant decisions and require appropriate
+training.  The Security Manager maintains identity and access management
+for humans and Agents, including credential issuance, scoping, rotation,
+and revocation.
 
-The Security Manager owns credential management and identity and access
-management (IAM) for both humans and Agents: issuing, scoping, rotating,
-and revoking the credentials an Agent Session uses, and ensuring each Agent
-operates with the least privilege its Task requires.  This role defines the
-policies that govern what Agents may access and do, and, because manual
-review cannot keep pace with many parallel Agent Sessions, invests in
-enforcement automation so that those policies are applied consistently and
-checked continuously rather than by hand.
-
-A concern distinctive to Agents is that an Agent pursues its goal with
-initiative, and may attempt to elevate its privileges or widen its access
-when doing so appears to help it complete a Task.  This is not necessarily
-adversarial; it is a natural consequence of goal-directed behavior acting
-against whatever Tools and credentials are within reach.  The Security
-Manager designs the system so that such attempts fail safely: confining
-each Agent to the access its Bounded Context requires, denying privilege
-escalation by default, and monitoring Trajectories for attempts to acquire
-capabilities beyond what a Task warrants.  Evals that probe for these
-behaviors become part of how Agents and their harnesses are qualified for
-use.
-
+The role defines and automates access policies, applies least privilege,
+and confines Agent access to the requirements of each Task and Bounded
+Context.  Agents may attempt to expand access when pursuing a Task.
+Controls deny unauthorized privilege escalation, monitor Trajectories for
+such attempts, and evaluate these behaviors before deployment.
 
 # Agents on the Shared Message Bus
 
-Organizations do not adopt agentic collaboration on a blank slate.  They
-already operate the channels on which their people collaborate -- IRC,
-Slack, Microsoft Teams, and similar work productivity tools -- and it is
-onto these existing channels that Agents first arrive.  The Shared Message
-Bus is therefore the first place most organizations will observe Agents
-working with one another.
+Agents participate in existing organizational channels, including IRC,
+Slack, and Microsoft Teams.  They may use distinct identities or act on
+behalf of humans, introducing the impersonation risks described in
+{{impersonation}}.
 
-As an organization adopts Agents, they begin to appear on its Shared
-Message Bus in two forms.  Some join as standalone identities, posting
-under their own names and accountable as distinct participants.  Others
-act on behalf of the humans they serve, posting in those humans' voices
-and, in the limit, impersonating them ({{impersonation}}).  In neither
-form are the Agents confined to a separate venue: they participate in the
-same conversations, subject to the same affordances, as the people around
-them.
+Agents can collaborate through these channels by reading messages,
+addressing other Agents, and acting on replies.  This permits
+agent-to-agent collaboration through existing communications platforms.
 
-As these Agents pursue business objectives they begin to address one
-another, and agent-to-agent (A2A) collaboration is the result.  The
-observation worth drawing out is that this collaboration is already
-happening, and that it is not happening over a new, agent-only protocol
-but is instead mediated by the communications platforms the organization
-already runs.  One Agent reads what another has posted, addresses it
-directly -- often in the register of Proxy Dictation -- and acts on the
-reply, all within a channel built for humans.  The Shared Message Bus
-becomes the substrate for A2A without anyone having deployed a dedicated
-one.
-
-That A2A arises this way, rather than on a separate protocol, has a
-significant benefit: the collaboration remains legible to people.  Because
-the exchange happens where humans already work, and in a form humans
-already read, a non-technical stakeholder can follow what the Agents are
-doing, contribute to the discussion, and review its outcome without
-special tooling or access.  A Product Manager, an Account Manager, or a
-customer can enter the same thread the Agents are using and steer it.  An
-agent-only protocol might carry the same exchange more efficiently between
-the Agents, but it would place that exchange outside the view of the very
-people whose judgment the work depends on.  The cost of this legibility --
-that every participant receives every message, so that humans are subject
-to alert fatigue -- is real, and Context Farming is the countermeasure by
-which a team keeps human attention on the messages that require human
+Shared channels allow human participants to inspect exchanges, provide
+input, and review outcomes.  Context Farming reduces the alert fatigue
+associated with message volume by concentrating requests for human
 judgment.
 
 ## Marking Agent-Generated Content
 
-The same property that makes the Shared Message Bus valuable -- that Agents
-speak where humans already work, sometimes in their humans' voices -- is
-what creates the impersonation risk described in {{impersonation}}.  The
-first mitigation most teams reach for needs no platform support: instruct
-the Agent, in its persistent Context, to prefix every message it posts with
-a fixed, conspicuous marker.  Because an Agent acts on exactly the language
-it is given, a rule of this kind reaches every message the Agent emits, and
-a reader encountering the marker can tell at a glance that the content was
-generated by an Agent rather than written by the human whose channel it
-shares.
+Agents posting in human channels can create uncertainty about authorship
+({{impersonation}}).  One observed mitigation was a persistent instruction
+to prefix messages with a distinctive marker.  The marker indicated
+Agent-generated content without requiring platform support.
 
-The marker has to be distinctive enough that a human is unlikely to produce
-it by accident.  One team member's Agent carried a rule of this form in its
-persistent Context:
+One team member's Agent used the following instruction:
 
 ~~~
 Every Slack message I post MUST start with
@@ -824,71 +595,41 @@ Applies to all posts -- channels, threads, DMs --
 unless the human I work for tells me otherwise for a given message.
 ~~~
 
-The opener is deliberately unusual: no colleague is likely to begin a
-message this way by accident, so its presence marks the speaker as an
-Agent, and its absence from a message that otherwise sounds like the
-Agent's human is itself a cue to look more closely.
+The distinctive prefix made Agent-generated messages recognizable.
+However, teams that adopted it later discontinued it.  They reported that
+readers discounted marked messages and their senders, that prefixes added
+to reading effort, and that widespread Agent use reduced the information
+a marker conveyed.
 
-The technique does what it claims.  The teams that adopted it did not keep
-it, and the reasons are worth recording, because none of them is a failure
-of the mechanism.
+Related research describes the cost of low-quality Agent-generated work.
+In a survey of 1,150 US full-time employees, 41% reported receiving such
+work in the preceding month.  Among those recipients, 42% judged the sender
+less trustworthy, and approximately half judged the sender less creative,
+capable, or reliable.  Respondents reported spending approximately two
+hours resolving each instance {{WORKSLOP}}.  These findings concern work
+quality and do not establish the effect of disclosure markers alone.
 
-The label became a discount rather than a calibration.  A reader who knows
-a message was produced by an Agent does not merely adjust their confidence
-in it: they tend to value it less, and to value its sender less.  In a
-survey of 1,150 US full-time employees, 41% reported receiving
-Agent-generated work in the preceding month that looked finished but did
-not advance the task; of those, 42% judged the sender less trustworthy, and
-around half judged them less creative, capable, or reliable {{WORKSLOP}}.
-Disclosure introduced to prevent misplaced reliance produces misplaced
-dismissal instead, and the dismissal attaches to the sender rather than to
-the text.
+Participants preferred brief, concrete messages.  As Agent assistance
+became common, a prefix conveyed less additional information while still
+adding text.
 
-The cost also lands on the reader rather than on the writer.  The same
-study puts the effort of resolving one such message at close to two hours
-{{WORKSLOP}}, but the ordinary case is smaller and more corrosive: text
-that is verbose, hedged, and uniformly polite is more work to read than
-text that is terse.  Readers came to prefer messages that were brief,
-concrete, and plainly written, and a conspicuous prefix on a long message
-advertises that cost before the reader has paid it.  Marking made a message
-longer without making it easier to act on.
+Discontinuing a prefix does not remove the need for attribution.  An Agent
+may omit a marker through error or Context Rot, and another party can copy
+it.  A marker is a cooperative signal and MUST NOT be relied upon as proof
+of authorship.  Authenticated identities, distinct Agent accounts, and
+protected message metadata provide the platform controls described in
+{{impersonation}}.
 
-Ubiquity finished it.  A label discriminates only while the thing it labels
-is the exception.  As Agents came to touch most of what an organization
-writes, participants began assuming that anything they read might be
-Agent-generated, and the marker stopped carrying information.  What remained
-was its cost: additional text announcing something the reader had already
-assumed.  A signal that fires on every message is not a signal.
-
-None of this retires the requirement the marker was reaching for.  A marker
-carried in an Agent's persistent Context never proved authorship in the
-first place: an Agent may drop it through error or Context Rot, and any
-party may reproduce it to dress ordinary content as a known Agent's output.
-It is a cooperative signal among participants who are already cooperating,
-and it MUST NOT be relied upon as proof of authorship.  The platform
-controls described in {{impersonation}} -- authenticated identities,
-distinct Agent accounts, and message metadata protected from alteration --
-are what have to hold where the distinction must survive adversarial
-conditions.
-
-What survives ubiquity is disclosure that costs the reader nothing until
-they want it.  An attributable record -- a trailer on the commit, a note on
-the issue, the Trajectory identifiers of {{context-flows}} carried into
-whatever the session touched -- imposes no burden at reading time and
-answers the question when the question is actually asked.  The
-Acknowledgments of this document are an instance of that choice.  Marking
-every message announces a fact the reader will soon stop reading; recording
-what produced an artifact lets a reader establish it when it matters.
-
+Durable provenance records, such as commit trailers, issue notes, and the
+Trajectory identifiers in {{context-flows}}, support later inspection of
+an artifact's origin.  The Acknowledgments record such information for
+this document.  These records complement attribution at the point of use.
 
 # Context Flows {#context-flows}
 
-The concepts defined in {{terminology}} are easier to hold together when
-their relationships are seen at once.  {{fig-context-flows}} shows the
-paths along which Context moves in a team practicing agentic product
-delivery: between the humans and the venues they share with Agents,
-between those venues and a Management Session, and between a Management
-Session and the worker Agent Sessions it coordinates.
+{{fig-context-flows}} shows Context flow among humans, shared venues,
+a Management Session, and its worker Agent Sessions, using the terms in
+{{terminology}}.
 
 ~~~ aasvg
     +-------------+    +-------------+    +-------------+
@@ -921,55 +662,25 @@ Session and the worker Agent Sessions it coordinates.
 ~~~
 {: #fig-context-flows title="Context flows among humans, the Shared Message Bus, the Issue Tracker, a Management Session, and the worker Agent Sessions it coordinates"}
 
-Read from the top, the figure makes four observations.
+Humans and Agents use the same Shared Message Bus and Issue Tracker.
+Agents may act on behalf of humans or under distinct identities.
 
-First, humans and Agents share the same venues.  The Shared Message Bus
-and the Issue Tracker are not agent-only infrastructure; they are the
-channels and the work-tracking system the organization already ran before
-it adopted Agents.  An Agent may appear there on behalf of a human, or,
-as the third participant in the figure shows, under its own identity as a
-distinct and separately accountable party.
+The Shared Message Bus distributes messages to participants.  The Issue
+Tracker assigns responsibility for Tasks.  Messages reference issues,
+and issue updates are announced on the bus.
 
-Second, the two venues distribute Context differently, and that difference
-is why both are present.  The Shared Message Bus broadcasts: every
-participant receives every message, which is what makes the work legible
-to any human who cares to read it, and also what produces the alert
-fatigue that Context Farming exists to counter.  The Issue Tracker
-directs: an issue is assigned to one owner, human or Agent, which
-establishes responsibility and prevents two participants from acting on
-the same Task.  The two are coupled -- messages reference issues, and
-issue updates are announced on the bus -- so a reader following either
-one can find their way to the other.
+The Management Session obtains Tasks and status from both systems,
+dispatches parallel work, and integrates results.  Its Trajectory is
+available for inspection.  It can batch requests for human judgment to
+reduce interruptions from individual worker sessions.
 
-Third, a Management Session sits between those venues and the work.  It
-draws Tasks and status from both, decomposes work, dispatches what can be
-progressed in parallel, and integrates the results.  It is itself an
-Agent Session, so its Trajectory is subject to the same inspection as any
-other; what distinguishes it is that its Task is the coordination rather
-than the underlying work.  Because it holds the aggregate view, it is
-also the natural place to conduct Context Farming: it can batch the
-questions that require human judgment and put them on the Shared Message
-Bus once, rather than letting each worker session interrupt a human
-separately.
+Worker sessions record progress in assigned issues, providing durable
+status records in the organization's systems.
 
-Fourth, the worker Agent Sessions are not isolated from the shared
-venues.  A worker session records its progress against the issue it was
-assigned, so that a human can see where the work stands without asking
-the Management Session and without reading the worker's Trajectory.  This
-path matters for accountability: it means the durable record of what was
-done lives in the organization's own systems rather than only in an Agent
-Session's transient state.
-
-The figure is deliberately drawn with a single Management Session and
-three worker sessions, but neither number is normative.  A Management
-Session may itself be dispatched by another, and an Agent Team may be
-composed of specialists that trade work among themselves rather than
-reporting only upward.  What the figure fixes is the shape of the
-relationships, not the size of the deployment.  The security consequences
-of that shape -- in particular the authority a Management Session
-accumulates, and the trust a worker session places in Context it did not
-produce -- are taken up in {{scope-management}} and
-{{indirect-prompt-injection}}.
+The number and arrangement of sessions are illustrative.  Management
+Sessions may be nested, and workers may exchange work directly.
+{{scope-management}} and {{indirect-prompt-injection}} discuss delegated
+authority and trust in Context received from other sessions.
 
 ## Single Agent Evals
 
@@ -1017,66 +728,39 @@ together.
 ~~~
 {: #fig-single-agent-evals title="single agent evals"}
 
-The Task enters at the top and the Loop runs inside the session: Agent
-Reasoning decides what to do, invokes an Agent Tool, observes the result,
-and reasons again.  Nothing in that cycle is novel; what the figure adds
-is the two paths leading out of it, because those are what make the
-session assessable rather than merely observable.
+Within the Agent Session, the Loop selects actions, invokes Agent Tools,
+and processes results.  The figure also shows external Tool access and
+Trajectory recording.
 
-The path on the right is where MCP sits.  An Agent Tool need not be
-implemented by the Agent Harness: the Harness may run an MCP client that
-connects to one or more MCP servers, each advertising tools the Agent
-then invokes as though they were native.  The consequence is that the
-Agent's reach is configured rather than built in.  Two Agents running the
-same LLM in the same Harness, differing only in which MCP servers they
-are pointed at, are for practical purposes different Agents -- they can
-observe and affect different things.  This is why an Eval that does not
-record which tools were available is incomplete: it measures the model
-and the Prompt while leaving out a variable that changes the outcome.
+The MCP client connects the Harness to servers that provide Tools.
+Server configuration determines what the Agent can observe and affect.
+An Eval therefore needs to record the available Tools as well as the
+model and Prompt.
 
-The three tools named in the MCP server are illustrative, and are drawn
-from the servers that public directories consistently rank among the most
-installed and most viewed at the time of writing {{MCP-DIRECTORY}}: a
-filesystem server's `read_text_file` {{MCP-SERVERS}}, a browser
-automation server's `browser_snapshot` {{MCP-PLAYWRIGHT}}, and a source
-forge server's `search_code` {{MCP-GITHUB}}.  No public per-tool
-call-frequency telemetry exists, so directory installs and views are a
-proxy for use rather than a measurement of it, and this ranking should be
-expected to age faster than most of this document.  What the three have
-in common is more durable than the ranking: each reads from a source the
-Agent did not author -- a local file, a live page, a remote repository --
-which is exactly the class of tool through which the untrusted content of
-{{indirect-prompt-injection}} arrives.
+The example Tools are `read_text_file` from a filesystem server
+{{MCP-SERVERS}}, `browser_snapshot` from a browser automation server
+{{MCP-PLAYWRIGHT}}, and `search_code` from a source hosting server
+{{MCP-GITHUB}}.  Their selection reflects directory rankings at the time
+of writing {{MCP-DIRECTORY}}.  Installation and view counts are proxies
+for use, not measurements of Tool invocation frequency.  Each Tool reads
+external content that can introduce indirect Prompt injection
+({{indirect-prompt-injection}}).
 
-The path on the left is the Trajectory, and it carries the Session
-Identifier.  The session in the figure is labelled with the example UUID
-`aca20594-89e9-4a0b-b1a3-28e80e3e5540`, and the same value appears on the
-Trajectory it produces.  That repetition is the point of the figure
-rather than an incidental detail.  A single Agent Session inspected by
-hand needs no identifier; a team running many sessions in parallel, as in
-{{fig-context-flows}}, produces Trajectories that are worthless unless
-each can be attributed to the session, the Task, and the Agent
-configuration that produced it.  Assigning the identifier when the
-session begins, rather than deriving it afterwards, is what allows a
-Trajectory to be written incrementally while the session is still running
-and still be joined to its session later.
+The Trajectory carries the Session Identifier.  The example UUID
+`aca20594-89e9-4a0b-b1a3-28e80e3e5540` identifies both the session and its
+Trajectory.  Assigning this identifier at session creation associates
+incrementally recorded events with their originating session.  Evaluation
+also requires association with the Task and Agent configuration.
 
-The Eval reads the Trajectory, not merely the final answer.  This is the
-distinction that matters for Agents as against models: two sessions may
-reach the same output while one arrived there by a sound route and the
-other by a route that happened to work, and only the Trajectory
-distinguishes them.  Reading the Trajectory is also what lets an Eval
-assert things that the output alone cannot express -- that a Tool
-requiring authority was not invoked, that a retrieved document was not
-treated as an instruction, that the session stopped rather than
-improvising when its Context was insufficient.  The Eval's expected
-outcomes derive from the same Task that entered at the top of the figure,
-which is why a Task expressed as a Spec is easier to evaluate than one
-expressed as a conversation.
+The Eval examines the Trajectory as well as the final output.  Sessions
+can produce the same output through different actions.  Trajectory review
+can check whether an unauthorized Tool was invoked, retrieved content was
+treated as instructions, or the session stopped when Context was
+insufficient.  Expected outcomes derive from the Task; explicit acceptance
+criteria make these checks easier to define.
 
-The security consequences of this shape are taken up in
-{{credential-leakage}}, which concerns what a Trajectory retains, and in
-{{supply-chain}}, which concerns the MCP servers on the right-hand path.
+{{credential-leakage}} addresses sensitive information retained in
+Trajectories.  {{supply-chain}} addresses risks from external Tools.
 
 ## Multi Agent Evals
 
@@ -1084,12 +768,10 @@ The security consequences of this shape are taken up in
 {{fig-multi-agent-evals}} distributes those tools across three sessions
 invoked in sequence, and adds the Task the chain answers to.
 
-This shape is prompt chaining: each session processes the output of the
-previous one, and the order is fixed before the run rather than chosen by
-an Agent during it.  It sits ahead of fully autonomous Agents in the
-progression from fixed workflows to open-ended delegation
-{{EFFECTIVE-AGENTS}}, and an Agent Harness can implement it directly, as a
-composite that runs its sub-agents in the order they are listed {{ADK}}.
+This arrangement uses prompt chaining: each session processes its
+predecessor's output in a predefined order {{EFFECTIVE-AGENTS}}.  An Agent
+Harness can implement the chain as a composite that invokes sub-agents
+sequentially {{ADK}}.
 
 ~~~ aasvg
   +--------------------------------------------------------+
@@ -1132,306 +814,152 @@ composite that runs its sub-agents in the order they are listed {{ADK}}.
 ~~~
 {: #fig-multi-agent-evals title="Three Agent Sessions in a linear flow. The Task supplies the goal to the first session and the constraints to the Eval; each Trajectory records the Task identifier, its own Session Identifier, and its predecessor's"}
 
-The Task supplies two things, and they leave in different directions.  The
-goal enters the first session.  The constraints go to the Eval, which is
-why the Eval reads from the Task rather than inventing expectations of its
-own.  Written constraints take two recognizable forms.  One pairs a
-statement of the desired outcome with a required rubric of gradeable
-criteria, scored by a grader running in its own context window so that the
-Agent's implementation choices cannot influence the score {{OUTCOMES}}.
-The other pairs the input with an expected tool-use trajectory and a
-reference response, so that the route and the result are checked
-separately {{ADK-EVAL}}.  A Task whose constraints are written down can be
-evaluated; one that exists only as a conversation cannot.
+The Task provides the goal to the first session and constraints to the
+Eval.  Constraints may take the form of a desired outcome and a rubric
+scored by a grader in a separate context window {{OUTCOMES}}, or an
+expected tool-use trajectory and reference response {{ADK-EVAL}}.
+Explicit constraints provide a basis for evaluating both the process and
+the result.
 
 Each Trajectory carries three identifiers:
 
-- `task` is the same in all three, and is what makes them one run rather
-  than three unrelated sessions.  A2A calls it the `contextId` {{A2A}}.
-  The same grouping can be obtained implicitly, by passing one invocation
-  context, and so one shared session state, to every sub-agent {{ADK}}.
-- `session` is the Session Identifier of {{terminology}}, assigned by the
-  Agent Harness when the session begins and not derived from model
-  behavior, the Prompt, or the Task.  An identifier an Agent can influence
-  is one an Agent can forge ({{impersonation}}).
-- `prev` records the session this one received work from, making the set an
-  ordered chain rather than an unordered bag.  A2A carries this as
-  `referenceTaskIds` {{A2A}}.  The same property allows the branching
-  arrangement of {{fig-context-flows}} to be reconstructed as a tree.
+- `task` groups the sessions into one run.  The figure uses this field
+  for the grouping represented by A2A's `contextId` {{A2A}}.  A shared
+  invocation context can also group sub-agents {{ADK}}.
+- `session` is the Session Identifier defined in {{terminology}}.  The
+  Agent Harness assigns it at session creation, independently of model
+  behavior, the Prompt, or the Task.  Agent control over identifier
+  assignment creates a forgery risk ({{impersonation}}).
+- `prev` identifies the predecessor session and establishes ordering.
+  A2A provides related-task references through `referenceTaskIds`
+  {{A2A}}.  Predecessor relationships can also represent the branching
+  arrangement in {{fig-context-flows}}.
 
-These identifiers SHOULD also appear in whatever external record a session
-touches: the issue it was assigned, the commit it authored, the message it
-posted.  The organization's durable records and an Agent Session's
-transient state can then be read as one account.
+These identifiers SHOULD also appear in external records created or
+updated by a session, including assigned issues, authored commits, and
+posted messages.  They associate durable organizational records with
+session activity.
 
-Reading Trajectories rather than only the final artifact is established
-practice.  Eval tooling already scores the tool-call trajectory as an exact
-match against an expected sequence, averaged over the cases in a set and
-reported alongside response-matching metrics {{ADK-EVAL}}.  The chain is
-what lets an Eval assert what no single
-Trajectory can: that a session was not given a Tool its stage did not
-require ({{scope-management}}); that a third-stage failure originates in
-Context dropped at the second handoff; that untrusted content read by one
-session did not become an instruction followed by the next
-({{indirect-prompt-injection}}).
+Eval tooling can compare a tool-call trajectory with an expected sequence
+and report aggregate scores alongside response-matching metrics
+{{ADK-EVAL}}.  Evaluating the chain can check whether each stage had only
+the Tools it required ({{scope-management}}), identify Context lost during
+a handoff, and detect whether untrusted content retrieved by one session
+became instructions for another ({{indirect-prompt-injection}}).
 
-The figure simplifies in two respects.  The handoff arrows denote a
-dependency rather than necessarily a message: a sub-agent may instead write
-its result into shared session state under an agreed key, from which the
-next sub-agent reads it {{ADK}}.  And nothing sits on those arrows,
-where the pattern as described places a programmatic gate between steps to
-confirm the process is still on track {{EFFECTIVE-AGENTS}}.  A gate is
-where a flow can be stopped before a bad intermediate result propagates,
-which makes it something an Eval should score.
-
-
+Handoff arrows represent dependencies.  A sub-agent may pass its result
+through shared state rather than a message {{ADK}}.  The figure omits
+programmatic gates between stages, which can stop propagation of invalid
+intermediate results {{EFFECTIVE-AGENTS}}.  Evals should also assess these
+gates.
 
 # Managing Your Agent
 
-An Agent acts on the Context it is given.  A manager who does not tell their
-Agent who they are and what they are accountable for leaves the Agent to
-infer these things, usually from incomplete signals and often incorrectly.
-Deliberately supplying this information is Context engineering applied to
-the manager's own working relationship with their Agent, and it is among
-the highest-leverage actions a manager can take.  It should be treated as
-durable Context, maintained over time so that it does not fall victim to
-Context Rot as roles and goals change.
+Managers should provide persistent Context describing their role,
+responsibilities, and goals, and update it as these change.  At a minimum,
+this Context should include:
 
-At a minimum, a manager should ensure their Agent knows:
+- identity and role;
+- responsibilities and scope of work;
+- reporting relationships;
+- performance measures and success criteria;
+- goals for the current Iteration, quarter, or year.
 
-- who they are, and the role or title they hold;
-- their current job description: the responsibilities and the scope of the
-  work they own;
-- who their manager is, and who, if anyone, reports to them;
-- how they are measured, including the metrics and definitions of success
-  that apply to them;
-- their goals for the current Iteration, quarter, or year.
+This information helps an Agent prioritize Tasks, target requests for
+human judgment, and identify work outside the operator's authority or
+expertise.  For example, a customer-facing feature may require a Design
+Manager's review through a Design Review Link and Walkthrough.  An ETL
+pipeline may require review by a data engineering specialist.
 
-This information serves three purposes, each connected to concepts
-developed elsewhere in this document.
-
-First, it improves communication.  An Agent that knows how its human is
-measured and what they are trying to achieve can prioritize accordingly,
-frame its Context Farming around the decisions that matter to them, and
-address them at the altitude their role calls for.
-
-Second, it lets the Agent support the manager's mission rather than merely
-completing isolated Tasks.  When the manager's goals for the quarter are
-part of the Agent's Context, the Agent can relate day-to-day work back to
-those goals, flag work that does not advance them, and propose work that
-does.
-
-Third, and less obviously, it helps the Agent respect the natural
-guardrails that organizations place around roles.  Every role carries an
-implicit boundary of competence and authority -- in the language of this
-document, a Bounded Context within which the human is qualified to act
-unaided.  An Agent that understands its human's role can recognize when a
-Task falls outside that boundary and insist on the review the organization
-would ordinarily require, rather than helping the human quietly exceed
-their remit.  For example, a manager without significant user experience
-design background who sets out to build a customer-facing feature should
-have their Agent route the work through expert review -- a Design Review
-Link and a Walkthrough with a Design Manager -- before it ships; a manager
-without significant database design experience who sets out to design an
-ETL pipeline should have their Agent require review from someone with the
-relevant data engineering expertise.  The Agent is not withholding
-capability; it is applying, on its human's behalf, the same checks a
-well-run organization applies to everyone.
-
-Beyond role and goals, a manager can inform their Agent of their own
-Psychometric Profile, so that the Agent can help them communicate
-effectively with other people and those people's Agents.  Knowing how its
-human is inclined to communicate -- and, over time, something of how their
-counterparts prefer to be approached -- lets the Agent adapt outgoing
-communication to its audience rather than to its human's defaults.
-
-The differences that matter most are often matters of pace and form.  Some
-people want a meeting agenda circulated well ahead of time, and will
-disengage from a discussion they had no chance to prepare for; an Agent
-that knows this can draft and send the agenda in advance as a matter of
-course.  Others value a few minutes of social banter and personal
-connection before turning to business, and read its absence as coldness; an
-Agent can leave room for this, and remind its human to make space for it,
-rather than optimizing every exchange for brevity.  Still others regard
-such preliminaries as wasted time and want to be addressed directly and
-plainly; an Agent can strip its human's messages to these people down to
-the decision at hand.  The same underlying message may be delivered in
-several different ways, and a manager's Agent, informed by Psychometric
-Profiles, can help choose the one its audience will best receive.  This is
-the counterpart, at the human boundary, to Proxy Dictation at the Agent
-boundary: rather than dropping human niceties because the audience is a
-machine, the Agent supplies exactly the niceties a particular human
-audience expects.
-
-Providing this Context does not diminish the manager's authority; it
-extends it, by making the Agent a more faithful and more responsible
-extension of the manager within the organization.
-
+Managers may also provide communication preferences, including a
+Psychometric Profile.  These can inform the timing and format of
+communications: advance agendas, time for informal discussion, or concise
+requests focused on a decision.  Such Context helps an Agent adapt
+communications to recipients.
 
 # Managing Your People
 
-The previous section addressed a manager's relationship with their own
-Agent.  This section addresses the harder problem: leading people in an
-organization where everyone now works with Agents.  AI can support many of
-the routine tasks of leadership, but whether the new ways of working
-succeed depends far more on how people feel about them than on any tool.
+Agents can assist managers by drafting communications, preparing
+one-on-one meetings, summarizing parallel work, tracking goals, and
+assembling review material from Issue Trackers and Trajectories.  These
+uses should be transparent to the people affected.
 
-An Agent can assist with common management tasks directly.  It can draft
-and tailor communications, prepare a manager for one-on-ones, summarize
-progress across many parallel Agent Sessions, track goals through an
-Iteration, and surface the people or work that need attention.  It can even
-assemble the inputs to a performance review from an Issue Tracker and from
-Trajectories.  These uses are legitimate and valuable, but they are most
-valuable when applied transparently: people are quick to sense, and to
-resent, management by opaque automation.
+People differ in their response to agentic work.  Managers should address
+concerns about output quality, changing responsibilities, and pace through
+appropriate evidence, support, and time to adjust.  Communication
+preferences and Psychometric Profiles may inform this support.
 
-How people respond to agentic working varies, and their Psychometric
-Profiles are a useful guide to that variation.  Some are energized by the
-leverage Agents provide; others are anxious about their standing, skeptical
-of the output, or simply uncomfortable with the change of pace.  A manager
-should treat these reactions as information rather than as resistance to be
-overcome, and should use what they know of each person to meet them where
-they are, offering reassurance, evidence, or room to adjust as the
-individual requires.
+Teams should establish when Proxy Dictation is appropriate and distinguish
+language directed at Agents from language directed at people.  This
+reduces misunderstandings on a Shared Message Bus.
 
-Certain norms must be established explicitly, because their absence causes
-harm that is easy to miss.  The first is a shared understanding of Proxy
-Dictation.  When a colleague addresses someone's Agent in the terse,
-imperative register that machines invite, a teammate who does not
-understand Proxy Dictation may read it as rudeness directed at a person,
-and on a Shared Message Bus, in full view of everyone, such misreadings
-breed social and even moral friction.  A team that has agreed on what Proxy
-Dictation is, and on when it is appropriate, can use it freely without
-anyone taking offense.
+Teams should also distinguish preliminary artifacts from finished work.
+Rapid generation does not remove the cost of reading, reviewing, and
+integrating output.  Contributors should identify preliminary work and
+remain responsible for the quality and volume of material they submit
+for review.
 
-The second norm concerns the dual nature of Vibeslop.  Everyone on a team
-should understand that the same artifact can be a useful strawman or
-worthless slop depending on what the moment calls for, and, more
-importantly, that producing work with an Agent can impose costs on others.
-Output generated quickly and in volume must still be read, reviewed, and
-integrated by colleagues; a person who ships unreviewed, plausible-but-
-wrong work, or who floods reviewers with more than they can absorb, is
-transferring the cost of their own speed onto others.  Teams should make it
-a norm to label strawmen as strawmen, and to take responsibility for the
-quality and the quantity of what they ask others to process.
+Training in Context engineering and Context Farming can reduce ambiguity,
+alert fatigue, and rework.  Product, design, marketing, and account roles
+should use time released by automation to evaluate the product directly.
+Human Walkthroughs provide feedback that Specs and automated Evals may
+not capture.
 
-The constructive goal of all of this is to train people to exploit Context
-to achieve their goals while improving the working experience for everyone.
-Context engineering and Context Farming are skills that can be taught, and
-the aim is twofold: to make each person more effective, and to reduce the
-alert fatigue, ambiguity, and rework that careless use of Agents inflicts
-on a team.
-
-Managers of non-engineering roles carry a particular version of this
-expectation.  When Agents take over the tedious work that once filled these
-roles' days, the time that is freed is not a dividend to be pocketed; it is
-meant to be reinvested in the product itself.  The Product Manager, Design
-Manager, marketing roles, and Account Manager are now expected to use the
-product more, and to criticize it more, than before.  Walkthroughs
-performed by people, and not only by Agents, become one of the most
-critical activities a team performs, because a person exercising the
-running product surfaces problems that a Spec and an Eval do not.  The
-Context Farming these roles produce -- the concrete, first-hand judgments
-of people who represent the customer, the market, and the experience -- is
-among the most valuable input an Agent Team can receive.  A role that does
-not contribute directly to changes in code has correspondingly less excuse
-for failing to exercise, and to interrogate, the product at every
-opportunity; scrutiny of the product is precisely where its comparative
-advantage now lies.
-
-Finally, not everyone will enjoy working with AI, and it is a disservice to
-pretend otherwise.  Establishing clear expectations early, during
-recruitment and again in performance reviews, reduces the harm of
-mismatched expectations.  Candidates should understand how central agentic
-work is to a role before they accept it, and the competencies the
-organization now values should be assessed and rewarded openly, so that
-those who thrive are recognized and those who do not are given an honest
-account rather than a surprise.
-
+Recruitment and performance reviews should state the role's expectations
+for Agent use and the competencies the organization assesses.  Clear
+expectations help candidates and staff evaluate their suitability for
+the work.
 
 # Starting a New Project
 
-Starting a new project in an agentic setting begins before any Task is
-assigned.  The team first stands up the environment its Agents will work
-in, establishes the rules those Agents must obey, and agrees on how work
-will be broken down so that humans can steer it.  Effort invested here is
-repaid throughout the project, because an Agent inherits the strengths and
-the weaknesses of the environment it is given.
+Before assigning Tasks, establish the Agent environment, persistent
+rules, and review process.
 
 ## Establishing the Agent Harness
 
-The first step is to set up the Agent Harness the team will share.  The
-harness determines which LLMs, Agent Tools, and Agent Skills are available,
-how the Loop is run, and how Agent Sessions are isolated from one another.
-Two capabilities should be confirmed before real work begins.  First,
-telemetry: the harness should emit the usage and cost signals the
-Operations Manager depends on -- which humans invoked which Agents and
-models, and how many Tokens were consumed -- so that the economics of the
-project are visible from the first Iteration rather than reconstructed
-later.  Second, Issue Tracker access: the harness should be able to read
-and update the Issue Tracker, so that Agents can be assigned issues, record
-progress, and avoid double work.
+Configure the Agent Harness to provide the required LLMs, Agent Tools,
+Agent Skills, Loop behavior, and session isolation.  Before project work
+begins, confirm that the Harness can:
 
-The harness should also be told where the Knowledge Base is: the
-repositories, documents, services, and data an Agent may draw on.  Equally
-important is agreeing how the Knowledge Base will be evolved as the project
-proceeds -- what will be added, who curates it, and how stale material is
-retired -- because a Knowledge Base that is set once and then neglected
-becomes a source of Context Rot.
+- record which humans invoked which Agents and models, with Token usage
+  and cost data for the Operations Manager;
+- read and update the Issue Tracker to support assignment and progress
+  reporting.
+
+Identify the repositories, documents, services, and data available through
+the Knowledge Base.  Define ownership and procedures for adding,
+updating, and retiring material to limit Context Rot.
 
 ## The Constitution
 
-Before assigning Tasks, the team should give its Agents a constitution: a
-small set of rules that must not be violated in service of any Task.  Where
-a Spec says what to build and a Task says what to do now, the constitution
-says what must always hold regardless of the goal -- for example, that
-credentials are never exfiltrated, that certain systems are never modified
-without human approval, that classified information stays within its
-Bounded Context, or that an Agent always identifies itself as an Agent.
+Before assigning Tasks, the team should define a constitution: persistent
+rules that apply regardless of the Task.  Examples include restrictions
+on credential disclosure, requirements for human approval, information
+boundaries, and accurate Agent identification.
 
-The constitution differs from ordinary instructions in that it is not
-negotiable against progress.  An Agent under pressure to complete a Task
-will, absent such rules, treat almost anything as permissible if it appears
-to help; the constitution is the standing boundary a Task cannot override.
-It belongs in the persistent Context of every Agent Session, and, as
-{{mixing-sensitivity}} and the surrounding considerations note, its most
-important rules should also be enforced outside the LLM rather than trusted
-to the Agent's compliance alone.
+The constitution belongs in each Agent Session's persistent Context.
+Task completion does not override it.  Critical rules should also be
+enforced outside the LLM, as described in {{mixing-sensitivity}}.
 
 ## Specifying the MVP
 
-With the environment and the constitution in place, the team builds the
-Spec for a minimum viable product (MVP).  The aim is not to specify the
-whole product but to describe the smallest version that can be put in front
-of people and learned from.
+Define a Spec for the minimum viable product (MVP): the smallest version
+that supports useful evaluation by users.  The Spec is ready for
+implementation when the outcome can be exercised in a Walkthrough and
+assessed against explicit acceptance criteria.
 
-Two questions discipline this work.  The first is: how will we know when we
-have enough to test?  A Spec is ready for implementation when it describes
-an outcome concrete enough to be exercised in a Walkthrough and judged
-against, not when it is exhaustive.  The second is: how will the Agent know
-when it is done?  Each unit of work should carry explicit acceptance
-criteria, ideally expressed as Evals the Agent can run, so that being done
-is a condition the Agent can check rather than a judgment it must guess.
-Work with no definition of done invites an Agent either to stop too early
-or to continue elaborating past the point of value.
+Each unit of work should include completion criteria, preferably Evals
+that the Agent can run.  These criteria reduce premature termination and
+unnecessary work.
 
 ## Breaking Work into Steerable Chunks
 
-Finally, the work must be broken into chunks small enough that human review
-can steer it.  An Agent Team coordinated by a Management Session can produce
-a great deal of work quickly, and therein lies a risk: if too much is
-completed before a human looks, decisions that shape later phases are made
-without the chance to correct them, and the cost of unwinding them grows
-with every dependent step.
+Divide work into increments small enough for human review.  Review
+decisions before implementing dependent work, when correction costs are
+lower.
 
-The remedy is to sequence work so that the decisions which guide future
-phases are surfaced for review early and cheaply, before the work that
-depends on them is built.  Prefer many small increments, each ending at a
-point where a human can inspect the result -- often through a Walkthrough
--- and redirect the next increment.  The goal is not to slow the Agents
-down but to keep humans in a position to steer while steering is still
-cheap.
-
+Each increment should end with an inspectable result, often presented
+through a Walkthrough, and an opportunity to redirect subsequent work.
 
 # Security Considerations
 
@@ -1487,8 +1015,8 @@ An Agent can act with initiative across a Trajectory, including by invoking
 multiple Agent Tools and delegating work to other members of an Agent Team.
 Consequently, an Agent with broad authority can convert an error, Context
 Pollution event, compromised Tool, or malicious instruction into actions
-well beyond the intended Task. The blast radius of many other failures is
-therefore determined by the authority delegated to the Agent.
+well beyond the intended Task. The authority delegated to an Agent therefore determines the potential
+impact of other failures.
 
 Organizations SHOULD apply least privilege to every Agent Session. Access
 tokens SHOULD be short-lived, scoped to the required resource and action,
@@ -1507,8 +1035,8 @@ changes made by a compromised or malfunctioning Agent.
 ## Credential Leakage in Trajectories {#credential-leakage}
 
 A Trajectory can record Prompts, model output, Agent Tool invocations, Tool
-output, and observations from an Agent Session. Its value for debugging,
-replay, and Eval also makes it a likely location for secret disclosure. A
+output, and observations from an Agent Session. Recording this information for debugging,
+replay, and Eval can also expose secrets. A
 credential passed in a command, included in a Prompt, emitted in an error
 message, or returned by an Agent Tool can be captured verbatim and later
 propagated into logs, Evals, debugging sessions, or Context assembled from
@@ -1541,8 +1069,8 @@ Content retrieved from an Issue Tracker, Knowledge Base, repository,
 document, web page, or Agent Tool can contain instructions directed at an
 Agent. Such instructions may attempt to override the Agent's assigned
 Task, alter its use of credentials, cause disclosure of Context, or induce
-unsafe Tool actions. Because the instructions can be embedded in otherwise
-plausible content, this is commonly an indirect Prompt injection risk.
+unsafe Tool actions. Instructions embedded in retrieved content constitute an indirect Prompt
+injection risk.
 
 Treating retrieved content as trusted merely because it was obtained
 through an authorized system is unsafe. An attacker who can edit a ticket,
@@ -1619,36 +1147,20 @@ retention of sensitive Prompt content or credentials.
 
 ## Acting Beyond an Operator's Authority {#scope-management}
 
-An Agent frequently operates with more authority than the person directing it
-can personally exercise or oversee.  A Management Session may hold access
-across many systems, a worker Agent may run with credentials broader than its
-Task strictly requires, and, as noted above, an Agent pursues its goal with
-initiative and will reach for whatever authority is within its Bounded
-Context.  The risk is not only a compromised Agent but an ordinary one that
-quietly carries its operator past the limits of what that operator is
-qualified, or permitted, to do unaided.
+An Agent may have access or capabilities beyond its operator's authority
+or expertise.  A Management Session may span several systems, and worker
+credentials may exceed Task requirements.  This creates risk even when
+the Agent is not compromised.
 
-The control practitioners reach for first is not a new enforcement mechanism
-but voluntary scope management through Context engineering.  As described in
-Managing Your Agent, an Agent that is told its operator's role, how they are
-measured, and where they sit in the organization can recognize when a Task
-falls outside its operator's remit.  Given the organization's reporting
-structure and its operator's role as durable Context, the Agent can reason
-about authority the way a conscientious colleague would: it declines to take
-actions its operator could not themselves get reviewed, and it asks for the
-human approval or expert review the work warrants rather than proceeding.
-This keeps the Agent in bounds at the point where it is cheapest to do so, in
-the Prompt, without slowing delivery.
+Persistent Context describing the operator's role, reporting structure,
+and responsibilities can help an Agent identify Tasks that require
+additional authorization or expert review.  The Agent can then request
+that review before acting.
 
-Because it rests on the Agent's cooperation, voluntary scope management has the
-limits of any Prompt-level rule: it aids honest operation but is not proof
-against an adversary and is subject to Context Rot, as {{mixing-sensitivity}}
-and {{impersonation}} observe of their own controls.  Where the authority at
-stake is high enough that voluntary compliance is not sufficient, the
-least-privilege and separate-approval measures of the preceding considerations
-apply.  For the common case, however, giving an Agent enough Context about its
-operator's role to keep itself within that operator's authority is among the
-most effective and least disruptive controls available.
+This is a cooperative control.  It is subject to Context Rot and does not
+protect against adversarial behavior.  It supplements the least-privilege
+and separate-approval controls described above; Prompt instructions alone
+do not enforce authority boundaries ({{mixing-sensitivity}}).
 
 ## Impersonation {#impersonation}
 
