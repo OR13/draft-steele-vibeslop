@@ -1528,42 +1528,62 @@ different capabilities and behavior; a Management Session and the
 worker sessions it coordinates may each run in their own harness.<a href="#section-2-2.46.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.47">Trajectory:</dt>
+<dt id="section-2-2.47">Hook:</dt>
         <dd style="margin-left: 1.5em" id="section-2-2.48">
-          <p id="section-2-2.48.1">The ordered sequence of inputs, model outputs, tool invocations, and
+          <p id="section-2-2.48.1">A configured callback that an Agent Harness runs at a defined point in
+an Agent Session, such as before or after an Agent Tool invocation.
+Hooks can inspect events, record activity, or apply policy checks.
+A Hook can prevent an action only when the Harness invokes it before
+the action and enforces its decision; a notification or logging Hook
+alone does not enforce an authority boundary.<a href="#section-2-2.48.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.49">Sandboxing:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.50">
+          <p id="section-2-2.50.1">Restricting an Agent's execution environment through controls enforced
+outside the LLM, such as operating-system or container restrictions on
+filesystem access, network access, and process execution. Sandboxing
+limits the resources and effects available to the Agent and its Tools,
+including when the Agent follows an unsafe instruction. Its protection
+depends on the configured boundaries and which actions they cover.<a href="#section-2-2.50.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.51">Trajectory:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.52">
+          <p id="section-2-2.52.1">The ordered sequence of inputs, model outputs, tool invocations, and
 observations produced while an Agent works toward a goal. A Trajectory
 is the primary record used to inspect, replay, or evaluate an Agent's
-behavior.<a href="#section-2-2.48.1" class="pilcrow">¶</a></p>
+behavior.<a href="#section-2-2.52.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.49">Eval:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.50">
-          <p id="section-2-2.50.1">A repeatable procedure for measuring the behavior of an LLM or Agent
+<dt id="section-2-2.53">Eval:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.54">
+          <p id="section-2-2.54.1">A repeatable procedure for measuring the behavior of an LLM or Agent
 against a defined set of inputs and expected outcomes. Evals are used
 to assess quality, detect regressions, and compare alternative models
-or Agent configurations.<a href="#section-2-2.50.1" class="pilcrow">¶</a></p>
+or Agent configurations.<a href="#section-2-2.54.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.51">Shared Message Bus:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.52">
-          <p id="section-2-2.52.1">A communications channel used by humans and Agents to collaborate on
+<dt id="section-2-2.55">Shared Message Bus:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.56">
+          <p id="section-2-2.56.1">A communications channel used by humans and Agents to collaborate on
 Tasks, such as IRC, Slack, or Microsoft Teams. Participants share
 messages in an existing organizational venue. Message volume can cause
 alert fatigue and reduce attention to decisions requiring human
-judgment.<a href="#section-2-2.52.1" class="pilcrow">¶</a></p>
+judgment.<a href="#section-2-2.56.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.53">Proxy Dictation:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.54">
-          <p id="section-2-2.54.1">A communication pattern in which a participant addresses another
+<dt id="section-2-2.57">Proxy Dictation:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.58">
+          <p id="section-2-2.58.1">A communication pattern in which a participant addresses another
 party's Agent using terse, imperative language. Human observers on a
 Shared Message Bus may interpret this language as discourteous even
-when it is directed only at the Agent.<a href="#section-2-2.54.1" class="pilcrow">¶</a></p>
+when it is directed only at the Agent.<a href="#section-2-2.58.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.55">Issue Tracker:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.56">
-          <p id="section-2-2.56.1">A system that records work to be done as a set of issues, each
+<dt id="section-2-2.59">Issue Tracker:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.60">
+          <p id="section-2-2.60.1">A system that records work to be done as a set of issues, each
 describing a Task and its status. Issues can be assigned to a specific
 person or Agent, which establishes ownership and prevents double work
 when several participants might otherwise act on the same Task.
@@ -1571,33 +1591,33 @@ Whereas a Shared Message Bus broadcasts every message to every
 participant, an Issue Tracker directs work to an assigned owner; the
 two are often used together, with Shared Message Bus messages
 referencing issues and updates to issues announced on the Shared
-Message Bus.<a href="#section-2-2.56.1" class="pilcrow">¶</a></p>
+Message Bus.<a href="#section-2-2.60.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.57">Context Farming:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.58">
-          <p id="section-2-2.58.1">The process of engineering ways to extract feedback, review, and
+<dt id="section-2-2.61">Context Farming:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.62">
+          <p id="section-2-2.62.1">The process of engineering ways to extract feedback, review, and
 criticism from humans without overwhelming them. Context Farming seeks
 to gather the human judgment an Agent needs while respecting the
 limits of human attention, for example by batching requests,
 summarizing what is at stake, and asking for input only at the points
 where it changes the outcome. It is a countermeasure to the alert
-fatigue that arises on a Shared Message Bus.<a href="#section-2-2.58.1" class="pilcrow">¶</a></p>
+fatigue that arises on a Shared Message Bus.<a href="#section-2-2.62.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.59">Design Review Link:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.60">
-          <p id="section-2-2.60.1">A URL surfaced to a human to facilitate Context Farming. A Design
+<dt id="section-2-2.63">Design Review Link:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.64">
+          <p id="section-2-2.64.1">A URL surfaced to a human to facilitate Context Farming. A Design
 Review Link presents the artifact under consideration -- such as a
 rendered document, a proposed change, or a running interface -- in a
 form the human can inspect and respond to, so that their feedback can
 be captured and fed back into an Agent Session's Context with minimal
-disruption.<a href="#section-2-2.60.1" class="pilcrow">¶</a></p>
+disruption.<a href="#section-2-2.64.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.61">Walkthrough:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.62">
-          <p id="section-2-2.62.1">A structured Context Farming technique in which a driver and a
+<dt id="section-2-2.65">Walkthrough:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.66">
+          <p id="section-2-2.66.1">A structured Context Farming technique in which a driver and a
 navigator collaborate to elicit feedback from humans by completing a
 set of well-defined steps in an application while commenting on the
 quality of the product experience. The driver performs the steps and
@@ -1605,69 +1625,69 @@ the navigator observes and narrates, and the running commentary --
 what worked, what was confusing, what should change -- becomes Context
 that is fed back into subsequent Agent Sessions. A Walkthrough is
 often initiated from a Design Review Link so that the steps are
-exercised against the actual artifact under review.<a href="#section-2-2.62.1" class="pilcrow">¶</a></p>
+exercised against the actual artifact under review.<a href="#section-2-2.66.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.63">Management Session:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.64">
-          <p id="section-2-2.64.1">An Agent Session that coordinates worker Agent Sessions on behalf of a
+<dt id="section-2-2.67">Management Session:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.68">
+          <p id="section-2-2.68.1">An Agent Session that coordinates worker Agent Sessions on behalf of a
 human. It decomposes work into Tasks, assigns issues, dispatches
 parallel work, tracks progress, and integrates results. It may
-communicate with humans and Agents over a Shared Message Bus.<a href="#section-2-2.64.1" class="pilcrow">¶</a></p>
+communicate with humans and Agents over a Shared Message Bus.<a href="#section-2-2.68.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.65">Product Development Wheel:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.66">
-          <p id="section-2-2.66.1">An iterative model of product development in which discovery,
-definition, design, delivery, and learning repeat. Findings from a
-delivered product inform subsequent development cycles.<a href="#section-2-2.66.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-2.67">Jobs to Be Done:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.68">
-          <p id="section-2-2.68.1">A framework that organizes product design and prioritization around
-the outcome a customer seeks in a particular circumstance <span>[<a href="#JTBD" class="cite xref">JTBD</a>]</span>.<a href="#section-2-2.68.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-2.69">Shape Up:</dt>
+<dt id="section-2-2.69">Product Development Wheel:</dt>
         <dd style="margin-left: 1.5em" id="section-2-2.70">
-          <p id="section-2-2.70.1">A product development framework articulated by Basecamp <span>[<a href="#SHAPE-UP" class="cite xref">SHAPE-UP</a>]</span>
+          <p id="section-2-2.70.1">An iterative model of product development in which discovery,
+definition, design, delivery, and learning repeat. Findings from a
+delivered product inform subsequent development cycles.<a href="#section-2-2.70.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.71">Jobs to Be Done:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.72">
+          <p id="section-2-2.72.1">A framework that organizes product design and prioritization around
+the outcome a customer seeks in a particular circumstance <span>[<a href="#JTBD" class="cite xref">JTBD</a>]</span>.<a href="#section-2-2.72.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-2.73">Shape Up:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.74">
+          <p id="section-2-2.74.1">A product development framework articulated by Basecamp <span>[<a href="#SHAPE-UP" class="cite xref">SHAPE-UP</a>]</span>
 that organizes work into fixed-length cycles with variable scope. Work
 is shaped at an appropriate level of abstraction before it is
 committed to; an appetite -- how much time the work is worth -- is set
 in place of an estimate; responsible parties then bet on shaped work
 and are given full responsibility to deliver it within the fixed time.
 Shape Up is cited here as one concrete, well-documented methodology
-for scoping and committing to product work.<a href="#section-2-2.70.1" class="pilcrow">¶</a></p>
+for scoping and committing to product work.<a href="#section-2-2.74.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.71">Iteration (Sprint):</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.72">
-          <p id="section-2-2.72.1">A fixed-length cycle of product delivery work, also commonly called a
+<dt id="section-2-2.75">Iteration (Sprint):</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.76">
+          <p id="section-2-2.76.1">A fixed-length cycle of product delivery work, also commonly called a
 sprint, at the end of which progress is reviewed and the next cycle is
 planned. An Iteration gives the organization a regular cadence for
 planning, delivering, and measuring work, and in this document it is
 the natural interval over which the cost of agentic delivery,
-including Token consumption, is aggregated.<a href="#section-2-2.72.1" class="pilcrow">¶</a></p>
+including Token consumption, is aggregated.<a href="#section-2-2.76.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.73">Psychometric Profile:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.74">
-          <p id="section-2-2.74.1">A structured description of disposition, communication style, and
+<dt id="section-2-2.77">Psychometric Profile:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.78">
+          <p id="section-2-2.78.1">A structured description of disposition, communication style, and
 preferences derived from a standardized instrument. Examples include
 Insights Discovery <span>[<a href="#INSIGHTS-DISCOVERY" class="cite xref">INSIGHTS-DISCOVERY</a>]</span>, the Myers-Briggs Type
 Indicator <span>[<a href="#MBTI" class="cite xref">MBTI</a>]</span>, and DISC <span>[<a href="#DISC" class="cite xref">DISC</a>]</span>. In the practices described
 here, profiles inform how work and Context are presented to human
-participants.<a href="#section-2-2.74.1" class="pilcrow">¶</a></p>
+participants.<a href="#section-2-2.78.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.75">Vibeslop:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-2.76">
-          <p id="section-2-2.76.1">Output generated quickly by an Agent from loosely specified intent.
+<dt id="section-2-2.79">Vibeslop:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-2.80">
+          <p id="section-2-2.80.1">Output generated quickly by an Agent from loosely specified intent.
 The term can describe either inadequate output presented as finished
 work or a preliminary artifact used to elicit feedback through Context
 Farming. Its value depends on whether the task requires a rapid
-proposal or a precise, complete result.<a href="#section-2-2.76.1" class="pilcrow">¶</a></p>
+proposal or a precise, complete result.<a href="#section-2-2.80.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
@@ -2526,19 +2546,19 @@ used in a different Agent Harness. The Harness determines how Context is
 assembled, which Tools are available, and how permissions, Hooks, and the
 Loop operate. A familiar name and Prompt do not establish equivalent
 behavior across Harnesses.<a href="#section-10.1-3" class="pilcrow">¶</a></p>
-<p id="section-10.1-4">A personified Agent <span class="bcp14">SHOULD</span> bind its identity and version to a fixed
+<p id="section-10.1-4">A personified Agent should bind its identity and version to a fixed
 combination of system Prompt, model version, and Agent Harness. Every
-Session of that Agent version <span class="bcp14">SHOULD</span> use that combination, without silent
+Session of that Agent version should use that combination, without silent
 model substitutions or fallback to a weaker model. Using the same
 configuration reduces sources of variation and helps operators develop
 relatively stable expectations of the Agent's capabilities.<a href="#section-10.1-4" class="pilcrow">¶</a></p>
-<p id="section-10.1-5">Upgrades to the system Prompt or model version <span class="bcp14">SHOULD</span> produce a new,
-visible Agent version and <span class="bcp14">SHOULD</span> be evaluated against the Tasks and
+<p id="section-10.1-5">Upgrades to the system Prompt or model version should produce a new,
+visible Agent version and should be evaluated against the Tasks and
 security expectations established for the previous version. An Agent
-<span class="bcp14">SHOULD</span> remain in a single Harness throughout its lifetime. Moving to a
-different Harness <span class="bcp14">SHOULD</span> establish a distinct Agent identity, rather than
+should remain in a single Harness throughout its lifetime. Moving to a
+different Harness should establish a distinct Agent identity, rather than
 retain the familiar identity under a new version number. The identity,
-version, and bound configuration <span class="bcp14">SHOULD</span> be available to operators and
+version, and bound configuration should be available to operators and
 recorded with the Trajectory.<a href="#section-10.1-5" class="pilcrow">¶</a></p>
 <p id="section-10.1-6">Stable configuration does not guarantee deterministic behavior or correct
 security judgments. Changes to Tools, Skills, Context, or Harness behavior
