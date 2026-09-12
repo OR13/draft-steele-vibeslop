@@ -5,7 +5,7 @@
 Network Working Group                                          O. Steele
 Internet-Draft                                                M. Lavelle
 Intended status: Informational                              Tradeverifyd
-Expires: 14 March 2027                                 10 September 2026
+Expires: 16 March 2027                                 12 September 2026
 
 
                           Vibeslop Confessions
@@ -46,7 +46,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 March 2027.
+   This Internet-Draft will expire on 16 March 2027.
 
 Copyright Notice
 
@@ -87,14 +87,15 @@ Table of Contents
      9.3.  Specifying the MVP
      9.4.  Breaking Work into Steerable Chunks
    10. Security Considerations
-     10.1.  Mixing Information of Differing Sensitivity
-     10.2.  Excessive Delegation Without Attenuation
-     10.3.  Credential Leakage in Trajectories
-     10.4.  Indirect Prompt Injection from Untrusted Content
-     10.5.  Supply Chain of Agent Tools and Agent Skills
-     10.6.  Auditability and Accountability of Agent Actions
-     10.7.  Acting Beyond an Operator's Authority
-     10.8.  Impersonation
+     10.1.  Intuitive Security
+     10.2.  Mixing Information of Differing Sensitivity
+     10.3.  Excessive Delegation Without Attenuation
+     10.4.  Credential Leakage in Trajectories
+     10.5.  Indirect Prompt Injection from Untrusted Content
+     10.6.  Supply Chain of Agent Tools and Agent Skills
+     10.7.  Auditability and Accountability of Agent Actions
+     10.8.  Acting Beyond an Operator's Authority
+     10.9.  Impersonation
    11. IANA Considerations
    12. References
      12.1.  Normative References
@@ -211,7 +212,7 @@ Table of Contents
       advertise tools.  The client exposes those tools alongside the
       Harness's built-in tools.  Server configuration determines the
       external information and actions available to the Agent and
-      introduces the supply-chain considerations in Section 10.5.
+      introduces the supply-chain considerations in Section 10.6.
 
    Session Identifier:  An identifier assigned when an Agent Session
       begins and recorded with its Trajectory.  It associates an
@@ -286,6 +287,22 @@ Table of Contents
       different Agent Harnesses yields Agents with different
       capabilities and behavior; a Management Session and the worker
       sessions it coordinates may each run in their own harness.
+
+   Hook:  A configured callback that an Agent Harness runs at a defined
+      point in an Agent Session, such as before or after an Agent Tool
+      invocation.  Hooks can inspect events, record activity, or apply
+      policy checks.  A Hook can prevent an action only when the Harness
+      invokes it before the action and enforces its decision; a
+      notification or logging Hook alone does not enforce an authority
+      boundary.
+
+   Sandboxing:  Restricting an Agent's execution environment through
+      controls enforced outside the LLM, such as operating-system or
+      container restrictions on filesystem access, network access, and
+      process execution.  Sandboxing limits the resources and effects
+      available to the Agent and its Tools, including when the Agent
+      follows an unsafe instruction.  Its protection depends on the
+      configured boundaries and which actions they cover.
 
    Trajectory:  The ordered sequence of inputs, model outputs, tool
       invocations, and observations produced while an Agent works toward
@@ -482,7 +499,7 @@ Table of Contents
    Agents participate in existing organizational channels, including
    IRC, Slack, and Microsoft Teams.  They may use distinct identities or
    act on behalf of humans, introducing the impersonation risks
-   described in Section 10.8.
+   described in Section 10.9.
 
    Agents can collaborate through these channels by reading messages,
    addressing other Agents, and acting on replies.  This permits agent-
@@ -496,7 +513,7 @@ Table of Contents
 5.1.  Marking Agent-Generated Content
 
    Agents posting in human channels can create uncertainty about
-   authorship (Section 10.8).  One observed mitigation was a persistent
+   authorship (Section 10.9).  One observed mitigation was a persistent
    instruction to prefix messages with a distinctive marker.  The marker
    indicated Agent-generated content without requiring platform support.
 
@@ -532,7 +549,7 @@ Table of Contents
    party can copy it.  A marker is a cooperative signal and MUST NOT be
    relied upon as proof of authorship.  Authenticated identities,
    distinct Agent accounts, and protected message metadata provide the
-   platform controls described in Section 10.8.
+   platform controls described in Section 10.9.
 
    Durable provenance records, such as commit trailers, issue notes, and
    the Trajectory identifiers in Section 6, support later inspection of
@@ -594,7 +611,7 @@ Table of Contents
 
    The number and arrangement of sessions are illustrative.  Management
    Sessions may be nested, and workers may exchange work directly.
-   Section 10.7 and Section 10.4 discuss delegated authority and trust
+   Section 10.8 and Section 10.5 discuss delegated authority and trust
    in Context received from other sessions.
 
 6.1.  Single Agent Evals
@@ -657,7 +674,7 @@ Table of Contents
    time of writing [MCP-DIRECTORY].  Installation and view counts are
    proxies for use, not measurements of Tool invocation frequency.  Each
    Tool reads external content that can introduce indirect Prompt
-   injection (Section 10.4).
+   injection (Section 10.5).
 
    The Trajectory carries the Session Identifier.  The example UUID
    aca20594-89e9-4a0b-b1a3-28e80e3e5540 identifies both the session and
@@ -674,8 +691,8 @@ Table of Contents
    Task; explicit acceptance criteria make these checks easier to
    define.
 
-   Section 10.3 addresses sensitive information retained in
-   Trajectories.  Section 10.5 addresses risks from external Tools.
+   Section 10.4 addresses sensitive information retained in
+   Trajectories.  Section 10.6 addresses risks from external Tools.
 
 6.2.  Multi Agent Evals
 
@@ -747,7 +764,7 @@ Table of Contents
    *  session is the Session Identifier defined in Section 2.  The Agent
       Harness assigns it at session creation, independently of model
       behavior, the Prompt, or the Task.  Agent control over identifier
-      assignment creates a forgery risk (Section 10.8).
+      assignment creates a forgery risk (Section 10.9).
 
    *  prev identifies the predecessor session and establishes ordering.
       A2A provides related-task references through referenceTaskIds
@@ -762,9 +779,9 @@ Table of Contents
    Eval tooling can compare a tool-call trajectory with an expected
    sequence and report aggregate scores alongside response-matching
    metrics [ADK-EVAL].  Evaluating the chain can check whether each
-   stage had only the Tools it required (Section 10.7), identify Context
+   stage had only the Tools it required (Section 10.8), identify Context
    lost during a handoff, and detect whether untrusted content retrieved
-   by one session became instructions for another (Section 10.4).
+   by one session became instructions for another (Section 10.5).
 
    Handoff arrows represent dependencies.  A sub-agent may pass its
    result through shared state rather than a message [ADK].  The figure
@@ -864,7 +881,7 @@ Table of Contents
 
    The constitution belongs in each Agent Session's persistent Context.
    Task completion does not override it.  Critical rules should also be
-   enforced outside the LLM, as described in Section 10.1.
+   enforced outside the LLM, as described in Section 10.2.
 
 9.3.  Specifying the MVP
 
@@ -897,7 +914,54 @@ Table of Contents
    section describes significant risks and corresponding mitigations for
    organizations adopting agentic product delivery.
 
-10.1.  Mixing Information of Differing Sensitivity
+10.1.  Intuitive Security
+
+   In addition to sandboxing and Hooks, security depends on operators
+   understanding the capabilities of the Agents they rely on.  A
+   personified Agent with a persistent name can acquire a reputation
+   through repeated use.  Intuitive security means keeping that identity
+   consistent with the configuration whose behavior the operator has
+   learned to expect.
+
+   For example, an operator may trust a security review Agent after
+   observing it identify vulnerabilities using a strong model.
+   Replacing that model with a weaker one can substantially reduce the
+   protection the review provides, even when the system Prompt and Agent
+   name remain unchanged.  The operator may continue to rely on the
+   familiar name without realizing that the Agent's capabilities have
+   changed.
+
+   The same concern applies when an unchanged model and system Prompt
+   are used in a different Agent Harness.  The Harness determines how
+   Context is assembled, which Tools are available, and how permissions,
+   Hooks, and the Loop operate.  A familiar name and Prompt do not
+   establish equivalent behavior across Harnesses.
+
+   A personified Agent should bind its identity and version to a fixed
+   combination of system Prompt, model version, and Agent Harness.
+   Every Session of that Agent version should use that combination,
+   without silent model substitutions or fallback to a weaker model.
+   Using the same configuration reduces sources of variation and helps
+   operators develop relatively stable expectations of the Agent's
+   capabilities.
+
+   Upgrades to the system Prompt or model version should produce a new,
+   visible Agent version and should be evaluated against the Tasks and
+   security expectations established for the previous version.  An Agent
+   should remain in a single Harness throughout its lifetime.  Moving to
+   a different Harness should establish a distinct Agent identity,
+   rather than retain the familiar identity under a new version number.
+   The identity, version, and bound configuration should be available to
+   operators and recorded with the Trajectory.
+
+   Stable configuration does not guarantee deterministic behavior or
+   correct security judgments.  Changes to Tools, Skills, Context, or
+   Harness behavior can still affect outcomes and warrant renewed Evals.
+   Intuitive security supports informed reliance on an Agent;
+   sandboxing, Hooks, least privilege, and independent review remain
+   necessary where the Task requires them.
+
+10.2.  Mixing Information of Differing Sensitivity
 
    An Agent may assemble Context from files, Agent Tool results, an
    Issue Tracker, a Shared Message Bus, a Knowledge Base, and prior
@@ -932,7 +996,7 @@ Table of Contents
    that the intended audience is authorized for all included
    information.
 
-10.2.  Excessive Delegation Without Attenuation
+10.3.  Excessive Delegation Without Attenuation
 
    Delegation to an Agent is often implemented by granting the Agent the
    same credentials, access, and authority held by the delegating human.
@@ -964,7 +1028,7 @@ Table of Contents
    and recovery of changes made by a compromised or malfunctioning
    Agent.
 
-10.3.  Credential Leakage in Trajectories
+10.4.  Credential Leakage in Trajectories
 
    A Trajectory can record Prompts, model output, Agent Tool
    invocations, Tool output, and observations from an Agent Session.
@@ -990,12 +1054,12 @@ Table of Contents
 
    Trajectories that might contain secrets MUST be treated as sensitive
    artifacts, subject to the classification and handling described in
-   Section 10.1.  Access SHOULD be limited, retention periods SHOULD be
+   Section 10.2.  Access SHOULD be limited, retention periods SHOULD be
    minimized, and sharing for debugging or Eval SHOULD use sanitized
    copies.  Short-lived, scoped credentials and effective revocation
    reduce the impact of any credential that escapes these controls.
 
-10.4.  Indirect Prompt Injection from Untrusted Content
+10.5.  Indirect Prompt Injection from Untrusted Content
 
    Content retrieved from an Issue Tracker, Knowledge Base, repository,
    document, web page, or Agent Tool can contain instructions directed
@@ -1025,7 +1089,7 @@ Table of Contents
    Evals SHOULD include representative indirect Prompt injection cases
    for each Agent Skill and Agent Tool combination.
 
-10.5.  Supply Chain of Agent Tools and Agent Skills
+10.6.  Supply Chain of Agent Tools and Agent Skills
 
    An Agent Tool or Agent Skill can influence an Agent's behavior,
    access organizational data, or execute actions on behalf of an Agent
@@ -1055,7 +1119,7 @@ Table of Contents
    provide a rapid disablement mechanism for compromised Tools and
    Skills.
 
-10.6.  Auditability and Accountability of Agent Actions
+10.7.  Auditability and Accountability of Agent Actions
 
    Agentic product delivery can distribute a Task across multiple
    Agents, human reviewers, Agent Tools, and a Shared Message Bus.
@@ -1082,7 +1146,7 @@ Table of Contents
    reconstruction of events without indiscriminate retention of
    sensitive Prompt content or credentials.
 
-10.7.  Acting Beyond an Operator's Authority
+10.8.  Acting Beyond an Operator's Authority
 
    An Agent may have access or capabilities beyond its operator's
    authority or expertise.  A Management Session may span several
@@ -1098,9 +1162,9 @@ Table of Contents
    not protect against adversarial behavior.  It supplements the least-
    privilege and separate-approval controls described above; Prompt
    instructions alone do not enforce authority boundaries
-   (Section 10.1).
+   (Section 10.2).
 
-10.8.  Impersonation
+10.9.  Impersonation
 
    An Agent can produce fluent and confident content in the voice of a
    specific person.  On a Shared Message Bus, where humans and Agents
