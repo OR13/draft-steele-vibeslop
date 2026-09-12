@@ -373,6 +373,22 @@ Agent Harness:
   different capabilities and behavior; a Management Session and the
   worker sessions it coordinates may each run in their own harness.
 
+Hook:
+: A configured callback that an Agent Harness runs at a defined point in
+  an Agent Session, such as before or after an Agent Tool invocation.
+  Hooks can inspect events, record activity, or apply policy checks.
+  A Hook can prevent an action only when the Harness invokes it before
+  the action and enforces its decision; a notification or logging Hook
+  alone does not enforce an authority boundary.
+
+Sandboxing:
+: Restricting an Agent's execution environment through controls enforced
+  outside the LLM, such as operating-system or container restrictions on
+  filesystem access, network access, and process execution. Sandboxing
+  limits the resources and effects available to the Agent and its Tools,
+  including when the Agent follows an unsafe instruction. Its protection
+  depends on the configured boundaries and which actions they cover.
+
 Trajectory:
 : The ordered sequence of inputs, model outputs, tool invocations, and
   observations produced while an Agent works toward a goal. A Trajectory
@@ -970,6 +986,49 @@ systems, thereby increasing both the value of effective controls and the
 consequences of their absence. This section describes significant risks and
 corresponding mitigations for organizations adopting agentic product
 delivery.
+
+## Intuitive Security {#intuitive-security}
+
+In addition to sandboxing and Hooks, security depends on operators
+understanding the capabilities of the Agents they rely on. A personified
+Agent with a persistent name can acquire a reputation through repeated
+use. Intuitive security means keeping that identity consistent with the
+configuration whose behavior the operator has learned to expect.
+
+For example, an operator may trust a security review Agent after observing
+it identify vulnerabilities using a strong model. Replacing that model
+with a weaker one can substantially reduce the protection the review
+provides, even when the system Prompt and Agent name remain unchanged.
+The operator may continue to rely on the familiar name without realizing
+that the Agent's capabilities have changed.
+
+The same concern applies when an unchanged model and system Prompt are
+used in a different Agent Harness. The Harness determines how Context is
+assembled, which Tools are available, and how permissions, Hooks, and the
+Loop operate. A familiar name and Prompt do not establish equivalent
+behavior across Harnesses.
+
+A personified Agent should bind its identity and version to a fixed
+combination of system Prompt, model version, and Agent Harness. Every
+Session of that Agent version should use that combination, without silent
+model substitutions or fallback to a weaker model. Using the same
+configuration reduces sources of variation and helps operators develop
+relatively stable expectations of the Agent's capabilities.
+
+Upgrades to the system Prompt or model version should produce a new,
+visible Agent version and should be evaluated against the Tasks and
+security expectations established for the previous version. An Agent
+should remain in a single Harness throughout its lifetime. Moving to a
+different Harness should establish a distinct Agent identity, rather than
+retain the familiar identity under a new version number. The identity,
+version, and bound configuration should be available to operators and
+recorded with the Trajectory.
+
+Stable configuration does not guarantee deterministic behavior or correct
+security judgments. Changes to Tools, Skills, Context, or Harness behavior
+can still affect outcomes and warrant renewed Evals. Intuitive security
+supports informed reliance on an Agent; sandboxing, Hooks, least privilege,
+and independent review remain necessary where the Task requires them.
 
 ## Mixing Information of Differing Sensitivity {#mixing-sensitivity}
 
