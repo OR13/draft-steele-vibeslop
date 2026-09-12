@@ -971,6 +971,49 @@ consequences of their absence. This section describes significant risks and
 corresponding mitigations for organizations adopting agentic product
 delivery.
 
+## Intuitive Security {#intuitive-security}
+
+In addition to sandboxing and Hooks, security depends on operators
+understanding the capabilities of the Agents they rely on. A personified
+Agent with a persistent name can acquire a reputation through repeated
+use. Intuitive security means keeping that identity consistent with the
+configuration whose behavior the operator has learned to expect.
+
+For example, an operator may trust a security review Agent after observing
+it identify vulnerabilities using a strong model. Replacing that model
+with a weaker one can substantially reduce the protection the review
+provides, even when the system Prompt and Agent name remain unchanged.
+The operator may continue to rely on the familiar name without realizing
+that the Agent's capabilities have changed.
+
+The same concern applies when an unchanged model and system Prompt are
+used in a different Agent Harness. The Harness determines how Context is
+assembled, which Tools are available, and how permissions, Hooks, and the
+Loop operate. A familiar name and Prompt do not establish equivalent
+behavior across Harnesses.
+
+A personified Agent SHOULD bind its identity and version to a fixed
+combination of system Prompt, model version, and Agent Harness. Every
+Session of that Agent version SHOULD use that combination, without silent
+model substitutions or fallback to a weaker model. Using the same
+configuration reduces sources of variation and helps operators develop
+relatively stable expectations of the Agent's capabilities.
+
+Upgrades to the system Prompt or model version SHOULD produce a new,
+visible Agent version and SHOULD be evaluated against the Tasks and
+security expectations established for the previous version. An Agent
+SHOULD remain in a single Harness throughout its lifetime. Moving to a
+different Harness SHOULD establish a distinct Agent identity, rather than
+retain the familiar identity under a new version number. The identity,
+version, and bound configuration SHOULD be available to operators and
+recorded with the Trajectory.
+
+Stable configuration does not guarantee deterministic behavior or correct
+security judgments. Changes to Tools, Skills, Context, or Harness behavior
+can still affect outcomes and warrant renewed Evals. Intuitive security
+supports informed reliance on an Agent; sandboxing, Hooks, least privilege,
+and independent review remain necessary where the Task requires them.
+
 ## Mixing Information of Differing Sensitivity {#mixing-sensitivity}
 
 An Agent may assemble Context from files, Agent Tool results, an Issue
