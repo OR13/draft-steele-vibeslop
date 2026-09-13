@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-10T02:00:13.758168+00:00",
+  "timestamp": "2026-09-13T01:58:09.178668+00:00",
   "repo": "OR13/draft-steele-vibeslop",
   "labels": [
     {
@@ -423,6 +423,90 @@
           "body": "",
           "createdAt": "2026-08-15T17:33:46Z",
           "updatedAt": "2026-08-15T17:33:46Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "id": "PR_kwDOTVZNeM8AAAABDEPVDg",
+      "title": "Tighten draft language for concise IETF presentation",
+      "url": "https://github.com/OR13/draft-steele-vibeslop/pull/8",
+      "state": "MERGED",
+      "author": "OR13",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "The draft contains repeated explanations, conversational metaphors, and categorical claims that obscure its operational guidance. This pass replaces them with concise, direct prose suited to an informational Internet-Draft, reducing the Markdown source from approximately 13,200 to 7,300 words.\n\n- Tighten the abstract, introduction, terminology, role descriptions, diagram explanations, management guidance, and project setup instructions.\n- Preserve the title, section structure, defined terms, diagrams, quoted example, reference targets, and existing normative requirement levels.\n- Clarify that the work-quality survey does not establish the effect of disclosure markers alone, and that durable provenance records complement attribution at the point of use.\n- Remove categorical assurances about Agent compliance and clarify the limitations of role information as a cooperative security control.\n\nValidation: `kramdown-rfc --v3` and `xml2rfc --text --html` completed successfully; `git diff --check` passed. Structural checks confirmed unchanged metadata, headings, fenced examples, reference targets, and normative keyword sequence. The normal `make` wrapper was blocked by the local sandbox's restriction on `/dev/fd` process substitution; direct rendering succeeded with cache-directory warnings. Generated artifacts are ignored by the repository and are not included.\n\nThis PR changes only the Markdown draft source. It does not submit a new Datatracker revision.\n",
+      "createdAt": "2026-09-10T23:04:50Z",
+      "updatedAt": "2026-09-10T23:39:57Z",
+      "baseRepository": "OR13/draft-steele-vibeslop",
+      "baseRefName": "main",
+      "baseRefOid": "5699d808254babfbdd929db2bfa43ec9a79544dc",
+      "headRepository": "OR13/draft-steele-vibeslop",
+      "headRefName": "steele/ietf-language-pass",
+      "headRefOid": "d5a1cdb3ce54899ad428ba737bf2a7471f6187e7",
+      "closedAt": "2026-09-10T23:39:57Z",
+      "mergedAt": "2026-09-10T23:39:57Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "9e5204ff61148ef86c60f4c7db07487e2e57490f"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOTVZNeM8AAAABNFosbw",
+          "commit": {
+            "abbreviatedOid": "d5a1cdb"
+          },
+          "author": "MJL40635",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-09-10T23:35:31Z",
+          "updatedAt": "2026-09-10T23:35:31Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "id": "PR_kwDOTVZNeM8AAAABDQSweA",
+      "title": "Add intuitive security guidance for stable agent identities",
+      "url": "https://github.com/OR13/draft-steele-vibeslop/pull/9",
+      "state": "MERGED",
+      "author": "OR13",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "A familiar Agent name can hide materially different security capabilities when its model or Harness changes. Add an Intuitive Security subsection using a security review Agent switched from a strong model to a weaker one as the example.\n\nRecommend binding each personified Agent version to its system Prompt, model version, and a single Harness. Prompt or model upgrades receive a visible version change and renewed Evals; a different Harness receives a distinct Agent identity. Explain how stable configurations complement sandboxing and Hooks without guaranteeing deterministic behavior.\n\nValidation: `git diff --check`; generated XML with `kramdown-rfc` and successfully built HTML and text with `xml2rfc`.\n",
+      "createdAt": "2026-09-12T13:09:00Z",
+      "updatedAt": "2026-09-12T17:14:36Z",
+      "baseRepository": "OR13/draft-steele-vibeslop",
+      "baseRefName": "main",
+      "baseRefOid": "9e5204ff61148ef86c60f4c7db07487e2e57490f",
+      "headRepository": "OR13/draft-steele-vibeslop",
+      "headRefName": "steele/intuitive-security",
+      "headRefOid": "518f84a879b0da844b2cab761b668c76ff171d2a",
+      "closedAt": "2026-09-12T17:14:36Z",
+      "mergedAt": "2026-09-12T17:14:36Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "00f7960bdada0e53ae781c21152decd254556710"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOTVZNeM8AAAABNS05jw",
+          "commit": {
+            "abbreviatedOid": "518f84a"
+          },
+          "author": "MJL40635",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-09-12T16:25:40Z",
+          "updatedAt": "2026-09-12T16:25:40Z",
           "comments": []
         }
       ]
