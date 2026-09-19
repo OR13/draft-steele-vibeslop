@@ -27,6 +27,11 @@ endif
 # without checking that the SVG still validates.
 AASVG_VERSION := 0.4.3
 
+.PHONY: vale
+vale:
+	@vale sync
+	@vale draft-steele-vibeslop.md
+
 draft-steele-vibeslop.xml: | aasvg-installed
 
 .PHONY: aasvg-installed

@@ -1,0 +1,24 @@
+extends: script
+message: "%s"
+link: https://www.rfc-editor.org/rfc/rfc7322.html#section-3.3
+level: warning
+scope: ~text.frontmatter
+script: |
+  text := import("text")
+  matches := []
+  found := text.re_find("https?://[^\\s<>]+", scope, -1)
+  for f in found {
+    m := f[0]
+    before := ""
+    if m.begin > 0 {
+      before = scope[m.begin-1:m.begin]
+    }
+    if before == "<" || before == "(" || before == "`" || before == "\\\"" {
+      continue
+    }
+    matches = append(matches, {
+      begin: m.begin,
+      end: m.begin + len(m.text),
+      message: "Enclose this URI in angle brackets."
+    })
+  }
