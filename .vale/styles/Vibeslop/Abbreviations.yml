@@ -1,0 +1,63 @@
+extends: conditional
+message: "Expand '%s' on first use, unless it is a well-known abbreviation."
+link: https://www.rfc-editor.org/rfc/rfc7322.html#section-3.6
+level: warning
+scope: ~code
+first: '\b[A-Z][A-Z0-9]{1,}\b'
+second: '\b[A-Za-z][A-Za-z -]+[ ]+\(([A-Z][A-Z0-9]{1,})\)'
+exceptions:
+  - A2A
+  - ASCII
+  - ADK
+  - AI
+  - BCP
+  - CLI
+  - CLAUDE
+  - CODE
+  - CODEX
+  - DISC
+  - DISCOVERY
+  - DIRECTORY
+  - DNS
+  - EFFECTIVE
+  - EVAL
+  - ETL
+  - AGENTS
+  - GPT
+  - GITHUB
+  - HTTP
+  - HTTPS
+  - IANA
+  - INSIGHTS
+  - IP
+  - IRC
+  - IETF
+  - JSON
+  - JTBD
+  - KIT
+  - MAC
+  - MBTI
+  - MCP
+  - MVP
+  - MUST
+  - NOT
+  - OPUS
+  - OUTCOMES
+  - PLAYWRIGHT
+  - RFC
+  - SERVERS
+  - SHAPE
+  - SHOULD
+  - SNMP
+  - SPEC
+  - TCP
+  - TERRA
+  - TLS
+  - UDP
+  - UP
+  - URI
+  - URL
+  - US
+  - UUID
+  - WORKSLOP
+  - XML

@@ -173,7 +173,7 @@ informative:
 
 --- abstract
 
-AI Agents introduce new practices and operational risks in software
+Artificial Intelligence (AI) Agents introduce new practices and operational risks in software
 product delivery.  This document defines terminology for these practices,
 describes observed techniques, and relates them to established concepts
 in the Internet community.  It records current experience; the practices
