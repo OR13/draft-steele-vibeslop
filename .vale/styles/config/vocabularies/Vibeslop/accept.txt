@@ -14,8 +14,8 @@ disc
 discovery
 effective
 etl
-eval
-evals
+Eval
+Evals
 gpt
 insights
 inspectable

@@ -29,3 +29,12 @@ $ make
 Command line usage requires that you have the necessary software installed.  See
 [the instructions](https://github.com/martinthomson/i-d-template/blob/main/doc/SETUP.md).
 
+With [Vale](https://vale.sh/) installed, lint the draft using `make vale`.
+This downloads the latest [IETF Vale rules](https://github.com/OR13/ietf-vale),
+including the optional draft checks for repeated words and articles, and
+runs them at suggestion level. The configuration excludes kramdown-rfc
+anchors, attributes, and references from prose checks.
+
+Suggestions require editorial review. In particular, lowercase BCP 14
+words in descriptive prose and non-normative advice have their ordinary
+English meaning; a suggestion does not require making them uppercase.

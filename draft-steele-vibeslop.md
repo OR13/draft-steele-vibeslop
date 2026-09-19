@@ -1062,7 +1062,7 @@ outside the LLM. Before sending output to a Shared Message Bus or external
 system, an Agent SHOULD verify that the intended audience is authorized for
 all included information.
 
-## Excessive Delegation Without Attenuation
+## Excessive Delegation without Attenuation
 
 Delegation to an Agent is often implemented by granting the Agent the same
 credentials, access, and authority held by the delegating human. This is
@@ -1112,8 +1112,8 @@ Trajectories. Redaction SHOULD occur at multiple boundaries, including
 Prompt capture, Tool invocation logging, Tool output logging, and export.
 Organizations SHOULD avoid placing secrets in Prompts or ordinary Tool
 arguments. Where possible, an Agent Tool SHOULD accept an opaque reference
-to a secret managed by a dedicated credential service, rather than
-plaintext secret material.
+to a secret managed by a dedicated credential service. This keeps
+plaintext secret material out of Tool arguments.
 
 Trajectories that might contain secrets MUST be treated as sensitive
 artifacts, subject to the classification and handling described in
@@ -1200,7 +1200,8 @@ retained for a period appropriate to the risk of the action.
 For consequential actions, systems SHOULD produce an auditable binding
 between the action, the authorized identity, and the Agent that performed
 it. Human approval, where required, SHOULD identify the specific proposed
-action and material scope rather than approving an open-ended Trajectory.
+action and material scope. Approval of an open-ended Trajectory does not
+establish that binding.
 Audit records SHOULD support reconstruction of events without indiscriminate
 retention of sensitive Prompt content or credentials.
 
@@ -1233,8 +1234,8 @@ or fraud conducted in a person's name.
 Agent-generated content SHOULD be clearly and consistently attributed to
 the Agent that produced it and, where applicable, to the human or service
 on whose behalf it acted. Attribution SHOULD be visible at the point where
-a recipient encounters the content, rather than requiring inference from
-formatting or conversational context. Systems SHOULD distinguish automated
+a recipient encounters the content. Formatting or conversational context
+alone does not establish attribution. Systems SHOULD distinguish automated
 publication from human review or approval.
 
 An Agent's persistent Context SHOULD instruct it to identify itself
