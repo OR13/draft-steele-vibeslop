@@ -1219,7 +1219,7 @@ and tools described are expected to change.<a href="#section-abstract-1" class="
                 <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-the-constitution" class="internal xref">The Constitution</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.3">
-                <p id="section-toc.1-1.9.2.3.1"><a href="#section-9.3" class="auto internal xref">9.3</a>.  <a href="#name-specifying-the-mvp" class="internal xref">Specifying the MVP</a></p>
+                <p id="section-toc.1-1.9.2.3.1"><a href="#section-9.3" class="auto internal xref">9.3</a>.  <a href="#name-specifying-the-minimum-viab" class="internal xref">Specifying the Minimum Viable Product</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.4">
                 <p id="section-toc.1-1.9.2.4.1"><a href="#section-9.4" class="auto internal xref">9.4</a>.  <a href="#name-breaking-work-into-steerabl" class="internal xref">Breaking Work into Steerable Chunks</a></p>
@@ -1567,10 +1567,10 @@ or Agent configurations.<a href="#section-2-2.54.1" class="pilcrow">¶</a></p>
 <dt id="section-2-2.55">Shared Message Bus:</dt>
         <dd style="margin-left: 1.5em" id="section-2-2.56">
           <p id="section-2-2.56.1">A communications channel used by humans and Agents to collaborate on
-Tasks, such as IRC, Slack, or Microsoft Teams. Participants share
-messages in an existing organizational venue. Message volume can cause
-alert fatigue and reduce attention to decisions requiring human
-judgment.<a href="#section-2-2.56.1" class="pilcrow">¶</a></p>
+Tasks, such as Internet Relay Chat (IRC), Slack, or Microsoft Teams.
+Participants share messages in an existing organizational venue.
+Message volume can cause alert fatigue and reduce attention to decisions
+requiring human judgment.<a href="#section-2-2.56.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-2-2.57">Proxy Dictation:</dt>
@@ -1676,9 +1676,10 @@ including Token consumption, is aggregated.<a href="#section-2-2.76.1" class="pi
           <p id="section-2-2.78.1">A structured description of disposition, communication style, and
 preferences derived from a standardized instrument. Examples include
 Insights Discovery <span>[<a href="#INSIGHTS-DISCOVERY" class="cite xref">INSIGHTS-DISCOVERY</a>]</span>, the Myers-Briggs Type
-Indicator <span>[<a href="#MBTI" class="cite xref">MBTI</a>]</span>, and DISC <span>[<a href="#DISC" class="cite xref">DISC</a>]</span>. In the practices described
-here, profiles inform how work and Context are presented to human
-participants.<a href="#section-2-2.78.1" class="pilcrow">¶</a></p>
+Indicator <span>[<a href="#MBTI" class="cite xref">MBTI</a>]</span>, and profiles based on the dominance, inducement,
+submission, and compliance (DISC) model <span>[<a href="#DISC" class="cite xref">DISC</a>]</span>. In the practices
+described here, profiles inform how work and Context are presented to
+human participants.<a href="#section-2-2.78.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-2-2.79">Vibeslop:</dt>
@@ -1839,9 +1840,9 @@ readers discounted marked messages and their senders, that prefixes added
 to reading effort, and that widespread Agent use reduced the information
 a marker conveyed.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
 <p id="section-5.1-5">Related research describes the cost of low-quality Agent-generated work.
-In a survey of 1,150 US full-time employees, 41% reported receiving such
-work in the preceding month.  Among those recipients, 42% judged the sender
-less trustworthy, and approximately half judged the sender less creative,
+In a survey of 1,150 full-time employees in the United States, 41% reported
+receiving such work in the preceding month.  Among those recipients, 42%
+judged the sender less trustworthy, and approximately half judged the sender less creative,
 capable, or reliable.  Respondents reported spending approximately two
 hours resolving each instance <span>[<a href="#WORKSLOP" class="cite xref">WORKSLOP</a>]</span>.  These findings concern work
 quality and do not establish the effect of disclosure markers alone.<a href="#section-5.1-5" class="pilcrow">¶</a></p>
@@ -1967,9 +1968,8 @@ a Management Session, and its worker Agent Sessions, using the terms in
                 <text x="296" y="244">Farming</text>
                 <text x="404" y="244">assign</text>
                 <text x="452" y="244">work</text>
-                <text x="188" y="292">Management</text>
-                <text x="264" y="292">Session</text>
-                <text x="316" y="292">(C2)</text>
+                <text x="204" y="292">Management</text>
+                <text x="280" y="292">Session</text>
                 <text x="124" y="308">decomposes</text>
                 <text x="192" y="308">work,</text>
                 <text x="264" y="308">dispatches,</text>
@@ -2140,7 +2140,8 @@ of writing <span>[<a href="#MCP-DIRECTORY" class="cite xref">MCP-DIRECTORY</a>]<
 for use, not measurements of Tool invocation frequency.  Each Tool reads
 external content that can introduce indirect Prompt injection
 (<a href="#indirect-prompt-injection" class="auto internal xref">Section 10.5</a>).<a href="#section-6.1-5" class="pilcrow">¶</a></p>
-<p id="section-6.1-6">The Trajectory carries the Session Identifier.  The example UUID
+<p id="section-6.1-6">The Trajectory carries the Session Identifier.  The example universally
+unique identifier (UUID)
 <code>aca20594-89e9-4a0b-b1a3-28e80e3e5540</code> identifies both the session and its
 Trajectory.  Assigning this identifier at session creation associates
 incrementally recorded events with their originating session.  Evaluation
@@ -2337,8 +2338,9 @@ the result.<a href="#section-6.2-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.2-6.1">
             <p id="section-6.2-6.1.1"><code>task</code> groups the sessions into one run.  The figure uses this field
-for the grouping represented by A2A's <code>contextId</code> <span>[<a href="#A2A" class="cite xref">A2A</a>]</span>.  A shared
-invocation context can also group sub-agents <span>[<a href="#ADK" class="cite xref">ADK</a>]</span>.<a href="#section-6.2-6.1.1" class="pilcrow">¶</a></p>
+for the grouping represented by the Agent2Agent (A2A) protocol's
+<code>contextId</code> field <span>[<a href="#A2A" class="cite xref">A2A</a>]</span>.  A shared invocation context can also group
+sub-agents <span>[<a href="#ADK" class="cite xref">ADK</a>]</span>.<a href="#section-6.2-6.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.2-6.2">
             <p id="section-6.2-6.2.1"><code>session</code> is the Session Identifier defined in <a href="#terminology" class="auto internal xref">Section 2</a>.  The
@@ -2400,8 +2402,9 @@ this Context should include:<a href="#section-7-1" class="pilcrow">¶</a></p>
 <p id="section-7-3">This information helps an Agent prioritize Tasks, target requests for
 human judgment, and identify work outside the operator's authority or
 expertise.  For example, a customer-facing feature may require a Design
-Manager's review through a Design Review Link and Walkthrough.  An ETL
-pipeline may require review by a data engineering specialist.<a href="#section-7-3" class="pilcrow">¶</a></p>
+Manager's review through a Design Review Link and Walkthrough.  An extract,
+transform, and load pipeline may require review by a data engineering
+specialist.<a href="#section-7-3" class="pilcrow">¶</a></p>
 <p id="section-7-4">Managers may also provide communication preferences, including a
 Psychometric Profile.  These can inform the timing and format of
 communications: advance agendas, time for informal discussion, or concise
@@ -2485,10 +2488,10 @@ Task completion does not override it.  Critical rules should also be
 enforced outside the LLM, as described in <a href="#mixing-sensitivity" class="auto internal xref">Section 10.2</a>.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="specifying-the-mvp">
+<div id="specifying-the-minimum-viable-product">
 <section id="section-9.3">
-        <h3 id="name-specifying-the-mvp">
-<a href="#section-9.3" class="section-number selfRef">9.3. </a><a href="#name-specifying-the-mvp" class="section-name selfRef">Specifying the MVP</a>
+        <h3 id="name-specifying-the-minimum-viab">
+<a href="#section-9.3" class="section-number selfRef">9.3. </a><a href="#name-specifying-the-minimum-viab" class="section-name selfRef">Specifying the Minimum Viable Product</a>
         </h3>
 <p id="section-9.3-1">Define a Spec for the minimum viable product (MVP): the smallest version
 that supports useful evaluation by users.  The Spec is ready for
@@ -2934,7 +2937,7 @@ Agent identity.<a href="#section-10.9-4" class="pilcrow">¶</a></p>
 <p id="appendix-A-1">Orie Steele drafted portions of this document using Anthropic's Claude Opus
 <span>[<a href="#CLAUDE-OPUS" class="cite xref">CLAUDE-OPUS</a>]</span> (claude-opus-4-8[1m] and claude-opus-5[1m]) in the
 Claude Code <span>[<a href="#CLAUDE-CODE" class="cite xref">CLAUDE-CODE</a>]</span> harness, and OpenAI's gpt-5.6-terra
-<span>[<a href="#GPT-TERRA" class="cite xref">GPT-TERRA</a>]</span> in the Codex CLI <span>[<a href="#CODEX-CLI" class="cite xref">CODEX-CLI</a>]</span> harness.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<span>[<a href="#GPT-TERRA" class="cite xref">GPT-TERRA</a>]</span> in the Codex command-line interface (CLI) <span>[<a href="#CODEX-CLI" class="cite xref">CODEX-CLI</a>]</span> harness.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">
