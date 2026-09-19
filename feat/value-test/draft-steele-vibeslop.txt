@@ -13,11 +13,12 @@ Expires: 23 March 2027                                 19 September 2026
 
 Abstract
 
-   AI Agents introduce new practices and operational risks in software
-   product delivery.  This document defines terminology for these
-   practices, describes observed techniques, and relates them to
-   established concepts in the Internet community.  It records current
-   experience; the practices and tools described are expected to change.
+   Artificial Intelligence (AI) Agents introduce new practices and
+   operational risks in software product delivery.  This document
+   defines terminology for these practices, describes observed
+   techniques, and relates them to established concepts in the Internet
+   community.  It records current experience; the practices and tools
+   described are expected to change.
 
 About This Document
 
