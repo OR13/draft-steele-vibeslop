@@ -1236,7 +1236,7 @@ and tools described are expected to change.<a href="#section-abstract-1" class="
                 <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="auto internal xref">10.2</a>.  <a href="#name-mixing-information-of-diffe" class="internal xref">Mixing Information of Differing Sensitivity</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.3">
-                <p id="section-toc.1-1.10.2.3.1"><a href="#section-10.3" class="auto internal xref">10.3</a>.  <a href="#name-excessive-delegation-withou" class="internal xref">Excessive Delegation Without Attenuation</a></p>
+                <p id="section-toc.1-1.10.2.3.1"><a href="#section-10.3" class="auto internal xref">10.3</a>.  <a href="#name-excessive-delegation-withou" class="internal xref">Excessive Delegation without Attenuation</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.4">
                 <p id="section-toc.1-1.10.2.4.1"><a href="#section-10.4" class="auto internal xref">10.4</a>.  <a href="#name-credential-leakage-in-traje" class="internal xref">Credential Leakage in Trajectories</a></p>
@@ -2603,7 +2603,7 @@ all included information.<a href="#section-10.2-4" class="pilcrow">¶</a></p>
 <div id="excessive-delegation-without-attenuation">
 <section id="section-10.3">
         <h3 id="name-excessive-delegation-withou">
-<a href="#section-10.3" class="section-number selfRef">10.3. </a><a href="#name-excessive-delegation-withou" class="section-name selfRef">Excessive Delegation Without Attenuation</a>
+<a href="#section-10.3" class="section-number selfRef">10.3. </a><a href="#name-excessive-delegation-withou" class="section-name selfRef">Excessive Delegation without Attenuation</a>
         </h3>
 <p id="section-10.3-1">Delegation to an Agent is often implemented by granting the Agent the same
 credentials, access, and authority held by the delegating human. This is
@@ -2652,8 +2652,8 @@ Trajectories. Redaction <span class="bcp14">SHOULD</span> occur at multiple boun
 Prompt capture, Tool invocation logging, Tool output logging, and export.
 Organizations <span class="bcp14">SHOULD</span> avoid placing secrets in Prompts or ordinary Tool
 arguments. Where possible, an Agent Tool <span class="bcp14">SHOULD</span> accept an opaque reference
-to a secret managed by a dedicated credential service, rather than
-plaintext secret material.<a href="#section-10.4-3" class="pilcrow">¶</a></p>
+to a secret managed by a dedicated credential service. This keeps
+plaintext secret material out of Tool arguments.<a href="#section-10.4-3" class="pilcrow">¶</a></p>
 <p id="section-10.4-4">Trajectories that might contain secrets <span class="bcp14">MUST</span> be treated as sensitive
 artifacts, subject to the classification and handling described in
 <a href="#mixing-sensitivity" class="auto internal xref">Section 10.2</a>. Access <span class="bcp14">SHOULD</span> be limited, retention periods <span class="bcp14">SHOULD</span> be minimized,
@@ -2743,7 +2743,8 @@ retained for a period appropriate to the risk of the action.<a href="#section-10
 <p id="section-10.7-3">For consequential actions, systems <span class="bcp14">SHOULD</span> produce an auditable binding
 between the action, the authorized identity, and the Agent that performed
 it. Human approval, where required, <span class="bcp14">SHOULD</span> identify the specific proposed
-action and material scope rather than approving an open-ended Trajectory.
+action and material scope. Approval of an open-ended Trajectory does not
+establish that binding.
 Audit records <span class="bcp14">SHOULD</span> support reconstruction of events without indiscriminate
 retention of sensitive Prompt content or credentials.<a href="#section-10.7-3" class="pilcrow">¶</a></p>
 </section>
@@ -2781,8 +2782,8 @@ or fraud conducted in a person's name.<a href="#section-10.9-1" class="pilcrow">
 <p id="section-10.9-2">Agent-generated content <span class="bcp14">SHOULD</span> be clearly and consistently attributed to
 the Agent that produced it and, where applicable, to the human or service
 on whose behalf it acted. Attribution <span class="bcp14">SHOULD</span> be visible at the point where
-a recipient encounters the content, rather than requiring inference from
-formatting or conversational context. Systems <span class="bcp14">SHOULD</span> distinguish automated
+a recipient encounters the content. Formatting or conversational context
+alone does not establish attribution. Systems <span class="bcp14">SHOULD</span> distinguish automated
 publication from human review or approval.<a href="#section-10.9-2" class="pilcrow">¶</a></p>
 <p id="section-10.9-3">An Agent's persistent Context <span class="bcp14">SHOULD</span> instruct it to identify itself
 accurately and not represent itself as a human. However, this instruction

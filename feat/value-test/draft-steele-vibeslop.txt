@@ -90,7 +90,7 @@ Table of Contents
    10. Security Considerations
      10.1.  Intuitive Security
      10.2.  Mixing Information of Differing Sensitivity
-     10.3.  Excessive Delegation Without Attenuation
+     10.3.  Excessive Delegation without Attenuation
      10.4.  Credential Leakage in Trajectories
      10.5.  Indirect Prompt Injection from Untrusted Content
      10.6.  Supply Chain of Agent Tools and Agent Skills
@@ -997,7 +997,7 @@ Table of Contents
    that the intended audience is authorized for all included
    information.
 
-10.3.  Excessive Delegation Without Attenuation
+10.3.  Excessive Delegation without Attenuation
 
    Delegation to an Agent is often implemented by granting the Agent the
    same credentials, access, and authority held by the delegating human.
@@ -1051,7 +1051,8 @@ Table of Contents
    logging, and export.  Organizations SHOULD avoid placing secrets in
    Prompts or ordinary Tool arguments.  Where possible, an Agent Tool
    SHOULD accept an opaque reference to a secret managed by a dedicated
-   credential service, rather than plaintext secret material.
+   credential service.  This keeps plaintext secret material out of Tool
+   arguments.
 
    Trajectories that might contain secrets MUST be treated as sensitive
    artifacts, subject to the classification and handling described in
@@ -1142,10 +1143,10 @@ Table of Contents
    For consequential actions, systems SHOULD produce an auditable
    binding between the action, the authorized identity, and the Agent
    that performed it.  Human approval, where required, SHOULD identify
-   the specific proposed action and material scope rather than approving
-   an open-ended Trajectory.  Audit records SHOULD support
-   reconstruction of events without indiscriminate retention of
-   sensitive Prompt content or credentials.
+   the specific proposed action and material scope.  Approval of an
+   open-ended Trajectory does not establish that binding.  Audit records
+   SHOULD support reconstruction of events without indiscriminate
+   retention of sensitive Prompt content or credentials.
 
 10.8.  Acting Beyond an Operator's Authority
 
@@ -1177,9 +1178,9 @@ Table of Contents
    Agent-generated content SHOULD be clearly and consistently attributed
    to the Agent that produced it and, where applicable, to the human or
    service on whose behalf it acted.  Attribution SHOULD be visible at
-   the point where a recipient encounters the content, rather than
-   requiring inference from formatting or conversational context.
-   Systems SHOULD distinguish automated publication from human review or
+   the point where a recipient encounters the content.  Formatting or
+   conversational context alone does not establish attribution.  Systems
+   SHOULD distinguish automated publication from human review or
    approval.
 
    An Agent's persistent Context SHOULD instruct it to identify itself
