@@ -35,6 +35,8 @@ including the optional draft checks for repeated words and articles, and
 runs them at suggestion level. The configuration excludes kramdown-rfc
 anchors, attributes, and references from prose checks.
 
-Suggestions require editorial review. In particular, lowercase BCP 14
-words in descriptive prose and non-normative advice have their ordinary
-English meaning; a suggestion does not require making them uppercase.
+Suggestions require editorial review. Since v0.4.6, the rules accept
+ordinary lowercase BCP 14 words and check mixed-case forms and keyword
+context instead. Review `Bcp14Sparingly` suggestions in context: the
+security recommendations contrasting safe and unsafe behavior express
+safeguards, not mere preferences, and retain their original `SHOULD` wording.
