@@ -2,62 +2,26 @@ extends: conditional
 message: "Expand '%s' on first use, unless it is a well-known abbreviation."
 link: https://www.rfc-editor.org/rfc/rfc7322.html#section-3.6
 level: warning
-scope: ~code
-first: '\b[A-Z][A-Z0-9]{1,}\b'
-second: '\b[A-Za-z][A-Za-z -]+[ ]+\(([A-Z][A-Z0-9]{1,})\)'
+# Spelling acceptance must not waive the expansion requirement.
+scope: text
+vocab: false
+first: '\b([A-Z][A-Z0-9]{1,})\b'
+# Allow names such as Agent2Agent and expansions containing commas or line breaks.
+second: '\b[A-Za-z][A-Za-z0-9, \t\r\n-]+[ \t\r\n]+\(([A-Z][A-Z0-9]{1,})\)'
 exceptions:
-  - A2A
-  - ASCII
-  - ADK
-  - AI
+  # Familiar RFC terms; see the RFC Editor abbreviation list.
+  # https://www.rfc-editor.org/materials/abbrev.expansion.txt
   - BCP
-  - CLI
-  - CLAUDE
-  - CODE
-  - CODEX
-  - DISC
-  - DISCOVERY
-  - DIRECTORY
-  - DNS
-  - EFFECTIVE
-  - EVAL
-  - ETL
-  - AGENTS
-  - GPT
-  - GITHUB
-  - HTTP
-  - HTTPS
   - IANA
-  - INSIGHTS
-  - IP
-  - IRC
   - IETF
-  - JSON
-  - JTBD
-  - KIT
-  - MAC
-  - MBTI
-  - MCP
-  - MVP
+  - RFC
+  - URL
+  # BCP 14 requirement words are not abbreviations.
   - MUST
   - NOT
-  - OPUS
-  - OUTCOMES
-  - PLAYWRIGHT
-  - RFC
-  - SERVERS
-  - SHAPE
+  - REQUIRED
+  - SHALL
   - SHOULD
-  - SNMP
-  - SPEC
-  - TCP
-  - TERRA
-  - TLS
-  - UDP
-  - UP
-  - URI
-  - URL
-  - US
-  - UUID
-  - WORKSLOP
-  - XML
+  - RECOMMENDED
+  - MAY
+  - OPTIONAL

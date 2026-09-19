@@ -403,10 +403,10 @@ Eval:
 
 Shared Message Bus:
 : A communications channel used by humans and Agents to collaborate on
-  Tasks, such as IRC, Slack, or Microsoft Teams. Participants share
-  messages in an existing organizational venue. Message volume can cause
-  alert fatigue and reduce attention to decisions requiring human
-  judgment.
+  Tasks, such as Internet Relay Chat (IRC), Slack, or Microsoft Teams.
+  Participants share messages in an existing organizational venue.
+  Message volume can cause alert fatigue and reduce attention to decisions
+  requiring human judgment.
 
 Proxy Dictation:
 : A communication pattern in which a participant addresses another
@@ -490,9 +490,10 @@ Psychometric Profile:
 : A structured description of disposition, communication style, and
   preferences derived from a standardized instrument. Examples include
   Insights Discovery {{INSIGHTS-DISCOVERY}}, the Myers-Briggs Type
-  Indicator {{MBTI}}, and DISC {{DISC}}. In the practices described
-  here, profiles inform how work and Context are presented to human
-  participants.
+  Indicator {{MBTI}}, and profiles based on the dominance, inducement,
+  submission, and compliance (DISC) model {{DISC}}. In the practices
+  described here, profiles inform how work and Context are presented to
+  human participants.
 
 Vibeslop:
 : Output generated quickly by an Agent from loosely specified intent.
@@ -618,9 +619,9 @@ to reading effort, and that widespread Agent use reduced the information
 a marker conveyed.
 
 Related research describes the cost of low-quality Agent-generated work.
-In a survey of 1,150 US full-time employees, 41% reported receiving such
-work in the preceding month.  Among those recipients, 42% judged the sender
-less trustworthy, and approximately half judged the sender less creative,
+In a survey of 1,150 full-time employees in the United States, 41% reported
+receiving such work in the preceding month.  Among those recipients, 42%
+judged the sender less trustworthy, and approximately half judged the sender less creative,
 capable, or reliable.  Respondents reported spending approximately two
 hours resolving each instance {{WORKSLOP}}.  These findings concern work
 quality and do not establish the effect of disclosure markers alone.
@@ -664,7 +665,7 @@ a Management Session, and its worker Agent Sessions, using the terms in
                |  status, Context Farming    |  assign work     |
                v                             v                  |
         +-------------------------------------------+           |
-        |          Management Session (C2)          |           |
+        |            Management Session             |           |
         |  decomposes work, dispatches, integrates  |           |
         +--+------------------+------------------+--+           |
            ^                  ^                  ^              |
@@ -762,7 +763,8 @@ for use, not measurements of Tool invocation frequency.  Each Tool reads
 external content that can introduce indirect Prompt injection
 ({{indirect-prompt-injection}}).
 
-The Trajectory carries the Session Identifier.  The example UUID
+The Trajectory carries the Session Identifier.  The example universally
+unique identifier (UUID)
 `aca20594-89e9-4a0b-b1a3-28e80e3e5540` identifies both the session and its
 Trajectory.  Assigning this identifier at session creation associates
 incrementally recorded events with their originating session.  Evaluation
@@ -840,8 +842,9 @@ the result.
 Each Trajectory carries three identifiers:
 
 - `task` groups the sessions into one run.  The figure uses this field
-  for the grouping represented by A2A's `contextId` {{A2A}}.  A shared
-  invocation context can also group sub-agents {{ADK}}.
+  for the grouping represented by the Agent2Agent (A2A) protocol's
+  `contextId` field {{A2A}}.  A shared invocation context can also group
+  sub-agents {{ADK}}.
 - `session` is the Session Identifier defined in {{terminology}}.  The
   Agent Harness assigns it at session creation, independently of model
   behavior, the Prompt, or the Task.  Agent control over identifier
@@ -884,8 +887,9 @@ this Context should include:
 This information helps an Agent prioritize Tasks, target requests for
 human judgment, and identify work outside the operator's authority or
 expertise.  For example, a customer-facing feature may require a Design
-Manager's review through a Design Review Link and Walkthrough.  An ETL
-pipeline may require review by a data engineering specialist.
+Manager's review through a Design Review Link and Walkthrough.  An extract,
+transform, and load pipeline may require review by a data engineering
+specialist.
 
 Managers may also provide communication preferences, including a
 Psychometric Profile.  These can inform the timing and format of
@@ -957,7 +961,7 @@ The constitution belongs in each Agent Session's persistent Context.
 Task completion does not override it.  Critical rules should also be
 enforced outside the LLM, as described in {{mixing-sensitivity}}.
 
-## Specifying the MVP
+## Specifying the Minimum Viable Product
 
 Define a Spec for the minimum viable product (MVP): the smallest version
 that supports useful evaluation by users.  The Spec is ready for
@@ -1262,4 +1266,4 @@ This document has no IANA actions.
 Orie Steele drafted portions of this document using Anthropic's Claude Opus
 {{CLAUDE-OPUS}} (claude-opus-4-8\[1m\] and claude-opus-5\[1m\]) in the
 Claude Code {{CLAUDE-CODE}} harness, and OpenAI's gpt-5.6-terra
-{{GPT-TERRA}} in the Codex CLI {{CODEX-CLI}} harness.
+{{GPT-TERRA}} in the Codex command-line interface (CLI) {{CODEX-CLI}} harness.

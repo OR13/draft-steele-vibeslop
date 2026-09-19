@@ -35,6 +35,11 @@ including the optional draft checks for repeated words and articles, and
 runs them at suggestion level. The configuration excludes kramdown-rfc
 anchors, attributes, and references from prose checks.
 
+The local abbreviation rule requires expansions independently of the spelling
+vocabulary (`vocab: false`). Its exceptions are limited to familiar RFC terms
+and BCP 14 requirement words. Citation labels are excluded as markup; they do
+not justify exempting the same abbreviations when used in prose.
+
 Suggestions require editorial review. Since v0.4.6, the rules accept
 ordinary lowercase BCP 14 words and check mixed-case forms and keyword
 context instead. Review `Bcp14Sparingly` suggestions in context: the
