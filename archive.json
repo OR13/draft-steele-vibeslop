@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-17T02:19:17.006725+00:00",
+  "timestamp": "2026-09-20T02:15:41.046356+00:00",
   "repo": "OR13/draft-steele-vibeslop",
   "labels": [
     {
@@ -510,6 +510,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 10,
+      "id": "PR_kwDOTVZNeM8AAAABEP0X_A",
+      "title": "Add IETF Vale linting",
+      "url": "https://github.com/OR13/draft-steele-vibeslop/pull/10",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "## Summary\n\n- configure the pinned IETF-Draft Vale package from OR13/ietf-vale\n- add `make vale` for local draft linting\n- ignore the downloaded Vale style cache\n\n## Validation\n\n- `vale sync`\n- `make vale`\n- Result: 0 errors, 0 warnings, 0 suggestions.",
+      "createdAt": "2026-09-19T19:09:42Z",
+      "updatedAt": "2026-09-19T21:11:50Z",
+      "baseRepository": "OR13/draft-steele-vibeslop",
+      "baseRefName": "main",
+      "baseRefOid": "00f7960bdada0e53ae781c21152decd254556710",
+      "headRepository": "OR13/draft-steele-vibeslop",
+      "headRefName": "feat/value-test",
+      "headRefOid": "be756342d5d944b5fb654568a6ad853b24326cea",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
