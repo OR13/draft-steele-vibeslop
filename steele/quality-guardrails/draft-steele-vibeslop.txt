@@ -5,7 +5,7 @@
 Network Working Group                                          O. Steele
 Internet-Draft                                                M. Lavelle
 Intended status: Informational                              Tradeverifyd
-Expires: 16 March 2027                                 12 September 2026
+Expires: 15 May 2027                                    11 November 2026
 
 
                           Vibeslop Confessions
@@ -13,11 +13,12 @@ Expires: 16 March 2027                                 12 September 2026
 
 Abstract
 
-   AI Agents introduce new practices and operational risks in software
-   product delivery.  This document defines terminology for these
-   practices, describes observed techniques, and relates them to
-   established concepts in the Internet community.  It records current
-   experience; the practices and tools described are expected to change.
+   Artificial Intelligence (AI) Agents introduce new practices and
+   operational risks in software product delivery.  This document
+   defines terminology for these practices, describes observed
+   techniques, and relates them to established concepts in the Internet
+   community.  It records current experience; the practices and tools
+   described are expected to change.
 
 About This Document
 
@@ -46,7 +47,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 March 2027.
+   This Internet-Draft will expire on 15 May 2027.
 
 Copyright Notice
 
@@ -84,22 +85,27 @@ Table of Contents
    9.  Starting a New Project
      9.1.  Establishing the Agent Harness
      9.2.  The Constitution
-     9.3.  Specifying the MVP
+     9.3.  Specifying the Minimum Viable Product
      9.4.  Breaking Work into Steerable Chunks
-   10. Security Considerations
-     10.1.  Intuitive Security
-     10.2.  Mixing Information of Differing Sensitivity
-     10.3.  Excessive Delegation Without Attenuation
-     10.4.  Credential Leakage in Trajectories
-     10.5.  Indirect Prompt Injection from Untrusted Content
-     10.6.  Supply Chain of Agent Tools and Agent Skills
-     10.7.  Auditability and Accountability of Agent Actions
-     10.8.  Acting Beyond an Operator's Authority
-     10.9.  Impersonation
-   11. IANA Considerations
-   12. References
-     12.1.  Normative References
-     12.2.  Informative References
+   10. Technical Debt and Quality Guardrails
+     10.1.  Recognizing Agent-Generated Technical Debt
+     10.2.  Reducing Agent-Generated Technical Debt
+     10.3.  Quality Guardrails
+     10.4.  Keeping Humans Responsible
+   11. Security Considerations
+     11.1.  Intuitive Security
+     11.2.  Mixing Information of Differing Sensitivity
+     11.3.  Excessive Delegation without Attenuation
+     11.4.  Credential Leakage in Trajectories
+     11.5.  Indirect Prompt Injection from Untrusted Content
+     11.6.  Supply Chain of Agent Tools and Agent Skills
+     11.7.  Auditability and Accountability of Agent Actions
+     11.8.  Acting Beyond an Operator's Authority
+     11.9.  Impersonation
+   12. IANA Considerations
+   13. References
+     13.1.  Normative References
+     13.2.  Informative References
    Acknowledgments
    Authors' Addresses
 
@@ -212,7 +218,7 @@ Table of Contents
       advertise tools.  The client exposes those tools alongside the
       Harness's built-in tools.  Server configuration determines the
       external information and actions available to the Agent and
-      introduces the supply-chain considerations in Section 10.6.
+      introduces the supply-chain considerations in Section 11.6.
 
    Session Identifier:  An identifier assigned when an Agent Session
       begins and recorded with its Trajectory.  It associates an
@@ -315,10 +321,11 @@ Table of Contents
       alternative models or Agent configurations.
 
    Shared Message Bus:  A communications channel used by humans and
-      Agents to collaborate on Tasks, such as IRC, Slack, or Microsoft
-      Teams.  Participants share messages in an existing organizational
-      venue.  Message volume can cause alert fatigue and reduce
-      attention to decisions requiring human judgment.
+      Agents to collaborate on Tasks, such as Internet Relay Chat (IRC),
+      Slack, or Microsoft Teams.  Participants share messages in an
+      existing organizational venue.  Message volume can cause alert
+      fatigue and reduce attention to decisions requiring human
+      judgment.
 
    Proxy Dictation:  A communication pattern in which a participant
       addresses another party's Agent using terse, imperative language.
@@ -400,8 +407,22 @@ Table of Contents
       communication style, and preferences derived from a standardized
       instrument.  Examples include Insights Discovery
       [INSIGHTS-DISCOVERY], the Myers-Briggs Type Indicator [MBTI], and
-      DISC [DISC].  In the practices described here, profiles inform how
-      work and Context are presented to human participants.
+      profiles based on the dominance, inducement, submission, and
+      compliance (DISC) model [DISC].  In the practices described here,
+      profiles inform how work and Context are presented to human
+      participants.
+
+   Technical Debt:  The accumulated cost of earlier shortcuts,
+      omissions, or unreviewed output that makes later change slower,
+      riskier, or more expensive.  Agents can add Technical Debt faster
+      than people can review it, because generation costs less than
+      reading and integration.
+
+   Guardrail:  A check, constraint, or procedure that keeps Agent output
+      within defined quality, safety, or authority limits.  A Guardrail
+      is enforced outside the LLM, for example by an Eval, a Hook, a
+      review requirement, or Sandboxing, and does not rely on the
+      Agent's compliance.
 
    Vibeslop:  Output generated quickly by an Agent from loosely
       specified intent.  The term can describe either inadequate output
@@ -499,7 +520,7 @@ Table of Contents
    Agents participate in existing organizational channels, including
    IRC, Slack, and Microsoft Teams.  They may use distinct identities or
    act on behalf of humans, introducing the impersonation risks
-   described in Section 10.9.
+   described in Section 11.9.
 
    Agents can collaborate through these channels by reading messages,
    addressing other Agents, and acting on replies.  This permits agent-
@@ -513,7 +534,7 @@ Table of Contents
 5.1.  Marking Agent-Generated Content
 
    Agents posting in human channels can create uncertainty about
-   authorship (Section 10.9).  One observed mitigation was a persistent
+   authorship (Section 11.9).  One observed mitigation was a persistent
    instruction to prefix messages with a distinctive marker.  The marker
    indicated Agent-generated content without requiring platform support.
 
@@ -532,13 +553,13 @@ Table of Contents
    reduced the information a marker conveyed.
 
    Related research describes the cost of low-quality Agent-generated
-   work.  In a survey of 1,150 US full-time employees, 41% reported
-   receiving such work in the preceding month.  Among those recipients,
-   42% judged the sender less trustworthy, and approximately half judged
-   the sender less creative, capable, or reliable.  Respondents reported
-   spending approximately two hours resolving each instance [WORKSLOP].
-   These findings concern work quality and do not establish the effect
-   of disclosure markers alone.
+   work.  In a survey of 1,150 full-time employees in the United States,
+   41% reported receiving such work in the preceding month.  Among those
+   recipients, 42% judged the sender less trustworthy, and approximately
+   half judged the sender less creative, capable, or reliable.
+   Respondents reported spending approximately two hours resolving each
+   instance [WORKSLOP].  These findings concern work quality and do not
+   establish the effect of disclosure markers alone.
 
    Participants preferred brief, concrete messages.  As Agent assistance
    became common, a prefix conveyed less additional information while
@@ -549,7 +570,7 @@ Table of Contents
    party can copy it.  A marker is a cooperative signal and MUST NOT be
    relied upon as proof of authorship.  Authenticated identities,
    distinct Agent accounts, and protected message metadata provide the
-   platform controls described in Section 10.9.
+   platform controls described in Section 11.9.
 
    Durable provenance records, such as commit trailers, issue notes, and
    the Trajectory identifiers in Section 6, support later inspection of
@@ -578,7 +599,7 @@ Table of Contents
                   |  status, Context Farming    |  assign work     |
                   v                             v                  |
            +-------------------------------------------+           |
-           |          Management Session (C2)          |           |
+           |            Management Session             |           |
            |  decomposes work, dispatches, integrates  |           |
            +--+------------------+------------------+--+           |
               ^                  ^                  ^              |
@@ -611,7 +632,7 @@ Table of Contents
 
    The number and arrangement of sessions are illustrative.  Management
    Sessions may be nested, and workers may exchange work directly.
-   Section 10.8 and Section 10.5 discuss delegated authority and trust
+   Section 11.8 and Section 11.5 discuss delegated authority and trust
    in Context received from other sessions.
 
 6.1.  Single Agent Evals
@@ -674,14 +695,15 @@ Table of Contents
    time of writing [MCP-DIRECTORY].  Installation and view counts are
    proxies for use, not measurements of Tool invocation frequency.  Each
    Tool reads external content that can introduce indirect Prompt
-   injection (Section 10.5).
+   injection (Section 11.5).
 
-   The Trajectory carries the Session Identifier.  The example UUID
-   aca20594-89e9-4a0b-b1a3-28e80e3e5540 identifies both the session and
-   its Trajectory.  Assigning this identifier at session creation
-   associates incrementally recorded events with their originating
-   session.  Evaluation also requires association with the Task and
-   Agent configuration.
+   The Trajectory carries the Session Identifier.  The example
+   universally unique identifier (UUID) aca20594-89e9-4a0b-
+   b1a3-28e80e3e5540 identifies both the session and its Trajectory.
+   Assigning this identifier at session creation associates
+   incrementally recorded events with their originating session.
+   Evaluation also requires association with the Task and Agent
+   configuration.
 
    The Eval examines the Trajectory as well as the final output.
    Sessions can produce the same output through different actions.
@@ -691,8 +713,8 @@ Table of Contents
    Task; explicit acceptance criteria make these checks easier to
    define.
 
-   Section 10.4 addresses sensitive information retained in
-   Trajectories.  Section 10.6 addresses risks from external Tools.
+   Section 11.4 addresses sensitive information retained in
+   Trajectories.  Section 11.6 addresses risks from external Tools.
 
 6.2.  Multi Agent Evals
 
@@ -758,13 +780,14 @@ Table of Contents
    Each Trajectory carries three identifiers:
 
    *  task groups the sessions into one run.  The figure uses this field
-      for the grouping represented by A2A's contextId [A2A].  A shared
-      invocation context can also group sub-agents [ADK].
+      for the grouping represented by the Agent2Agent (A2A) protocol's
+      contextId field [A2A].  A shared invocation context can also group
+      sub-agents [ADK].
 
    *  session is the Session Identifier defined in Section 2.  The Agent
       Harness assigns it at session creation, independently of model
       behavior, the Prompt, or the Task.  Agent control over identifier
-      assignment creates a forgery risk (Section 10.9).
+      assignment creates a forgery risk (Section 11.9).
 
    *  prev identifies the predecessor session and establishes ordering.
       A2A provides related-task references through referenceTaskIds
@@ -779,9 +802,9 @@ Table of Contents
    Eval tooling can compare a tool-call trajectory with an expected
    sequence and report aggregate scores alongside response-matching
    metrics [ADK-EVAL].  Evaluating the chain can check whether each
-   stage had only the Tools it required (Section 10.8), identify Context
+   stage had only the Tools it required (Section 11.8), identify Context
    lost during a handoff, and detect whether untrusted content retrieved
-   by one session became instructions for another (Section 10.5).
+   by one session became instructions for another (Section 11.5).
 
    Handoff arrows represent dependencies.  A sub-agent may pass its
    result through shared state rather than a message [ADK].  The figure
@@ -809,7 +832,8 @@ Table of Contents
    human judgment, and identify work outside the operator's authority or
    expertise.  For example, a customer-facing feature may require a
    Design Manager's review through a Design Review Link and Walkthrough.
-   An ETL pipeline may require review by a data engineering specialist.
+   An extract, transform, and load pipeline may require review by a data
+   engineering specialist.
 
    Managers may also provide communication preferences, including a
    Psychometric Profile.  These can inform the timing and format of
@@ -881,9 +905,9 @@ Table of Contents
 
    The constitution belongs in each Agent Session's persistent Context.
    Task completion does not override it.  Critical rules should also be
-   enforced outside the LLM, as described in Section 10.2.
+   enforced outside the LLM, as described in Section 11.2.
 
-9.3.  Specifying the MVP
+9.3.  Specifying the Minimum Viable Product
 
    Define a Spec for the minimum viable product (MVP): the smallest
    version that supports useful evaluation by users.  The Spec is ready
@@ -904,7 +928,104 @@ Table of Contents
    through a Walkthrough, and an opportunity to redirect subsequent
    work.
 
-10.  Security Considerations
+10.  Technical Debt and Quality Guardrails
+
+   Agents lower the cost of producing code, documents, and
+   configuration.  They do not lower the cost of understanding,
+   reviewing, and maintaining them.  Teams that measure progress by the
+   volume generated may therefore accumulate Technical Debt faster than
+   before, often without noticing.
+
+10.1.  Recognizing Agent-Generated Technical Debt
+
+   Common sources include duplicated logic generated in separate Agent
+   Sessions, plausible but unneeded abstractions, tests that restate the
+   implementation rather than the Spec, dependencies added without
+   review, and Context Rot in the Knowledge Base that leads later
+   Sessions to repeat earlier mistakes.  Vibeslop that was never
+   identified as preliminary is a further source.
+
+   Teams should record known Technical Debt in the Issue Tracker as
+   work, assign an owner, and review it each Iteration.  A Manager who
+   accepts a shortcut to reach a Walkthrough should record the decision
+   and the condition under which it will be revisited.
+
+10.2.  Reducing Agent-Generated Technical Debt
+
+   Teams should schedule removal of Technical Debt as planned work, not
+   as cleanup left to an Agent at the end of a Task.  Useful guidance
+   includes:
+
+   *  retiring stale, duplicated, or contradictory files in the
+      Knowledge Base and in persistent Context, since they cause Context
+      Rot;
+
+   *  removing generated comments that restate the code, narrate the
+      Agent's process, or refer to work that no longer exists;
+
+   *  confirming that each acceptance criterion and requirement in the
+      product requirements document is met, and met in the minimal way
+      that satisfies it, so that behavior nobody requested is removed
+      rather than documented;
+
+   *  deleting dead code, unused dependencies, and abandoned experiments
+      introduced during Loops that were later redirected;
+
+   *  recording what was removed and why in the Issue Tracker, so that
+      the decision can be audited.
+
+   A Walkthrough at the end of each Iteration is a natural point to
+   check these items.
+
+10.3.  Quality Guardrails
+
+   Teams should rely on Guardrails that run regardless of what the Agent
+   reports.  Examples include:
+
+   *  Evals that the Agent cannot modify in the same change that they
+      verify, so that completion cannot be satisfied by weakening the
+      check;
+
+   *  Hooks that run formatting, static analysis, and dependency checks
+      before work is proposed for review;
+
+   *  limits on the size of a change presented for human review, so that
+      reviewers can read what they approve;
+
+   *  required human approval for changes to the constitution, to
+      Guardrails, and to credentials or permissions;
+
+   *  Walkthroughs before dependent work begins, as described in
+      Breaking Work into Steerable Chunks.
+
+   Guardrails should be versioned and reviewed like other code.  An
+   Agent that proposes to relax a Guardrail is acting beyond its Task,
+   and the proposal should be routed to a human as described in
+   Section 11.8.
+
+10.4.  Keeping Humans Responsible
+
+   A named person remains accountable for each change that an Agent
+   produces.  Cultural practices that support this include:
+
+   *  treating review as skilled work that is planned and credited, not
+      as overhead to be reduced;
+
+   *  allowing reviewers to reject or defer output that they cannot
+      understand, without penalty for slowing delivery;
+
+   *  asking contributors to state what they verified themselves and
+      what an Agent produced, consistent with Section 5.1;
+
+   *  reviewing Trajectories after incidents to improve Context,
+      Guardrails, and Specs rather than to assign blame;
+
+   *  reporting rework and defects alongside throughput, so that speed
+      is not the only visible measure.
+
+   These practices complement the auditability measures in Section 11.
+
+11.  Security Considerations
 
    The techniques described in this document introduce security risks
    that follow from the way Agents assemble, retain, and act on Context.
@@ -914,7 +1035,7 @@ Table of Contents
    section describes significant risks and corresponding mitigations for
    organizations adopting agentic product delivery.
 
-10.1.  Intuitive Security
+11.1.  Intuitive Security
 
    In addition to sandboxing and Hooks, security depends on operators
    understanding the capabilities of the Agents they rely on.  A
@@ -961,7 +1082,7 @@ Table of Contents
    sandboxing, Hooks, least privilege, and independent review remain
    necessary where the Task requires them.
 
-10.2.  Mixing Information of Differing Sensitivity
+11.2.  Mixing Information of Differing Sensitivity
 
    An Agent may assemble Context from files, Agent Tool results, an
    Issue Tracker, a Shared Message Bus, a Knowledge Base, and prior
@@ -996,7 +1117,7 @@ Table of Contents
    that the intended audience is authorized for all included
    information.
 
-10.3.  Excessive Delegation Without Attenuation
+11.3.  Excessive Delegation without Attenuation
 
    Delegation to an Agent is often implemented by granting the Agent the
    same credentials, access, and authority held by the delegating human.
@@ -1028,7 +1149,7 @@ Table of Contents
    and recovery of changes made by a compromised or malfunctioning
    Agent.
 
-10.4.  Credential Leakage in Trajectories
+11.4.  Credential Leakage in Trajectories
 
    A Trajectory can record Prompts, model output, Agent Tool
    invocations, Tool output, and observations from an Agent Session.
@@ -1049,17 +1170,17 @@ Table of Contents
    including Prompt capture, Tool invocation logging, Tool output
    logging, and export.  Organizations SHOULD avoid placing secrets in
    Prompts or ordinary Tool arguments.  Where possible, an Agent Tool
-   SHOULD accept an opaque reference to a secret managed by a dedicated
+   can accept an opaque reference to a secret managed by a dedicated
    credential service, rather than plaintext secret material.
 
    Trajectories that might contain secrets MUST be treated as sensitive
    artifacts, subject to the classification and handling described in
-   Section 10.2.  Access SHOULD be limited, retention periods SHOULD be
+   Section 11.2.  Access SHOULD be limited, retention periods SHOULD be
    minimized, and sharing for debugging or Eval SHOULD use sanitized
    copies.  Short-lived, scoped credentials and effective revocation
    reduce the impact of any credential that escapes these controls.
 
-10.5.  Indirect Prompt Injection from Untrusted Content
+11.5.  Indirect Prompt Injection from Untrusted Content
 
    Content retrieved from an Issue Tracker, Knowledge Base, repository,
    document, web page, or Agent Tool can contain instructions directed
@@ -1089,7 +1210,7 @@ Table of Contents
    Evals SHOULD include representative indirect Prompt injection cases
    for each Agent Skill and Agent Tool combination.
 
-10.6.  Supply Chain of Agent Tools and Agent Skills
+11.6.  Supply Chain of Agent Tools and Agent Skills
 
    An Agent Tool or Agent Skill can influence an Agent's behavior,
    access organizational data, or execute actions on behalf of an Agent
@@ -1119,7 +1240,7 @@ Table of Contents
    provide a rapid disablement mechanism for compromised Tools and
    Skills.
 
-10.7.  Auditability and Accountability of Agent Actions
+11.7.  Auditability and Accountability of Agent Actions
 
    Agentic product delivery can distribute a Task across multiple
    Agents, human reviewers, Agent Tools, and a Shared Message Bus.
@@ -1140,13 +1261,13 @@ Table of Contents
 
    For consequential actions, systems SHOULD produce an auditable
    binding between the action, the authorized identity, and the Agent
-   that performed it.  Human approval, where required, SHOULD identify
-   the specific proposed action and material scope rather than approving
-   an open-ended Trajectory.  Audit records SHOULD support
-   reconstruction of events without indiscriminate retention of
-   sensitive Prompt content or credentials.
+   that performed it.  Human approval, where required, identifies the
+   specific proposed action and material scope rather than approving an
+   open-ended Trajectory.  Audit records SHOULD support reconstruction
+   of events without indiscriminate retention of sensitive Prompt
+   content or credentials.
 
-10.8.  Acting Beyond an Operator's Authority
+11.8.  Acting Beyond an Operator's Authority
 
    An Agent may have access or capabilities beyond its operator's
    authority or expertise.  A Management Session may span several
@@ -1162,9 +1283,9 @@ Table of Contents
    not protect against adversarial behavior.  It supplements the least-
    privilege and separate-approval controls described above; Prompt
    instructions alone do not enforce authority boundaries
-   (Section 10.2).
+   (Section 11.2).
 
-10.9.  Impersonation
+11.9.  Impersonation
 
    An Agent can produce fluent and confident content in the voice of a
    specific person.  On a Shared Message Bus, where humans and Agents
@@ -1175,9 +1296,9 @@ Table of Contents
 
    Agent-generated content SHOULD be clearly and consistently attributed
    to the Agent that produced it and, where applicable, to the human or
-   service on whose behalf it acted.  Attribution SHOULD be visible at
-   the point where a recipient encounters the content, rather than
-   requiring inference from formatting or conversational context.
+   service on whose behalf it acted.  Attribution works best when it is
+   visible at the point where a recipient encounters the content, rather
+   than requiring inference from formatting or conversational context.
    Systems SHOULD distinguish automated publication from human review or
    approval.
 
@@ -1193,13 +1314,13 @@ Table of Contents
    suspected impersonation, unmarked model-generated content, or misuse
    of an Agent identity.
 
-11.  IANA Considerations
+12.  IANA Considerations
 
    This document has no IANA actions.
 
-12.  References
+13.  References
 
-12.1.  Normative References
+13.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1210,7 +1331,7 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
-12.2.  Informative References
+13.2.  Informative References
 
    [A2A]      A2A Project, "Agent2Agent (A2A) Protocol Specification",
               <https://a2a-protocol.org/latest/specification/>.
@@ -1299,7 +1420,8 @@ Acknowledgments
    Orie Steele drafted portions of this document using Anthropic's
    Claude Opus [CLAUDE-OPUS] (claude-opus-4-8[1m] and claude-opus-5[1m])
    in the Claude Code [CLAUDE-CODE] harness, and OpenAI's gpt-5.6-terra
-   [GPT-TERRA] in the Codex CLI [CODEX-CLI] harness.
+   [GPT-TERRA] in the Codex command-line interface (CLI) [CODEX-CLI]
+   harness.
 
 Authors' Addresses
 
