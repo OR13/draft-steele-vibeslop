@@ -3,6 +3,7 @@
 *.redxml
 *.swp
 *.txt
+!.vale/styles/config/vocabularies/Vibeslop/accept.txt
 *.upload
 *~
 .tags
@@ -22,3 +23,5 @@ draft-steele-vibeslop.xml
 package-lock.json
 report.xml
 !requirements.txt
+.vale/styles/IETF-Draft/
+.vale/styles/IETF-Draft-Optional/

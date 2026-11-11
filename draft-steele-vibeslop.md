@@ -173,7 +173,7 @@ informative:
 
 --- abstract
 
-AI Agents introduce new practices and operational risks in software
+Artificial Intelligence (AI) Agents introduce new practices and operational risks in software
 product delivery.  This document defines terminology for these practices,
 describes observed techniques, and relates them to established concepts
 in the Internet community.  It records current experience; the practices
@@ -403,10 +403,10 @@ Eval:
 
 Shared Message Bus:
 : A communications channel used by humans and Agents to collaborate on
-  Tasks, such as IRC, Slack, or Microsoft Teams. Participants share
-  messages in an existing organizational venue. Message volume can cause
-  alert fatigue and reduce attention to decisions requiring human
-  judgment.
+  Tasks, such as Internet Relay Chat (IRC), Slack, or Microsoft Teams.
+  Participants share messages in an existing organizational venue.
+  Message volume can cause alert fatigue and reduce attention to decisions
+  requiring human judgment.
 
 Proxy Dictation:
 : A communication pattern in which a participant addresses another
@@ -490,9 +490,23 @@ Psychometric Profile:
 : A structured description of disposition, communication style, and
   preferences derived from a standardized instrument. Examples include
   Insights Discovery {{INSIGHTS-DISCOVERY}}, the Myers-Briggs Type
-  Indicator {{MBTI}}, and DISC {{DISC}}. In the practices described
-  here, profiles inform how work and Context are presented to human
-  participants.
+  Indicator {{MBTI}}, and profiles based on the dominance, inducement,
+  submission, and compliance (DISC) model {{DISC}}. In the practices
+  described here, profiles inform how work and Context are presented to
+  human participants.
+
+Technical Debt:
+: The accumulated cost of earlier shortcuts, omissions, or unreviewed
+  output that makes later change slower, riskier, or more expensive.
+  Agents can add Technical Debt faster than people can review it,
+  because generation costs less than reading and integration.
+
+Guardrail:
+: A check, constraint, or procedure that keeps Agent output within
+  defined quality, safety, or authority limits. A Guardrail is
+  enforced outside the LLM, for example by an Eval, a Hook, a review
+  requirement, or Sandboxing, and does not rely on the Agent's
+  compliance.
 
 Vibeslop:
 : Output generated quickly by an Agent from loosely specified intent.
@@ -594,7 +608,7 @@ input, and review outcomes.  Context Farming reduces the alert fatigue
 associated with message volume by concentrating requests for human
 judgment.
 
-## Marking Agent-Generated Content
+## Marking Agent-Generated Content {#marking-agent-content}
 
 Agents posting in human channels can create uncertainty about authorship
 ({{impersonation}}).  One observed mitigation was a persistent instruction
@@ -618,9 +632,9 @@ to reading effort, and that widespread Agent use reduced the information
 a marker conveyed.
 
 Related research describes the cost of low-quality Agent-generated work.
-In a survey of 1,150 US full-time employees, 41% reported receiving such
-work in the preceding month.  Among those recipients, 42% judged the sender
-less trustworthy, and approximately half judged the sender less creative,
+In a survey of 1,150 full-time employees in the United States, 41% reported
+receiving such work in the preceding month.  Among those recipients, 42%
+judged the sender less trustworthy, and approximately half judged the sender less creative,
 capable, or reliable.  Respondents reported spending approximately two
 hours resolving each instance {{WORKSLOP}}.  These findings concern work
 quality and do not establish the effect of disclosure markers alone.
@@ -664,7 +678,7 @@ a Management Session, and its worker Agent Sessions, using the terms in
                |  status, Context Farming    |  assign work     |
                v                             v                  |
         +-------------------------------------------+           |
-        |          Management Session (C2)          |           |
+        |            Management Session             |           |
         |  decomposes work, dispatches, integrates  |           |
         +--+------------------+------------------+--+           |
            ^                  ^                  ^              |
@@ -762,7 +776,8 @@ for use, not measurements of Tool invocation frequency.  Each Tool reads
 external content that can introduce indirect Prompt injection
 ({{indirect-prompt-injection}}).
 
-The Trajectory carries the Session Identifier.  The example UUID
+The Trajectory carries the Session Identifier.  The example universally
+unique identifier (UUID)
 `aca20594-89e9-4a0b-b1a3-28e80e3e5540` identifies both the session and its
 Trajectory.  Assigning this identifier at session creation associates
 incrementally recorded events with their originating session.  Evaluation
@@ -840,8 +855,9 @@ the result.
 Each Trajectory carries three identifiers:
 
 - `task` groups the sessions into one run.  The figure uses this field
-  for the grouping represented by A2A's `contextId` {{A2A}}.  A shared
-  invocation context can also group sub-agents {{ADK}}.
+  for the grouping represented by the Agent2Agent (A2A) protocol's
+  `contextId` field {{A2A}}.  A shared invocation context can also group
+  sub-agents {{ADK}}.
 - `session` is the Session Identifier defined in {{terminology}}.  The
   Agent Harness assigns it at session creation, independently of model
   behavior, the Prompt, or the Task.  Agent control over identifier
@@ -884,8 +900,9 @@ this Context should include:
 This information helps an Agent prioritize Tasks, target requests for
 human judgment, and identify work outside the operator's authority or
 expertise.  For example, a customer-facing feature may require a Design
-Manager's review through a Design Review Link and Walkthrough.  An ETL
-pipeline may require review by a data engineering specialist.
+Manager's review through a Design Review Link and Walkthrough.  An extract,
+transform, and load pipeline may require review by a data engineering
+specialist.
 
 Managers may also provide communication preferences, including a
 Psychometric Profile.  These can inform the timing and format of
@@ -957,7 +974,7 @@ The constitution belongs in each Agent Session's persistent Context.
 Task completion does not override it.  Critical rules should also be
 enforced outside the LLM, as described in {{mixing-sensitivity}}.
 
-## Specifying the MVP
+## Specifying the Minimum Viable Product
 
 Define a Spec for the minimum viable product (MVP): the smallest version
 that supports useful evaluation by users.  The Spec is ready for
@@ -977,7 +994,89 @@ lower.
 Each increment should end with an inspectable result, often presented
 through a Walkthrough, and an opportunity to redirect subsequent work.
 
-# Security Considerations
+# Technical Debt and Quality Guardrails {#quality}
+
+Agents lower the cost of producing code, documents, and configuration.
+They do not lower the cost of understanding, reviewing, and maintaining
+them.  Teams that measure progress by the volume generated may therefore
+accumulate Technical Debt faster than before, often without noticing.
+
+## Recognizing Agent-Generated Technical Debt
+
+Common sources include duplicated logic generated in separate Agent
+Sessions, plausible but unneeded abstractions, tests that restate the
+implementation rather than the Spec, dependencies added without review,
+and Context Rot in the Knowledge Base that leads later Sessions to
+repeat earlier mistakes.  Vibeslop that was never identified as
+preliminary is a further source.
+
+Teams should record known Technical Debt in the Issue Tracker as work,
+assign an owner, and review it each Iteration.  A Manager who accepts
+a shortcut to reach a Walkthrough should record the decision and the
+condition under which it will be revisited.
+
+## Reducing Agent-Generated Technical Debt
+
+Teams should schedule removal of Technical Debt as planned work, not
+as cleanup left to an Agent at the end of a Task.  Useful guidance
+includes:
+
+- retiring stale, duplicated, or contradictory files in the Knowledge
+  Base and in persistent Context, since they cause Context Rot;
+- removing generated comments that restate the code, narrate the
+  Agent's process, or refer to work that no longer exists;
+- confirming that each acceptance criterion and requirement in the
+  product requirements document is met, and met in the minimal way that
+  satisfies it, so that behavior nobody requested is removed rather than
+  documented;
+- deleting dead code, unused dependencies, and abandoned experiments
+  introduced during Loops that were later redirected;
+- recording what was removed and why in the Issue Tracker, so that the
+  decision can be audited.
+
+A Walkthrough at the end of each Iteration is a natural point to check
+these items.
+
+## Quality Guardrails
+
+Teams should rely on Guardrails that run regardless of what the Agent
+reports.  Examples include:
+
+- Evals that the Agent cannot modify in the same change that they
+  verify, so that completion cannot be satisfied by weakening the check;
+- Hooks that run formatting, static analysis, and dependency checks
+  before work is proposed for review;
+- limits on the size of a change presented for human review, so that
+  reviewers can read what they approve;
+- required human approval for changes to the constitution, to Guardrails,
+  and to credentials or permissions;
+- Walkthroughs before dependent work begins, as described in
+  Breaking Work into Steerable Chunks.
+
+Guardrails should be versioned and reviewed like other code.  An Agent
+that proposes to relax a Guardrail is acting beyond its Task, and the
+proposal should be routed to a human as described in {{scope-management}}.
+
+## Keeping Humans Responsible
+
+A named person remains accountable for each change that an Agent
+produces.  Cultural practices that support this include:
+
+- treating review as skilled work that is planned and credited,
+  not as overhead to be reduced;
+- allowing reviewers to reject or defer output that they cannot
+  understand, without penalty for slowing delivery;
+- asking contributors to state what they verified themselves and what
+  an Agent produced, consistent with {{marking-agent-content}};
+- reviewing Trajectories after incidents to improve Context,
+  Guardrails, and Specs rather than to assign blame;
+- reporting rework and defects alongside throughput, so that speed is
+  not the only visible measure.
+
+These practices complement the auditability measures in
+{{security-considerations}}.
+
+# Security Considerations {#security-considerations}
 
 The techniques described in this document introduce security risks that
 follow from the way Agents assemble, retain, and act on Context. An Agent
@@ -1062,7 +1161,7 @@ outside the LLM. Before sending output to a Shared Message Bus or external
 system, an Agent SHOULD verify that the intended audience is authorized for
 all included information.
 
-## Excessive Delegation Without Attenuation
+## Excessive Delegation without Attenuation
 
 Delegation to an Agent is often implemented by granting the Agent the same
 credentials, access, and authority held by the delegating human. This is
@@ -1111,7 +1210,7 @@ private keys, and other secrets before recording or displaying
 Trajectories. Redaction SHOULD occur at multiple boundaries, including
 Prompt capture, Tool invocation logging, Tool output logging, and export.
 Organizations SHOULD avoid placing secrets in Prompts or ordinary Tool
-arguments. Where possible, an Agent Tool SHOULD accept an opaque reference
+arguments. Where possible, an Agent Tool can accept an opaque reference
 to a secret managed by a dedicated credential service, rather than
 plaintext secret material.
 
@@ -1199,7 +1298,7 @@ retained for a period appropriate to the risk of the action.
 
 For consequential actions, systems SHOULD produce an auditable binding
 between the action, the authorized identity, and the Agent that performed
-it. Human approval, where required, SHOULD identify the specific proposed
+it. Human approval, where required, identifies the specific proposed
 action and material scope rather than approving an open-ended Trajectory.
 Audit records SHOULD support reconstruction of events without indiscriminate
 retention of sensitive Prompt content or credentials.
@@ -1232,7 +1331,7 @@ or fraud conducted in a person's name.
 
 Agent-generated content SHOULD be clearly and consistently attributed to
 the Agent that produced it and, where applicable, to the human or service
-on whose behalf it acted. Attribution SHOULD be visible at the point where
+on whose behalf it acted. Attribution works best when it is visible at the point where
 a recipient encounters the content, rather than requiring inference from
 formatting or conversational context. Systems SHOULD distinguish automated
 publication from human review or approval.
@@ -1262,4 +1361,4 @@ This document has no IANA actions.
 Orie Steele drafted portions of this document using Anthropic's Claude Opus
 {{CLAUDE-OPUS}} (claude-opus-4-8\[1m\] and claude-opus-5\[1m\]) in the
 Claude Code {{CLAUDE-CODE}} harness, and OpenAI's gpt-5.6-terra
-{{GPT-TERRA}} in the Codex CLI {{CODEX-CLI}} harness.
+{{GPT-TERRA}} in the Codex command-line interface (CLI) {{CODEX-CLI}} harness.

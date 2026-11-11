@@ -1,0 +1,27 @@
+extends: conditional
+message: "Expand '%s' on first use, unless it is a well-known abbreviation."
+link: https://www.rfc-editor.org/rfc/rfc7322.html#section-3.6
+level: warning
+# Spelling acceptance must not waive the expansion requirement.
+scope: text
+vocab: false
+first: '\b([A-Z][A-Z0-9]{1,})\b'
+# Allow names such as Agent2Agent and expansions containing commas or line breaks.
+second: '\b[A-Za-z][A-Za-z0-9, \t\r\n-]+[ \t\r\n]+\(([A-Z][A-Z0-9]{1,})\)'
+exceptions:
+  # Familiar RFC terms; see the RFC Editor abbreviation list.
+  # https://www.rfc-editor.org/materials/abbrev.expansion.txt
+  - BCP
+  - IANA
+  - IETF
+  - RFC
+  - URL
+  # BCP 14 requirement words are not abbreviations.
+  - MUST
+  - NOT
+  - REQUIRED
+  - SHALL
+  - SHOULD
+  - RECOMMENDED
+  - MAY
+  - OPTIONAL
