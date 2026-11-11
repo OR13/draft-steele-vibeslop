@@ -13,6 +13,12 @@ script: |
     if m.begin > 0 {
       before = scope[m.begin-1:m.begin]
     }
+    // YAML metadata values (key: value) are data, not prose.
+    line_start := text.last_index(scope[:m.begin], "\n") + 1
+    prefix := scope[line_start:m.begin]
+    if text.re_match("^\\s*#?\\s*(-\\s+)?\\s*[A-Za-z_-]+:\\s*\"?$", prefix) {
+      continue
+    }
     if before == "<" || before == "(" || before == "`" || before == "\\\"" {
       continue
     }
