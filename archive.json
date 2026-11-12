@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-10T05:07:56.728907+00:00",
+  "timestamp": "2026-11-12T04:49:40.699020+00:00",
   "repo": "OR13/draft-steele-vibeslop",
   "labels": [
     {
@@ -523,13 +523,47 @@
       "labels": [],
       "body": "## Summary\n\n- configure the pinned IETF-Draft Vale package from OR13/ietf-vale\n- add `make vale` for local draft linting\n- ignore the downloaded Vale style cache\n\n## Validation\n\n- `vale sync`\n- `make vale`\n- Result: 0 errors, 0 warnings, 0 suggestions.",
       "createdAt": "2026-09-19T19:09:42Z",
-      "updatedAt": "2026-09-19T21:11:50Z",
+      "updatedAt": "2026-11-11T14:23:23Z",
       "baseRepository": "OR13/draft-steele-vibeslop",
       "baseRefName": "main",
       "baseRefOid": "00f7960bdada0e53ae781c21152decd254556710",
       "headRepository": "OR13/draft-steele-vibeslop",
       "headRefName": "feat/value-test",
       "headRefOid": "be756342d5d944b5fb654568a6ad853b24326cea",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "OWNER",
+          "body": "@MJL40635 can you review? I'm gonna add some improvements to the vale linter as well, since I have not touched it in a while",
+          "createdAt": "2026-11-11T14:23:23Z",
+          "updatedAt": "2026-11-11T14:23:23Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 11,
+      "id": "PR_kwDOTVZNeM8AAAABOe7CSQ",
+      "title": "Add technical debt and quality guardrails; Vale linting",
+      "url": "https://github.com/OR13/draft-steele-vibeslop/pull/11",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Adds a section on technical debt and cleanup as planned work, with terms and security considerations for agent-generated content, plus optional IETF Vale linting (`make vale`).\n\nChecked with Vale 3.26.0: 0 errors, 0 warnings, 0 suggestions on the draft. The draft builds with kramdown-rfc and xml2rfc.\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)",
+      "createdAt": "2026-11-11T21:20:13Z",
+      "updatedAt": "2026-11-11T21:20:13Z",
+      "baseRepository": "OR13/draft-steele-vibeslop",
+      "baseRefName": "main",
+      "baseRefOid": "00f7960bdada0e53ae781c21152decd254556710",
+      "headRepository": "OR13/draft-steele-vibeslop",
+      "headRefName": "steele/quality-guardrails",
+      "headRefOid": "1f8030f03853d34df305547258a13535bc7a6534",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
